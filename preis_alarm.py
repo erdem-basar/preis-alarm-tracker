@@ -813,10 +813,11 @@ def email_zusammenfassung(cfg, alle_aenderungen, alarme):
         if hat_alarme:
             alarm_zeilen = ""
             for a in alarme:
+                g_cur = a.get('currency','€')
                 alarm_zeilen += f"""
                 <tr>
                   <td style="padding:10px;color:#f1f5f9;font-weight:bold">{a['name']}</td>
-                  <td style="padding:10px;color:#22c55e;font-size:18px;font-weight:bold">{a['bester']:.2f} €</td>
+                  <td style="padding:10px;color:#22c55e;font-size:18px;font-weight:bold">{g_cur}{a['bester']:.2f}</td>
                   <td style="padding:10px;color:#f1f5f9">{a['shop']}</td>
                 </tr>"""
             alarm_html = f"""
@@ -911,7 +912,7 @@ def email_senden(cfg, gruppe, bester_preis, bester_shop):
         alle = "".join(
             f"<tr><td style='padding:8px;color:#94a3b8'>{s.get('shop_name') or SHOPS.get(s['shop'],s['shop'])}</td>"
             f"<td style='padding:8px;{'font-weight:bold;color:#22c55e' if s.get('preis')==bester_preis else ''}'>"
-            f"{s['preis']:.2f} €</td>"
+            f"{s.get('preis',0):.2f} €</td>"
             f"<td><a href='{s['url']}' style='color:#378ADD'>Shop</a></td></tr>"
             for s in gruppe.get("shops",[]) if s.get("preis")
         )
@@ -923,7 +924,7 @@ def email_senden(cfg, gruppe, bester_preis, bester_shop):
         <p style="color:#6b7280;font-size:12px">{datetime.now().strftime('%d.%m.%Y %H:%M')}</p>
         </body></html>"""
         msg = MIMEMultipart("alternative")
-        msg["Subject"] = f"🏆 {gruppe['name']} ab {bester_preis:.2f} €"
+        msg["Subject"] = f"🏆 {gruppe['name']} from {gruppe.get('currency','€')}{bester_preis:.2f}"
         msg["From"]    = formataddr(("Price Alert", cfg["email_absender"]))
         msg["To"]      = cfg["email_empfaenger"]
         msg.attach(MIMEText(html, "html"))
@@ -1193,15 +1194,38 @@ class PreisAlarmApp(tk.Tk):
                        text="Minimize to system tray on close (runs in background)",
                        command=self._tray_toggle).pack(side="left")
 
-        section("ℹ  SMTP Settings")
-        for name, server, port in [
-            ("GMX",     "mail.gmx.net",        "587"),
-            ("Web.de",  "smtp.web.de",          "587"),
-            ("Outlook", "smtp.office365.com",   "587"),
-            ("Gmail",   "smtp.gmail.com",       "587  (App Password required)"),
-        ]:
-            tk.Label(wrap, text=f"{name}: {server}  |  Port: {port}",
-                     bg=BG, fg=GRAU, font=("Segoe UI", 9)).pack(anchor="w")
+        section("ℹ  SMTP Presets  —  click to apply")
+        SMTP_PRESETS = [
+            ("GMX",          "mail.gmx.net",           587,  "@gmx.de / @gmx.net"),
+            ("Web.de",       "smtp.web.de",             587,  "@web.de"),
+            ("Freenet",      "mx.freenet.de",           587,  "@freenet.de"),
+            ("T-Online",     "securesmtp.t-online.de",  465,  "@t-online.de"),
+            ("1&1 / IONOS",  "smtp.1und1.de",           587,  "@1und1.de / @ionos.de"),
+            ("Outlook/Live", "smtp.office365.com",      587,  "@outlook.com / @live.de / @hotmail.com"),
+            ("Gmail",        "smtp.gmail.com",          587,  "@gmail.com  (App Password required)"),
+            ("Yahoo",        "smtp.mail.yahoo.com",     587,  "@yahoo.com / @yahoo.de"),
+            ("iCloud",       "smtp.mail.me.com",        587,  "@icloud.com / @me.com"),
+            ("Posteo",       "posteo.de",               587,  "@posteo.de"),
+            ("Mailbox.org",  "smtp.mailbox.org",        587,  "@mailbox.org"),
+        ]
+        presets_frame = tk.Frame(wrap, bg=BG)
+        presets_frame.pack(fill="x", pady=(0,4))
+
+        def apply_preset(server, port):
+            self.v_smtp.set(server)
+            self.v_port.set(str(port))
+
+        for i, (name, server, port, hint) in enumerate(SMTP_PRESETS):
+            row_f = tk.Frame(presets_frame, bg=BG)
+            row_f.pack(fill="x", pady=2)
+            btn = tk.Button(row_f, text=name, bg=BG3, fg=TEXT,
+                            activebackground=AKZENT, activeforeground="#000",
+                            font=("Segoe UI", 9, "bold"), relief="flat",
+                            cursor="hand2", padx=10, pady=3, width=12,
+                            command=lambda s=server, p=port: apply_preset(s, p))
+            btn.pack(side="left", padx=(0,8))
+            tk.Label(row_f, text=f"{server}  |  Port: {port}   {hint}",
+                     bg=BG, fg=GRAU, font=("Segoe UI", 9), anchor="w").pack(side="left")
 
     # ── Tab: Log ──────────────────────────────────────────────────────────────
     def _tab_log(self):
@@ -1233,7 +1257,7 @@ class PreisAlarmApp(tk.Tk):
         g = self.vergleiche[sel[0]]
         self.vg_aktuelle_gruppe = g["id"]
         self.vg_titel_lbl.config(text=g["name"])
-        self.vg_ziel_lbl.config(text=f"Target: {g['zielpreis']:.2f} €")
+        self.vg_ziel_lbl.config(text=f"Target: {g.get('currency','€')}{g['zielpreis']:.2f}")
         self._vg_tabelle_laden(g)
 
     def _vg_sort_klick(self, col):
@@ -1296,17 +1320,18 @@ class PreisAlarmApp(tk.Tk):
             ziel  = gruppe["zielpreis"]
             preis_vorher = s.get("preis_vorher")
             trend        = s.get("preis_trend", "")
-            # Preis-Anzeige mit Änderungs-Pfeil
+            cur          = gruppe.get("currency", "€")
+            # Price display with change arrow
             if preis and preis_vorher:
                 diff  = preis - preis_vorher
                 pfeil = "⬇" if diff < 0 else "⬆"
-                p_str = f"{preis:.2f} €  {pfeil} {abs(diff):.2f}"
+                p_str = f"{cur}{preis:.2f}  {pfeil} {abs(diff):.2f}"
             else:
-                p_str = f"{preis:.2f} €" if preis else "–"
-            d_str    = f"{ziel:.2f} €"
+                p_str = f"{cur}{preis:.2f}" if preis else "–"
+            d_str    = f"{cur}{ziel:.2f}"
             ist_best = preis and bester and preis == bester
             alarm    = preis and preis <= ziel
-            noch     = f"still {preis-ziel:.2f} € too much" if (preis and not alarm) else ""
+            noch     = f"still {preis-ziel:.2f} {cur} too much" if (preis and not alarm) else ""
             status   = "🏆 Best Price" if ist_best else ("🔔 Target reached!" if alarm else (f"⬇ {noch}" if preis else "⚠ No Price"))
             # Tag: Preisänderung hat Vorrang vor normalem Status
             if trend == "gesunken":
@@ -1427,6 +1452,9 @@ class PreisAlarmApp(tk.Tk):
                       command=lambda: [v.set(False) for v,_ in self._vg_shop_vars.values()]).pack(side="left")
 
             min_preis = min(s["preis"] for s in shops)
+            # Detect currency from entered URL
+            eingabe_cur = e_such.get().strip()
+            dialog_cur = "£" if any(d in eingabe_cur for d in ["pricespy.co.uk","pricespy.com"]) else "€"
             for i, s in enumerate(shops):
                 var = tk.BooleanVar(value=True)
                 self._vg_shop_vars[str(i)] = (var, s)
@@ -1438,7 +1466,7 @@ class PreisAlarmApp(tk.Tk):
                 tk.Label(row_f, text=s["name"], bg=BG, fg=TEXT,
                          font=("Segoe UI",9,"bold"), width=24, anchor="w").pack(side="left")
                 col = AKZENT if s["preis"] == min_preis else TEXT2
-                tk.Label(row_f, text=f"{s['preis']:.2f} €", bg=BG, fg=col,
+                tk.Label(row_f, text=f"{dialog_cur}{s['preis']:.2f}", bg=BG, fg=col,
                          font=("Segoe UI",9,"bold"), width=9, anchor="e").pack(side="left")
 
             if not e_ziel.get():
@@ -1472,8 +1500,12 @@ class PreisAlarmApp(tk.Tk):
             else:
                 source_url = ""
             log(f"Group source_url: {source_url[:60]}" if source_url else "Gruppe ohne source_url")
+            # Detect currency from source
+            ist_gbp = any(d in source_url for d in ["pricespy.co.uk","pricespy.com"]) if source_url else False
+            waehrung = "£" if ist_gbp else "€"
             g = {"id": str(int(time.time()*1000)), "name": name, "zielpreis": ziel,
-                 "shops": [], "alarm_gesendet": False, "source_url": source_url}
+                 "shops": [], "alarm_gesendet": False, "source_url": source_url,
+                 "currency": waehrung}
             # Shops erst mit Redirect-URL speichern, dann im Hintergrund auflösen
             shops_roh = []
             for sid, (var, s) in self._vg_shop_vars.items():
@@ -1735,7 +1767,7 @@ class PreisAlarmApp(tk.Tk):
                             verlauf.append({"datum": jetzt, "preis": preis})
                             verlauf = verlauf[-1000:]
                             s["verlauf"] = verlauf
-                            log(f"  {name_anzeige}: {preis:.2f} € ✓")
+                            log(f"  {name_anzeige}: {preis:.2f} ✓")
                         else:
                             log(f"  {name_anzeige}: nicht gefunden (gespeichert: '{shop_name}')")
                         geprueft += 1
@@ -1795,14 +1827,14 @@ class PreisAlarmApp(tk.Tk):
                 bester = min(preise)
                 bester_shop = next((s.get("shop_name") or SHOPS.get(s["shop"],s["shop"])
                                     for s in g["shops"] if s.get("preis") == bester), "")
-                log(f"  {g['name']}: {bester:.2f} € bei {bester_shop}")
+                log(f"  {g['name']}: {g.get('currency','€')}{bester:.2f} at {bester_shop}")
 
                 # Zielpreis-Alarm (Toast bleibt, Mail kommt in Zusammenfassung)
                 if bester <= g["zielpreis"] and not g.get("alarm_gesendet"):
                     g["alarm_gesendet"] = True
-                    alarme.append({"name": g["name"], "bester": bester, "shop": bester_shop})
+                    alarme.append({"name": g["name"], "bester": bester, "shop": bester_shop, "currency": g.get("currency","€")})
                     toast("🏆 Price Alert!",
-                          f"{g['name']}: {bester:.2f} € bei {bester_shop}")
+                          f"{g['name']}: {g.get('currency','€')}{bester:.2f} at {bester_shop}")
                 elif bester > g["zielpreis"]:
                     g["alarm_gesendet"] = False
 
@@ -1810,7 +1842,7 @@ class PreisAlarmApp(tk.Tk):
                 if geaenderte_shops:
                     gesunken  = len([s for s in geaenderte_shops if s["preis_neu"] < s["preis_alt"]])
                     gestiegen = len([s for s in geaenderte_shops if s["preis_neu"] > s["preis_alt"]])
-                    log(f"  Price changes: {gesunken} gesunken, {gestiegen} gestiegen")
+                    log(f"  Price changes: {gesunken} decreased, {gestiegen} increased")
                     # Zielpreis-Info pro Shop hinzufügen
                     for s in geaenderte_shops:
                         s["zielpreis"]       = g["zielpreis"]
@@ -1818,6 +1850,7 @@ class PreisAlarmApp(tk.Tk):
                     alle_aenderungen.append({
                         "gruppe_name": g["name"],
                         "zielpreis":   g["zielpreis"],
+                        "currency":    g.get("currency", "€"),
                         "shops":       list(geaenderte_shops),
                     })
 
@@ -1838,7 +1871,7 @@ class PreisAlarmApp(tk.Tk):
             self.btn_pruefen.config(state="normal", text="🔄  Check All")
             if alarme:
                 self.status_check_lbl.config(
-                    text=f"🔔 Alert! {alarme[0]['name']}: {alarme[0]['bester']:.2f} €", fg=AKZENT)
+                    text=f"🔔 Alert! {alarme[0]['name']}: {alarme[0].get('currency','€')}{alarme[0]['bester']:.2f}", fg=AKZENT)
             else:
                 self.status_check_lbl.config(
                     text=f"✅ {geprueft} prices checked — {ts}", fg=AKZENT)
