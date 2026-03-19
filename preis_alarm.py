@@ -1,6 +1,6 @@
 """
-Preis-Alarm Tracker v3.0
-Preisvergleich über mehrere Shops via Geizhals/Idealo URL oder Suchbegriff.
+Price Alert Tracker v3.0
+Price comparison across multiple shops via Geizhals URL or search term.
 """
 
 import tkinter as tk
@@ -151,7 +151,7 @@ def _parse(text):
         return None
 
 def _shop_key_aus_name(name):
-    """Gibt den internen Shop-Key zurück. Unbekannte Shops behalten ihren Namen."""
+    """Returns the internal shop key. Unknown shops keep their name."""
     name_l = name.lower()
     for keyword, key in [
         ("amazon","amazon"),("mediamarkt","mediamarkt"),("media markt","mediamarkt"),
@@ -183,15 +183,15 @@ def _shop_aus_url(url):
 
 # ── Preisabruf ────────────────────────────────────────────────────────────────
 def _redirect_aufloesen(url):
-    """Nicht mehr verwendet — Redirects werden über Produktseite aufgelöst."""
+    """No longer used — redirects are resolved via product page."""
     return url
 
 
 def redirects_aufloesen_via_produktseite(source_url, shops):
     """
-    Lädt die Geizhals-Produktseite EINMAL mit Selenium,
-    klickt jeden Shop-Link an und fängt die finale URL im neuen Tab ab.
-    Gibt ein Dict {shop_name -> echte_url} zurück.
+    Loads the Geizhals product page ONCE with Selenium,
+    clicks each shop link and captures the final URL in a new tab.
+    Returns a dict {shop_name -> real_url}.
     """
     if not SELENIUM_OK or not source_url:
         return {}
@@ -211,7 +211,7 @@ def redirects_aufloesen_via_produktseite(source_url, shops):
         driver.set_page_load_timeout(30)
 
         # Produktseite laden (mit Cookie)
-        log(f"  URL-Auflösung: Lade {source_url[:60]}")
+        log(f"  URL resolution: Loading {source_url[:60]}")
         driver.get(source_url)
         time.sleep(3)
 
@@ -229,7 +229,7 @@ def redirects_aufloesen_via_produktseite(source_url, shops):
         for _ in range(15):
             geklickt = driver.execute_script("""
                 var btn = document.querySelector('.button--load-more-offers');
-                if (btn && btn.textContent.trim() !== 'Keine weiteren Angebote') {
+                if (btn && btn.textContent.trim() !== 'No more offers') {
                     btn.click(); return true;
                 } return false;
             """)
@@ -260,7 +260,7 @@ def redirects_aufloesen_via_produktseite(source_url, shops):
                         ergebnis[shop_name] = final_url
                         log(f"  ✓ {shop_name}: {final_url[:50]}")
                     else:
-                        log(f"  ✗ {shop_name}: Redirect blockiert")
+                        log(f"  ✗ {shop_name}: redirect blocked")
                     driver.close()
                     driver.switch_to.window(haupt_tab)
                     time.sleep(0.5)
@@ -276,7 +276,7 @@ def redirects_aufloesen_via_produktseite(source_url, shops):
 
         return ergebnis
     except Exception as e:
-        log(f"  URL-Auflösung Fehler: {e}")
+        log(f"  URL resolution error: {e}")
         return {}
     finally:
         if driver:
@@ -344,7 +344,7 @@ def preis_holen(url, shop):
 
 # ── Shop-Suche via URL oder Suchbegriff ──────────────────────────────────────
 def _selenium_get(url, wait=4):
-    """Lädt eine URL mit echtem Chrome."""
+    """Loads a URL with real Chrome."""
     if not SELENIUM_OK:
         return ""
     driver = None
@@ -388,7 +388,7 @@ def _selenium_get(url, wait=4):
             for i in range(15):
                 geklickt = driver.execute_script("""
                     var btn = document.querySelector('.button--load-more-offers');
-                    if (btn && btn.textContent.trim() !== 'Keine weiteren Angebote') {
+                    if (btn && btn.textContent.trim() !== 'No more offers') {
                         btn.scrollIntoView({block: 'center'});
                         btn.click();
                         return true;
@@ -399,13 +399,13 @@ def _selenium_get(url, wait=4):
                     time.sleep(2.5)
                     driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
                     time.sleep(1)
-                    log(f"  Mehr Angebote geladen (Klick {i+1})...")
+                    log(f"  More offers loaded (Klick {i+1})...")
                 else:
                     break
 
         return driver.page_source
     except Exception as e:
-        log(f"Selenium Fehler: {e}")
+        log(f"Selenium error: {e}")
         return ""
     finally:
         if driver:
@@ -415,18 +415,18 @@ def _selenium_get(url, wait=4):
 
 def shops_aus_url_laden(url, max_shops=999):
     """
-    Lädt alle Shops direkt von einer Geizhals- oder Idealo-Produktseite.
-    Nutzt Selenium (echter Chrome) damit JavaScript-Inhalte geladen werden.
+    Loads all shops directly from a Geizhals or Idealo product page.
+    Uses Selenium (real Chrome) so JavaScript content is loaded.
     """
     shops = []
     produkt_name = ""
     try:
-        log(f"Lade URL: {url[:80]}")
+        log(f"Loading URL: {url[:80]}")
         html = _selenium_get(url, wait=5)
         if not html:
             r = requests.get(url, headers=HEADERS, timeout=20)
             html = r.text
-            log("Fallback: normaler HTTP-Request")
+            log("Fallback: regular HTTP request")
 
         soup = BeautifulSoup(html, "html.parser")
 
@@ -499,7 +499,7 @@ def shops_aus_url_laden(url, max_shops=999):
                                       "shop_key": _shop_key_aus_name(shop_name),
                                       "shop_name": shop_name})
                 except Exception as e:
-                    log(f"Offer-Parse Fehler: {e}")
+                    log(f"Offer parse error: {e}")
                     continue
 
             log(f"Geizhals HTML: {len(shops)} Shops gefunden")
@@ -543,22 +543,22 @@ def shops_aus_url_laden(url, max_shops=999):
 
         # Deduplizieren und nach Preis sortieren
         shops = sorted(shops, key=lambda s: s["preis"])
-        log(f"Gesamt: {len(shops)} Shops von {url[:60]}")
+        log(f"Total: {len(shops)} Shops von {url[:60]}")
         return shops, produkt_name
     except Exception as e:
-        log(f"Fehler beim Laden: {e}")
+        log(f"Error loading: {e}")
         return [], ""
 
 
 def geizhals_suchen(suchbegriff, max_shops=999):
     """Sucht auf Geizhals (DE + EU), Fallback auf Idealo."""
-    log(f"Suche: '{suchbegriff}'")
+    log(f"Search: '{suchbegriff}'")
     try:
         # Geizhals: DE zuerst, dann EU
         for hloc in ["de", "de,at,ch,eu"]:
             such_url = "https://geizhals.de/?fs={}&bl=&hloc={}&in=&v=e&sort=p".format(
                 requests.utils.quote(suchbegriff), hloc)
-            log(f"Geizhals Suche ({hloc}): {such_url[:80]}")
+            log(f"Geizhals search ({hloc}): {such_url[:80]}")
             html = _selenium_get(such_url, wait=4)
             if not html:
                 r = requests.get(such_url, headers=HEADERS, timeout=20)
@@ -580,7 +580,7 @@ def geizhals_suchen(suchbegriff, max_shops=999):
             if produkt_link:
                 if not produkt_link.startswith("http"):
                     produkt_link = "https://geizhals.de" + produkt_link
-                log(f"Produktseite: {produkt_link}")
+                log(f"Product page: {produkt_link}")
                 shops, name = shops_aus_url_laden(produkt_link, max_shops=999)
                 if shops:
                     return shops, name or suchbegriff, produkt_link
@@ -605,10 +605,10 @@ def geizhals_suchen(suchbegriff, max_shops=999):
                     return shops, name or suchbegriff, href
                 break
 
-        log("Keine Shops gefunden auf Geizhals/Idealo")
+        log("No shops found on Geizhals/Idealo")
         return [], suchbegriff
     except Exception as e:
-        log(f"Suche Fehler: {e}")
+        log(f"Search error: {e}")
         return [], suchbegriff, ""
 
 
@@ -618,7 +618,7 @@ def alle_quellen_suchen(suchbegriff, max_shops=999):
 
 
 def email_preisaenderung(cfg, gruppe, geaenderte_shops):
-    """Sendet E-Mail mit allen Shops die ihren Preis geändert haben."""
+    """Sends email with all shops that changed their price."""
     try:
         zeilen = ""
         for s in geaenderte_shops:
@@ -636,7 +636,7 @@ def email_preisaenderung(cfg, gruppe, geaenderte_shops):
               <td style="padding:10px;font-weight:bold;color:{farbe};border-bottom:1px solid #2d2d2d">{neu:.2f} €</td>
               <td style="padding:10px;color:{farbe};border-bottom:1px solid #2d2d2d">{pfeil} {abs(diff):.2f} €</td>
               <td style="padding:10px;border-bottom:1px solid #2d2d2d">
-                <a href="{url}" style="color:#378ADD;text-decoration:none">Shop öffnen</a>
+                <a href="{url}" style="color:#378ADD;text-decoration:none">Open Shop</a>
               </td>
             </tr>"""
 
@@ -644,15 +644,15 @@ def email_preisaenderung(cfg, gruppe, geaenderte_shops):
         html = f"""<html><body style="font-family:Arial;max-width:700px;margin:auto;
                    background:#0f0f0f;color:#f1f5f9;padding:24px">
         <div style="background:#1a3a5c;padding:16px;border-radius:8px;margin-bottom:20px">
-          <h2 style="color:#60a5fa;margin:0">📊 Preisänderungen: {gruppe['name']}</h2>
-          <p style="color:#94a3b8;margin:4px 0 0">{len(geaenderte_shops)} Shop(s) haben den Preis geändert</p>
+          <h2 style="color:#60a5fa;margin:0">📊 Price Changes: {gruppe['name']}</h2>
+          <p style="color:#94a3b8;margin:4px 0 0">{len(geaenderte_shops)} shop(s) changed their price</p>
         </div>
         <table style="width:100%;border-collapse:collapse">
           <tr style="background:#1a1a1a">
             <th style="padding:10px;text-align:left;color:#94a3b8">Shop</th>
-            <th style="padding:10px;text-align:left;color:#94a3b8">Alter Preis</th>
-            <th style="padding:10px;text-align:left;color:#94a3b8">Neuer Preis</th>
-            <th style="padding:10px;text-align:left;color:#94a3b8">Änderung</th>
+            <th style="padding:10px;text-align:left;color:#94a3b8">Old Price</th>
+            <th style="padding:10px;text-align:left;color:#94a3b8">New Price</th>
+            <th style="padding:10px;text-align:left;color:#94a3b8">Change</th>
             <th style="padding:10px;text-align:left;color:#94a3b8">Link</th>
           </tr>
           {zeilen}
@@ -663,18 +663,18 @@ def email_preisaenderung(cfg, gruppe, geaenderte_shops):
         </body></html>"""
 
         msg = MIMEMultipart("alternative")
-        msg["Subject"] = f"📊 Preisänderungen: {gruppe['name']} ({len(geaenderte_shops)} Shops)"
-        msg["From"]    = formataddr(("Preis Alarm", cfg["email_absender"]))
+        msg["Subject"] = f"📊 Price Changes: {gruppe['name']} ({len(geaenderte_shops)} shops)"
+        msg["From"]    = formataddr(("Price Alert", cfg["email_absender"]))
         msg["To"]      = cfg["email_empfaenger"]
         msg.attach(MIMEText(html, "html"))
         with smtplib.SMTP(cfg["smtp_server"], int(cfg["smtp_port"])) as s:
             s.starttls()
             s.login(cfg["email_absender"], cfg["email_passwort"])
             s.sendmail(cfg["email_absender"], cfg["email_empfaenger"], msg.as_string())
-        log(f"  Preisänderungs-Mail gesendet ({len(geaenderte_shops)} Shops)")
+        log(f"  Price change email sent ({len(geaenderte_shops)} Shops)")
         return True
     except Exception as e:
-        log(f"  Mail Fehler: {e}")
+        log(f"  Email error: {e}")
         return False
 
 
@@ -691,9 +691,9 @@ def email_zusammenfassung(cfg, alle_aenderungen, alarme):
         alarm_anzahl   = len(alarme)
         aender_anzahl  = sum(len(g["shops"]) for g in alle_aenderungen)
         if hat_alarme:
-            betreff = f"🔔 {alarm_anzahl} Zielpreis-Alarm{'e' if alarm_anzahl>1 else ''} + {aender_anzahl} Preisänderung{'en' if aender_anzahl!=1 else ''}"
+            betreff = f"🔔 {alarm_anzahl} Target Price Alert{'s' if alarm_anzahl>1 else ''} + {aender_anzahl} Price Change{'s' if aender_anzahl!=1 else ''}"
         else:
-            betreff = f"📊 {aender_anzahl} Preisänderung{'en' if aender_anzahl!=1 else ''} beim letzten Check"
+            betreff = f"📊 {aender_anzahl} Price Change{'s' if aender_anzahl!=1 else ''} in last check"
 
         # Alarm-Sektion
         alarm_html = ""
@@ -708,11 +708,11 @@ def email_zusammenfassung(cfg, alle_aenderungen, alarme):
                 </tr>"""
             alarm_html = f"""
             <div style="background:#14532d;border-radius:8px;padding:16px;margin-bottom:20px">
-              <h2 style="color:#4ade80;margin:0 0 12px">🔔 Zielpreis erreicht!</h2>
+              <h2 style="color:#4ade80;margin:0 0 12px">🔔 Target Price Reached!</h2>
               <table style="width:100%;border-collapse:collapse">
                 <tr style="background:#166534">
-                  <th style="padding:8px;text-align:left;color:#86efac">Produkt</th>
-                  <th style="padding:8px;text-align:left;color:#86efac">Bester Preis</th>
+                  <th style="padding:8px;text-align:left;color:#86efac">Product</th>
+                  <th style="padding:8px;text-align:left;color:#86efac">Best Price</th>
                   <th style="padding:8px;text-align:left;color:#86efac">Shop</th>
                 </tr>
                 {alarm_zeilen}
@@ -731,7 +731,7 @@ def email_zusammenfassung(cfg, alle_aenderungen, alarme):
                 f_diff  = "#22c55e" if diff < 0 else "#f87171"
                 ziel_badge = ""
                 if s.get("ziel_erreicht"):
-                    ziel_badge = '<span style="background:#14532d;color:#4ade80;padding:2px 8px;border-radius:4px;font-size:11px;margin-left:6px">🎯 Zielpreis!</span>'
+                    ziel_badge = '<span style="background:#14532d;color:#4ade80;padding:2px 8px;border-radius:4px;font-size:11px;margin-left:6px">🎯 Target reached!</span>'
                 zeilen += f"""
                 <tr style="{'background:#1a2e1a' if s.get('ziel_erreicht') else ''}">
                   <td style="padding:10px;color:#f1f5f9;border-bottom:1px solid #2d2d2d">
@@ -756,8 +756,8 @@ def email_zusammenfassung(cfg, alle_aenderungen, alarme):
               <table style="width:100%;border-collapse:collapse;background:#1a1a1a;border-radius:8px">
                 <tr style="background:#242424">
                   <th style="padding:8px;text-align:left;color:#94a3b8">Shop</th>
-                  <th style="padding:8px;text-align:left;color:#94a3b8">Alter Preis</th>
-                  <th style="padding:8px;text-align:left;color:#94a3b8">Neuer Preis</th>
+                  <th style="padding:8px;text-align:left;color:#94a3b8">Old Price</th>
+                  <th style="padding:8px;text-align:left;color:#94a3b8">New Price</th>
                   <th style="padding:8px;text-align:left;color:#94a3b8">Link</th>
                 </tr>
                 {zeilen}
@@ -767,13 +767,13 @@ def email_zusammenfassung(cfg, alle_aenderungen, alarme):
         html = f"""<html><body style="font-family:Arial;max-width:700px;margin:auto;
                    background:#0f0f0f;color:#f1f5f9;padding:24px">
           <div style="border-bottom:1px solid #2d2d2d;padding-bottom:12px;margin-bottom:20px">
-            <h1 style="color:#f1f5f9;margin:0;font-size:20px">🔔 Preis-Alarm Tracker</h1>
+            <h1 style="color:#f1f5f9;margin:0;font-size:20px">🔔 Price Alert Tracker</h1>
             <p style="color:#6b7280;margin:4px 0 0;font-size:12px">
               Check vom {_dt.now().strftime('%d.%m.%Y um %H:%M Uhr')}
             </p>
           </div>
           {alarm_html}
-          {('<h2 style="color:#f1f5f9;margin:0 0 16px">📊 Preisänderungen</h2>' + aender_html) if hat_aenderungen else ''}
+          {('<h2 style="color:#f1f5f9;margin:0 0 16px">📊 Price Changes</h2>' + aender_html) if hat_aenderungen else ''}
           <p style="color:#4b5563;font-size:11px;margin-top:24px;border-top:1px solid #1f2937;padding-top:12px">
             Preis-Alarm Tracker · Automatischer Check
           </p>
@@ -781,16 +781,16 @@ def email_zusammenfassung(cfg, alle_aenderungen, alarme):
 
         msg = MIMEMultipart("alternative")
         msg["Subject"] = betreff
-        msg["From"]    = formataddr(("Preis Alarm", cfg["email_absender"]))
+        msg["From"]    = formataddr(("Price Alert", cfg["email_absender"]))
         msg["To"]      = cfg["email_empfaenger"]
         msg.attach(MIMEText(html, "html"))
         with smtplib.SMTP(cfg["smtp_server"], int(cfg["smtp_port"])) as s:
             s.starttls()
             s.login(cfg["email_absender"], cfg["email_passwort"])
             s.sendmail(cfg["email_absender"], cfg["email_empfaenger"], msg.as_string())
-        log(f"Zusammenfassungs-Mail gesendet ({aender_anzahl} Änderungen, {alarm_anzahl} Alarme)")
+        log(f"Summary email sent ({aender_anzahl} Änderungen, {alarm_anzahl} Alarme)")
     except Exception as e:
-        log(f"Mail Fehler: {e}")
+        log(f"Email error: {e}")
 
 
 def email_senden(cfg, gruppe, bester_preis, bester_shop):
@@ -805,13 +805,13 @@ def email_senden(cfg, gruppe, bester_preis, bester_shop):
         html = f"""<html><body style="font-family:Arial;max-width:600px;margin:auto;background:#0f0f0f;color:#f1f5f9;padding:24px">
         <h2 style="color:#4ade80">🏆 Preisvergleich-Alarm!</h2>
         <h3>{gruppe['name']}</h3>
-        <p>Günstigster Preis: <strong style="color:#22c55e;font-size:20px">{bester_preis:.2f} €</strong> bei {bester_shop}</p>
+        <p>Best Price: <strong style="color:#22c55e;font-size:20px">{bester_preis:.2f} €</strong> bei {bester_shop}</p>
         <table style="width:100%;border-collapse:collapse">{alle}</table>
         <p style="color:#6b7280;font-size:12px">{datetime.now().strftime('%d.%m.%Y %H:%M')}</p>
         </body></html>"""
         msg = MIMEMultipart("alternative")
         msg["Subject"] = f"🏆 {gruppe['name']} ab {bester_preis:.2f} €"
-        msg["From"]    = formataddr(("Preis Alarm", cfg["email_absender"]))
+        msg["From"]    = formataddr(("Price Alert", cfg["email_absender"]))
         msg["To"]      = cfg["email_empfaenger"]
         msg.attach(MIMEText(html, "html"))
         with smtplib.SMTP(cfg["smtp_server"], int(cfg["smtp_port"])) as s:
@@ -820,7 +820,7 @@ def email_senden(cfg, gruppe, bester_preis, bester_shop):
             s.sendmail(cfg["email_absender"], cfg["email_empfaenger"], msg.as_string())
         return True
     except Exception as e:
-        log(f"E-Mail Fehler: {e}")
+        log(f"Email error: {e}")
         return False
 
 # ── Autostart & Tray ─────────────────────────────────────────────────────────
@@ -849,18 +849,18 @@ def autostart_setzen(aktiv):
             script = str(Path(__file__).resolve())
             pfad = f'"{exe}" "{script}"' 
             winreg.SetValueEx(key, AUTOSTART_NAME, 0, winreg.REG_SZ, pfad)
-            log(f"Autostart gesetzt: {pfad}")
+            log(f"Autostart set: {pfad}")
         else:
             try: winreg.DeleteValue(key, AUTOSTART_NAME)
             except: pass
         winreg.CloseKey(key)
         return True
     except Exception as e:
-        log(f"Autostart Fehler: {e}")
+        log(f"Autostart error: {e}")
         return False
 
 def tray_icon_erstellen():
-    """Erstellt ein einfaches grünes Glocken-Icon für den Tray."""
+    """Creates a simple green bell icon for the tray."""
     img = Image.new("RGBA", (64, 64), (0,0,0,0))
     d   = ImageDraw.Draw(img)
     # Glocke zeichnen
@@ -875,7 +875,7 @@ def tray_icon_erstellen():
 class PreisAlarmApp(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Preis-Alarm Tracker")
+        self.title("Price Alert Tracker")
         self.geometry("960x680")
         self.minsize(800, 560)
         self.configure(bg=BG)
@@ -926,7 +926,7 @@ class PreisAlarmApp(tk.Tk):
     def _build_ui(self):
         hdr = tk.Frame(self, bg=BG)
         hdr.pack(fill="x", padx=20, pady=(16, 0))
-        tk.Label(hdr, text="🔔 Preis-Alarm Tracker", bg=BG, fg=TEXT,
+        tk.Label(hdr, text="🔔 Price Alert Tracker", bg=BG, fg=TEXT,
                  font=("Segoe UI", 18, "bold")).pack(side="left")
 
         nb = ttk.Notebook(self)
@@ -934,8 +934,8 @@ class PreisAlarmApp(tk.Tk):
         self.tab_vergleich = tk.Frame(nb, bg=BG)
         self.tab_einst     = tk.Frame(nb, bg=BG)
         self.tab_log       = tk.Frame(nb, bg=BG)
-        nb.add(self.tab_vergleich, text="  ⚖ Preisvergleich  ")
-        nb.add(self.tab_einst,     text="  ⚙ Einstellungen  ")
+        nb.add(self.tab_vergleich, text="  ⚖ Price Comparison  ")
+        nb.add(self.tab_einst,     text="  ⚙ Settings  ")
         nb.add(self.tab_log,       text="  📄 Log  ")
         self._tab_vergleich()
         self._tab_einstellungen()
@@ -946,12 +946,12 @@ class PreisAlarmApp(tk.Tk):
         f = self.tab_vergleich
         bar = tk.Frame(f, bg=BG)
         bar.pack(fill="x", padx=12, pady=(12, 6))
-        self._btn(bar, "➕  Neue Gruppe",    self._vg_neu,          AKZENT, "#000").pack(side="left", padx=(0,8))
-        self.btn_pruefen = self._btn(bar, "🔄  Alle prüfen", self._vg_alle_pruefen, BG3, TEXT)
+        self._btn(bar, "➕  New Group",    self._vg_neu,          AKZENT, "#000").pack(side="left", padx=(0,8))
+        self.btn_pruefen = self._btn(bar, "🔄  Check All", self._vg_alle_pruefen, BG3, TEXT)
         self.btn_pruefen.pack(side="left", padx=(0,8))
         self.status_check_lbl = tk.Label(bar, text="", bg=BG, fg=TEXT2, font=("Segoe UI", 9))
         self.status_check_lbl.pack(side="left", padx=10)
-        self._btn(bar, "🗑  Löschen (ENTF)", self._vg_loeschen,     BG3, ROT).pack(side="right")
+        self._btn(bar, "🗑  Delete (DEL)", self._vg_loeschen,     BG3, ROT).pack(side="right")
 
         pane = tk.Frame(f, bg=BG)
         pane.pack(fill="both", expand=True, padx=12, pady=(0,12))
@@ -959,7 +959,7 @@ class PreisAlarmApp(tk.Tk):
         left = tk.Frame(pane, bg=BG, width=220)
         left.pack(side="left", fill="y", padx=(0,12))
         left.pack_propagate(False)
-        tk.Label(left, text="PRODUKTGRUPPEN", bg=BG, fg=TEXT2,
+        tk.Label(left, text="PRODUCT GROUPS", bg=BG, fg=TEXT2,
                  font=("Segoe UI", 9, "bold")).pack(anchor="w", pady=(4,6))
         self.vg_listbox = tk.Listbox(
             left, bg=BG2, fg=TEXT, selectbackground=BG3, selectforeground=AKZENT,
@@ -975,13 +975,13 @@ class PreisAlarmApp(tk.Tk):
 
         hdr2 = tk.Frame(right, bg=BG)
         hdr2.pack(fill="x", pady=(4,8))
-        self.vg_titel_lbl = tk.Label(hdr2, text="← Gruppe auswählen oder neu erstellen",
+        self.vg_titel_lbl = tk.Label(hdr2, text="← Select a group or create new",
                                      bg=BG, fg=TEXT2, font=("Segoe UI", 12, "bold"))
         self.vg_titel_lbl.pack(side="left")
         self.vg_ziel_lbl = tk.Label(hdr2, text="", bg=BG, fg=GRAU, font=("Segoe UI", 10))
         self.vg_ziel_lbl.pack(side="left", padx=12)
-        self._btn(hdr2, "📈 Preisverlauf", self._vg_chart_zeigen, BG3, TEXT2).pack(side="right", padx=(0,6))
-        self._btn(hdr2, "+ URL manuell",  self._vg_shop_manuell, BG3, GRAU).pack(side="right")
+        self._btn(hdr2, "📈 Price History", self._vg_chart_zeigen, BG3, TEXT2).pack(side="right", padx=(0,6))
+        self._btn(hdr2, "+ Add URL",  self._vg_shop_manuell, BG3, GRAU).pack(side="right")
 
         # Sortier-Status: col -> bool (True=aufsteigend)
         self._sort_col   = "preis"
@@ -989,8 +989,8 @@ class PreisAlarmApp(tk.Tk):
 
         cols = ("shop","url","preis","diff","status","zuletzt")
         self.vg_tree = ttk.Treeview(right, columns=cols, show="headings", selectmode="browse")
-        col_defs = [("shop","Shop ↕",130),("url","URL ↕",270),("preis","Akt. Preis ↕",95),
-                    ("diff","Zielpreis ↕",95),("status","Status ↕",110),("zuletzt","Geprüft ↕",110)]
+        col_defs = [("shop","Shop ↕",130),("url","URL ↕",270),("preis","Cur. Price ↕",95),
+                    ("diff","Target ↕",95),("status","Status ↕",110),("zuletzt","Checked ↕",110)]
         for col, text, w in col_defs:
             self.vg_tree.heading(col, text=text,
                                  command=lambda c=col: self._vg_sort_klick(c))
@@ -1039,27 +1039,27 @@ class PreisAlarmApp(tk.Tk):
         self.v_port = tk.StringVar(value=str(cfg.get("smtp_port",587)))
         self.v_int  = tk.StringVar(value=str(cfg.get("intervall",6)))
 
-        section("📧  E-Mail Konfiguration")
-        erow("Absender E-Mail",  self.v_abs)
-        erow("Passwort",         self.v_pw,  show="●")
-        erow("Empfänger E-Mail", self.v_emp)
+        section("📧  Email Configuration")
+        erow("Sender Email",  self.v_abs)
+        erow("Password",         self.v_pw,  show="●")
+        erow("Recipient Email", self.v_emp)
         erow("SMTP Server",      self.v_smtp)
         erow("SMTP Port",        self.v_port)
 
-        section("⏱  Prüf-Intervall")
+        section("⏱  Check Interval")
         r = tk.Frame(wrap, bg=BG)
         r.pack(fill="x", pady=5)
-        tk.Label(r, text="Alle X Stunden", bg=BG, fg=TEXT2, width=18, anchor="w",
+        tk.Label(r, text="Every X Hours", bg=BG, fg=TEXT2, width=18, anchor="w",
                  font=("Segoe UI", 10)).pack(side="left")
         ttk.Entry(r, textvariable=self.v_int, width=6).pack(side="left", ipady=4)
-        tk.Label(r, text=" Stunden (1–24)", bg=BG, fg=GRAU,
+        tk.Label(r, text=" hours (1–24)", bg=BG, fg=GRAU,
                  font=("Segoe UI", 9)).pack(side="left", padx=8)
 
         tk.Frame(wrap, bg=BORDER, height=1).pack(fill="x", pady=16)
         btn_row = tk.Frame(wrap, bg=BG)
         btn_row.pack(fill="x")
-        self._btn(btn_row, "💾  Speichern",  self._cfg_speichern, AKZENT, "#000").pack(side="left", padx=(0,10), ipady=4)
-        self._btn(btn_row, "✉  Test-E-Mail", self._test_email,    BG3, TEXT).pack(side="left", ipady=4)
+        self._btn(btn_row, "💾  Save",  self._cfg_speichern, AKZENT, "#000").pack(side="left", padx=(0,10), ipady=4)
+        self._btn(btn_row, "✉  Test Email", self._test_email,    BG3, TEXT).pack(side="left", ipady=4)
 
         section("🖥  System")
         sys_row = tk.Frame(wrap, bg=BG)
@@ -1068,7 +1068,7 @@ class PreisAlarmApp(tk.Tk):
         tk.Checkbutton(sys_row, variable=self.v_autostart,
                        bg=BG, fg=TEXT, activebackground=BG, selectcolor=BG3,
                        font=("Segoe UI", 10),
-                       text="Mit Windows starten (Autostart)",
+                       text="Start with Windows (Autostart)",
                        command=self._autostart_toggle).pack(side="left")
 
         tray_row = tk.Frame(wrap, bg=BG)
@@ -1077,15 +1077,15 @@ class PreisAlarmApp(tk.Tk):
         tk.Checkbutton(tray_row, variable=self.v_tray,
                        bg=BG, fg=TEXT, activebackground=BG, selectcolor=BG3,
                        font=("Segoe UI", 10),
-                       text="Beim Schließen in System-Tray minimieren (läuft im Hintergrund)",
+                       text="Minimize to system tray on close (runs in background)",
                        command=self._tray_toggle).pack(side="left")
 
-        section("ℹ  SMTP Einstellungen")
+        section("ℹ  SMTP Settings")
         for name, server, port in [
             ("GMX",     "mail.gmx.net",        "587"),
             ("Web.de",  "smtp.web.de",          "587"),
             ("Outlook", "smtp.office365.com",   "587"),
-            ("Gmail",   "smtp.gmail.com",       "587  (App-Passwort nötig)"),
+            ("Gmail",   "smtp.gmail.com",       "587  (App Password required)"),
         ]:
             tk.Label(wrap, text=f"{name}: {server}  |  Port: {port}",
                      bg=BG, fg=GRAU, font=("Segoe UI", 9)).pack(anchor="w")
@@ -1095,7 +1095,7 @@ class PreisAlarmApp(tk.Tk):
         f = self.tab_log
         bar = tk.Frame(f, bg=BG)
         bar.pack(fill="x", padx=12, pady=(12,4))
-        self._btn(bar, "🗑  Log leeren", self._log_leeren, BG3, TEXT).pack(side="left")
+        self._btn(bar, "🗑  Clear Log", self._log_leeren, BG3, TEXT).pack(side="left")
         self.log_box = scrolledtext.ScrolledText(
             f, bg=BG2, fg=TEXT, font=("Consolas", 9),
             insertbackground=TEXT, borderwidth=0, relief="flat",
@@ -1120,19 +1120,19 @@ class PreisAlarmApp(tk.Tk):
         g = self.vergleiche[sel[0]]
         self.vg_aktuelle_gruppe = g["id"]
         self.vg_titel_lbl.config(text=g["name"])
-        self.vg_ziel_lbl.config(text=f"Zielpreis: {g['zielpreis']:.2f} €")
+        self.vg_ziel_lbl.config(text=f"Target: {g['zielpreis']:.2f} €")
         self._vg_tabelle_laden(g)
 
     def _vg_sort_klick(self, col):
-        """Klick auf Spaltenüberschrift: aufsteigend/absteigend umschalten."""
+        """Click on column header: toggle ascending/descending sort."""
         if self._sort_col == col:
             self._sort_asc = not self._sort_asc
         else:
             self._sort_col = col
             self._sort_asc = True
         # Pfeil in Überschrift aktualisieren
-        col_namen = {"shop":"Shop","url":"URL","preis":"Akt. Preis",
-                     "diff":"Zielpreis","status":"Status","zuletzt":"Geprüft"}
+        col_namen = {"shop":"Shop","url":"URL","preis":"Cur. Price",
+                     "diff":"Target","status":"Status","zuletzt":"Checked"}
         for c, name in col_namen.items():
             if c == self._sort_col:
                 pfeil = " ↑" if self._sort_asc else " ↓"
@@ -1193,8 +1193,8 @@ class PreisAlarmApp(tk.Tk):
             d_str    = f"{ziel:.2f} €"
             ist_best = preis and bester and preis == bester
             alarm    = preis and preis <= ziel
-            noch     = f"noch {preis-ziel:.2f} € zu viel" if (preis and not alarm) else ""
-            status   = "🏆 Günstigster Preis" if ist_best else ("🔔 Zielpreis erreicht!" if alarm else (f"⬇ {noch}" if preis else "⚠ Kein Preis"))
+            noch     = f"still {preis-ziel:.2f} € too much" if (preis and not alarm) else ""
+            status   = "🏆 Best Price" if ist_best else ("🔔 Target reached!" if alarm else (f"⬇ {noch}" if preis else "⚠ No Price"))
             # Tag: Preisänderung hat Vorrang vor normalem Status
             if trend == "gesunken":
                 tag = "gesunken"
@@ -1216,15 +1216,15 @@ class PreisAlarmApp(tk.Tk):
     # ── Neue Gruppe Dialog ────────────────────────────────────────────────────
     def _vg_neu(self):
         dlg = tk.Toplevel(self)
-        dlg.title("Neue Produktgruppe")
+        dlg.title("New Product Group")
         dlg.geometry("560x440")
         dlg.configure(bg=BG)
         dlg.resizable(False, False)
         dlg.grab_set()
 
-        tk.Label(dlg, text="Produktname, Suchbegriff oder Geizhals-/Idealo-URL",
+        tk.Label(dlg, text="Product name, search term or Geizhals/Idealo URL",
                  bg=BG, fg=TEXT2, font=("Segoe UI", 10)).pack(anchor="w", padx=20, pady=(16,4))
-        tk.Label(dlg, text="Tipp: Geizhals- oder Idealo-URL direkt einfügen → alle Shops werden automatisch erkannt",
+        tk.Label(dlg, text="Tip: Paste a Geizhals or Idealo URL directly → all shops are detected automatically",
                  bg=BG, fg=GRAU, font=("Segoe UI", 8)).pack(anchor="w", padx=20)
 
         such_row = tk.Frame(dlg, bg=BG)
@@ -1248,15 +1248,15 @@ class PreisAlarmApp(tk.Tk):
 
         ziel_row = tk.Frame(dlg, bg=BG)
         ziel_row.pack(fill="x", padx=20, pady=(10,0))
-        tk.Label(ziel_row, text="Zielpreis (€)", bg=BG, fg=TEXT2, width=14,
+        tk.Label(ziel_row, text="Target Price (€)", bg=BG, fg=TEXT2, width=14,
                  anchor="w", font=("Segoe UI", 10)).pack(side="left")
         e_ziel = ttk.Entry(ziel_row)
         e_ziel.pack(side="left", fill="x", expand=True, ipady=5)
-        tk.Label(ziel_row, text="  ← Alarm wenn ein Shop ≤ diesem Preis",
+        tk.Label(ziel_row, text="  ← Alert when a shop is ≤ this price",
                  bg=BG, fg=GRAU, font=("Segoe UI", 9)).pack(side="left")
 
         gefunden = []
-        gefundene_source_url = [""]  # Mutable container für thread
+        gefundene_source_url = [""]  # Mutable container for thread
 
         def suchen(*_):
             eingabe = e_such.get().strip()
@@ -1268,7 +1268,7 @@ class PreisAlarmApp(tk.Tk):
             ist_url = eingabe.startswith("http") and (
                 "geizhals.de" in eingabe or "idealo.de" in eingabe)
             status_lbl.config(
-                text="🔍  Lade Shops von URL..." if ist_url else "🔍  Suche auf Geizhals/Idealo...",
+                text="🔍  Loading shops from URL..." if ist_url else "🔍  Searching on Geizhals/Idealo...",
                 fg=TEXT2)
 
             def _thread():
@@ -1285,14 +1285,14 @@ class PreisAlarmApp(tk.Tk):
             threading.Thread(target=_thread, daemon=True).start()
 
         def _fertig(shops, name):
-            btn_such.config(state="normal", text="  🔍 Laden  ")
+            btn_such.config(state="normal", text="  🔍 Search  ")
             if not shops:
                 status_lbl.config(
-                    text="⚠  Keine Shops gefunden. Tipp: Amazon-/Shop-URL direkt einfügen oder '+ URL manuell' nutzen.",
+                    text="⚠  No shops found. Tip: Paste a shop URL directly or use '+ Add URL'.",
                     fg=GELB)
                 return
             status_lbl.config(
-                text=f"✅  {len(shops)} Shops gefunden — Haken entfernen zum Ausschließen:",
+                text=f"✅  {len(shops)} shops found — uncheck to exclude:",
                 fg=AKZENT)
             gefunden.extend(shops)
             # Produktname als Gruppenname vorschlagen
@@ -1302,9 +1302,9 @@ class PreisAlarmApp(tk.Tk):
 
             ctrl = tk.Frame(inner, bg=BG)
             ctrl.pack(fill="x", pady=(0,4))
-            tk.Button(ctrl, text="Alle",  bg=BG3, fg=TEXT2, font=("Segoe UI",8), relief="flat", padx=6, pady=2,
+            tk.Button(ctrl, text="All",  bg=BG3, fg=TEXT2, font=("Segoe UI",8), relief="flat", padx=6, pady=2,
                       command=lambda: [v.set(True)  for v,_ in self._vg_shop_vars.values()]).pack(side="left", padx=(0,4))
-            tk.Button(ctrl, text="Keine", bg=BG3, fg=TEXT2, font=("Segoe UI",8), relief="flat", padx=6, pady=2,
+            tk.Button(ctrl, text="None", bg=BG3, fg=TEXT2, font=("Segoe UI",8), relief="flat", padx=6, pady=2,
                       command=lambda: [v.set(False) for v,_ in self._vg_shop_vars.values()]).pack(side="left")
 
             min_preis = min(s["preis"] for s in shops)
@@ -1334,11 +1334,11 @@ class PreisAlarmApp(tk.Tk):
             if not name and gefunden:
                 name = gefunden[0].get("name","")[:60]
             if not name:
-                messagebox.showerror("Fehler", "Bitte Namen eingeben.", parent=dlg); return
+                messagebox.showerror("Error", "Please enter a name.", parent=dlg); return
             try:
                 ziel = float(e_ziel.get().replace(",","."))
             except:
-                messagebox.showerror("Fehler", "Bitte gültigen Zielpreis eingeben.", parent=dlg); return
+                messagebox.showerror("Error", "Please enter a valid target price.", parent=dlg); return
 
             # Geizhals/Idealo URL merken für spätere Preisaktualisierungen
             eingabe_url = e_such.get().strip()
@@ -1348,7 +1348,7 @@ class PreisAlarmApp(tk.Tk):
                 source_url = gefundene_source_url[0]
             else:
                 source_url = ""
-            log(f"Gruppe source_url: {source_url[:60]}" if source_url else "Gruppe ohne source_url")
+            log(f"Group source_url: {source_url[:60]}" if source_url else "Gruppe ohne source_url")
             g = {"id": str(int(time.time()*1000)), "name": name, "zielpreis": ziel,
                  "shops": [], "alarm_gesendet": False, "source_url": source_url}
             # Shops erst mit Redirect-URL speichern, dann im Hintergrund auflösen
@@ -1380,7 +1380,7 @@ class PreisAlarmApp(tk.Tk):
                     return
                 gesamt = len([s for s in g["shops"] if "redir" in s.get("url","")])
                 self.after(0, lambda: self.status_check_lbl.config(
-                    text=f"🔗 Löse {gesamt} Shop-URLs auf (einmalig, dauert ca. {gesamt//3+1} Min.)...",
+                    text=f"🔗 Resolving {gesamt} shop URLs (one-time, ~{gesamt//3+1} min.)...",
                     fg=TEXT2))
 
                 # Produktseite einmal laden, alle Shop-Links in neuen Tabs öffnen
@@ -1397,18 +1397,18 @@ class PreisAlarmApp(tk.Tk):
 
                 speichere_vergleiche(self.vergleiche)
                 self.after(0, lambda: self.status_check_lbl.config(
-                    text=f"✅ {aufgeloest}/{gesamt} URLs aufgelöst", fg=AKZENT))
+                    text=f"✅ {aufgeloest}/{gesamt} URLs resolved", fg=AKZENT))
                 ag = self._aktuelle_vg()
                 if ag and ag["id"] == g["id"]:
                     self.after(0, lambda: self._vg_tabelle_laden(ag))
 
             threading.Thread(target=_urls_aufloesen, daemon=True).start()
 
-        btn_such = self._btn(such_row, "  🔍 Laden  ", suchen, BG3, AKZENT)
+        btn_such = self._btn(such_row, "  🔍 Search  ", suchen, BG3, AKZENT)
         btn_such.pack(side="left", padx=(8,0), ipady=5)
         e_such.bind("<Return>", suchen)
         e_ziel.bind("<Return>", speichern)
-        self._btn(dlg, "✅  Gruppe erstellen & tracken", speichern, AKZENT, "#000").pack(
+        self._btn(dlg, "✅  Create group & track", speichern, AKZENT, "#000").pack(
             padx=20, pady=(10,12), fill="x", ipady=8)
         dlg.lift()
         dlg.focus_force()
@@ -1417,15 +1417,15 @@ class PreisAlarmApp(tk.Tk):
     def _vg_shop_manuell(self):
         g = self._aktuelle_vg()
         if not g:
-            messagebox.showinfo("Hinweis", "Bitte erst eine Gruppe auswählen."); return
+            messagebox.showinfo("Info", "Please select a group first."); return
         dlg = tk.Toplevel(self)
-        dlg.title(f"Shop hinzufügen — {g['name']}")
+        dlg.title(f"Add Shop — {g['name']}")
         dlg.geometry("520x200")
         dlg.configure(bg=BG)
         dlg.resizable(False, False)
         dlg.grab_set()
 
-        tk.Label(dlg, text="Produkt-URL", bg=BG, fg=TEXT2,
+        tk.Label(dlg, text="Product URL", bg=BG, fg=TEXT2,
                  font=("Segoe UI",10)).pack(anchor="w", padx=20, pady=(16,4))
         url_row = tk.Frame(dlg, bg=BG)
         url_row.pack(fill="x", padx=20)
@@ -1439,14 +1439,14 @@ class PreisAlarmApp(tk.Tk):
         def laden():
             url = e_url.get().strip()
             if not url.startswith("http"): return
-            status_lbl.config(text="🔄  Preis wird geladen...", fg=TEXT2)
+            status_lbl.config(text="🔄  Loading price...", fg=TEXT2)
             def _t():
                 shop = _shop_aus_url(url)
                 p = preis_holen(url, shop)
                 self.after(0, lambda: (
                     preis_var.set(f"{p:.2f}" if p else ""),
                     status_lbl.config(
-                        text=f"✅ {p:.2f} €" if p else "⚠ Nicht gefunden — bitte manuell eintragen",
+                        text=f"✅ {p:.2f} €" if p else "⚠ Not found — please enter manually",
                         fg=AKZENT if p else GELB)
                 ))
             threading.Thread(target=_t, daemon=True).start()
@@ -1455,14 +1455,14 @@ class PreisAlarmApp(tk.Tk):
 
         preis_row = tk.Frame(dlg, bg=BG)
         preis_row.pack(fill="x", padx=20, pady=4)
-        tk.Label(preis_row, text="Preis (€)", bg=BG, fg=TEXT2, width=10, anchor="w",
+        tk.Label(preis_row, text="Price (€)", bg=BG, fg=TEXT2, width=10, anchor="w",
                  font=("Segoe UI",10)).pack(side="left")
         ttk.Entry(preis_row, textvariable=preis_var, width=10).pack(side="left", ipady=4)
 
         def hinzufuegen(*_):
             url = e_url.get().strip()
             if not url.startswith("http"):
-                messagebox.showerror("Fehler", "Ungültige URL.", parent=dlg); return
+                messagebox.showerror("Error", "Invalid URL.", parent=dlg); return
             try: preis = float(preis_var.get().replace(",","."))
             except: preis = None
             g["shops"].append({
@@ -1477,7 +1477,7 @@ class PreisAlarmApp(tk.Tk):
             dlg.destroy()
 
         e_url.bind("<Return>", lambda e: laden())
-        self._btn(dlg, "➕  Hinzufügen", hinzufuegen, AKZENT, "#000").pack(
+        self._btn(dlg, "➕  Add", hinzufuegen, AKZENT, "#000").pack(
             padx=20, pady=(4,12), fill="x", ipady=7)
         dlg.lift(); dlg.focus_force()
 
@@ -1497,11 +1497,11 @@ class PreisAlarmApp(tk.Tk):
         sel = self.vg_listbox.curselection()
         if not sel: return
         g = self.vergleiche[sel[0]]
-        if messagebox.askyesno("Löschen", f"Gruppe '{g['name']}' löschen?"):
+        if messagebox.askyesno("Delete", f"Delete group '{g['name']}'?"):
             self.vergleiche = [x for x in self.vergleiche if x["id"] != g["id"]]
             self.vg_aktuelle_gruppe = None
             speichere_vergleiche(self.vergleiche)
-            self.vg_titel_lbl.config(text="← Gruppe auswählen oder neu erstellen")
+            self.vg_titel_lbl.config(text="← Select a group or create new")
             self.vg_ziel_lbl.config(text="")
             for row in self.vg_tree.get_children(): self.vg_tree.delete(row)
             self._vg_listbox_laden()
@@ -1513,8 +1513,8 @@ class PreisAlarmApp(tk.Tk):
         if not g: return
         shop = next((s for s in g["shops"] if s["id"] == sel[0]), None)
         if not shop: return
-        if messagebox.askyesno("Entfernen",
-                               f"'{shop.get('shop_name') or SHOPS.get(shop['shop'], shop['shop'])}' aus Gruppe entfernen?"):
+        if messagebox.askyesno("Remove",
+                               f"'{shop.get('shop_name') or SHOPS.get(shop['shop'], shop['shop'])}' remove from group?"):
             g["shops"] = [s for s in g["shops"] if s["id"] != sel[0]]
             speichere_vergleiche(self.vergleiche)
             self._vg_tabelle_laden(g)
@@ -1522,35 +1522,35 @@ class PreisAlarmApp(tk.Tk):
     # ── Preise prüfen ─────────────────────────────────────────────────────────
     def _vg_alle_pruefen(self):
         if not self.vergleiche:
-            self.status_check_lbl.config(text="⚠ Keine Gruppen vorhanden", fg=GELB)
+            self.status_check_lbl.config(text="⚠ No groups available", fg=GELB)
             return
-        self.btn_pruefen.config(state="disabled", text="⏳  Prüfe...")
-        self.status_check_lbl.config(text="Preise werden abgerufen...", fg=TEXT2)
+        self.btn_pruefen.config(state="disabled", text="⏳  Checking...")
+        self.status_check_lbl.config(text="Fetching prices...", fg=TEXT2)
         threading.Thread(target=self._vg_check_alle, daemon=True).start()
 
     def _vg_check_alle(self):
-        log("Vergleich-Check gestartet")
+        log("Price check started")
         gesamt_shops = sum(len(g["shops"]) for g in self.vergleiche)
         geprueft = 0
         alarme = []
         alle_aenderungen = []  # {gruppe_name, gruppe_ziel, shops: [...]}
-        geaenderte_shops = []  # Shops mit Preisänderung für aktuelle Gruppe
+        geaenderte_shops = []  # Shops with price change for current group
 
         for g in self.vergleiche:
             self.after(0, lambda name=g["name"]: self.status_check_lbl.config(
-                text=f"🔄  Prüfe: {name[:30]}...", fg=TEXT2))
+                text=f"🔄  Checking: {name[:30]}...", fg=TEXT2))
 
             source_url = g.get("source_url", "")
             ts = datetime.now().strftime("%d.%m. %H:%M")
 
             if source_url and ("geizhals.de" in source_url or "idealo.de" in source_url):
                 # ── Geizhals/Idealo: Produktseite komplett neu laden
-                log(f"  Lade Produktseite: {source_url[:60]}")
+                log(f"  Loading product page: {source_url[:60]}")
                 neue_shops, _ = shops_aus_url_laden(source_url, max_shops=999)
                 if neue_shops:
                     # Preis-Map: Name (lowercase) → Preis
                     preis_map = {s["name"].lower().strip(): s["preis"] for s in neue_shops}
-                    log(f"  Gefunden: {list(preis_map.keys())[:5]}...")
+                    log(f"  Found: {list(preis_map.keys())[:5]}...")
                     for s in g["shops"]:
                         shop_name = (s.get("shop_name") or s["shop"]).lower().strip()
                         # 1. Exakter Match
@@ -1631,7 +1631,7 @@ class PreisAlarmApp(tk.Tk):
                                 "preis":     ns["preis"],
                                 "zuletzt":   ts,
                             })
-                            log(f"  Neuer Shop hinzugefügt: {ns['name']} ({ns['preis']:.2f} €)")
+                            log(f"  New shop added: {ns['name']} ({ns['preis']:.2f} €)")
 
                     # Nicht mehr gelistete Shops entfernen
                     vorher = len(g["shops"])
@@ -1641,9 +1641,9 @@ class PreisAlarmApp(tk.Tk):
                     ]
                     entfernt = vorher - len(g["shops"])
                     if entfernt > 0:
-                        log(f"  {entfernt} Shop(s) nicht mehr auf Geizhals — entfernt")
+                        log(f"  {entfernt} shop(s) no longer on Geizhals — removed")
                 else:
-                    log(f"  Produktseite konnte nicht geladen werden")
+                    log(f"  Product page could not be loaded")
                     geprueft += len(g["shops"])
             else:
                 # ── Keine Geizhals-URL: Einzelne Shop-URLs prüfen
@@ -1674,7 +1674,7 @@ class PreisAlarmApp(tk.Tk):
                 if bester <= g["zielpreis"] and not g.get("alarm_gesendet"):
                     g["alarm_gesendet"] = True
                     alarme.append({"name": g["name"], "bester": bester, "shop": bester_shop})
-                    toast("🏆 Preisvergleich-Alarm!",
+                    toast("🏆 Price Alert!",
                           f"{g['name']}: {bester:.2f} € bei {bester_shop}")
                 elif bester > g["zielpreis"]:
                     g["alarm_gesendet"] = False
@@ -1683,7 +1683,7 @@ class PreisAlarmApp(tk.Tk):
                 if geaenderte_shops:
                     gesunken  = len([s for s in geaenderte_shops if s["preis_neu"] < s["preis_alt"]])
                     gestiegen = len([s for s in geaenderte_shops if s["preis_neu"] > s["preis_alt"]])
-                    log(f"  Preisänderungen: {gesunken} gesunken, {gestiegen} gestiegen")
+                    log(f"  Price changes: {gesunken} gesunken, {gestiegen} gestiegen")
                     # Zielpreis-Info pro Shop hinzufügen
                     for s in geaenderte_shops:
                         s["zielpreis"]       = g["zielpreis"]
@@ -1694,7 +1694,7 @@ class PreisAlarmApp(tk.Tk):
                         "shops":       list(geaenderte_shops),
                     })
 
-            geaenderte_shops = []  # Reset für nächste Gruppe
+            geaenderte_shops = []  # Reset for next group
 
         speichere_vergleiche(self.vergleiche)
         ts = datetime.now().strftime("%H:%M")
@@ -1708,13 +1708,13 @@ class PreisAlarmApp(tk.Tk):
             ).start()
 
         def _fertig():
-            self.btn_pruefen.config(state="normal", text="🔄  Alle prüfen")
+            self.btn_pruefen.config(state="normal", text="🔄  Check All")
             if alarme:
                 self.status_check_lbl.config(
-                    text=f"🔔 Alarm! {alarme[0]['name']}: {alarme[0]['bester']:.2f} €", fg=AKZENT)
+                    text=f"🔔 Alert! {alarme[0]['name']}: {alarme[0]['bester']:.2f} €", fg=AKZENT)
             else:
                 self.status_check_lbl.config(
-                    text=f"✅ {geprueft} Preise geprüft — {ts} Uhr", fg=AKZENT)
+                    text=f"✅ {geprueft} prices checked — {ts}", fg=AKZENT)
             self._vg_listbox_laden()
             ag = self._aktuelle_vg()
             if ag:
@@ -1725,8 +1725,8 @@ class PreisAlarmApp(tk.Tk):
         # Gruppen ohne source_url hinweisen
         ohne_quelle = [g["name"] for g in self.vergleiche if not g.get("source_url")]
         if ohne_quelle:
-            log(f"  Hinweis: {len(ohne_quelle)} Gruppe(n) ohne Geizhals-URL — Gruppe löschen und neu anlegen für automatische Updates")
-        log(f"Vergleich-Check abgeschlossen ({geprueft} Shops)")
+            log(f"  Note: {len(ohne_quelle)} Gruppe(n) ohne Geizhals-URL — Gruppe löschen und neu anlegen für automatische Updates")
+        log(f"Price check completed ({geprueft} Shops)")
 
     # ── Einstellungen ─────────────────────────────────────────────────────────
     def _cfg_speichern(self):
@@ -1739,25 +1739,25 @@ class PreisAlarmApp(tk.Tk):
             "intervall":        max(1, min(24, int(self.v_int.get() or 6))),
         })
         speichere_config(self.config_data)
-        messagebox.showinfo("Gespeichert", "Einstellungen wurden gespeichert.")
+        messagebox.showinfo("Saved", "Settings saved successfully.")
 
     def _test_email(self):
         if not self.config_data.get("email_absender"):
-            messagebox.showerror("Fehler", "Bitte erst Einstellungen speichern."); return
+            messagebox.showerror("Error", "Please save settings first."); return
         ok = email_senden(self.config_data, {"name":"Test","shops":[]}, 99.99, "Testshop")
         if ok:
-            messagebox.showinfo("Erfolg", "Test-E-Mail wurde gesendet!")
+            messagebox.showinfo("Success", "Test email sent successfully!")
         else:
-            messagebox.showerror("Fehler", "E-Mail konnte nicht gesendet werden.")
+            messagebox.showerror("Error", "Email could not be sent.")
 
     # ── Autostart & Tray ─────────────────────────────────────────────────────
     def _autostart_toggle(self):
         aktiv = self.v_autostart.get()
         if autostart_setzen(aktiv):
-            msg = "Autostart aktiviert." if aktiv else "Autostart deaktiviert."
+            msg = "Autostart enabled." if aktiv else "Autostart disabled."
             self.status_check_lbl.config(text=f"✅ {msg}", fg=AKZENT)
         else:
-            messagebox.showerror("Fehler", "Autostart konnte nicht gesetzt werden.")
+            messagebox.showerror("Error", "Autostart could not be set.")
             self.v_autostart.set(not aktiv)
 
     def _tray_toggle(self):
@@ -1765,7 +1765,7 @@ class PreisAlarmApp(tk.Tk):
         speichere_config(self.config_data)
 
     def _fenster_schliessen(self):
-        """X-Button: in Tray minimieren oder beenden je nach Einstellung."""
+        """X button: minimize to tray or quit depending on setting."""
         if self.config_data.get("minimize_to_tray", True) and TRAY_OK:
             self.withdraw()  # Fenster verstecken
             self._tray_starten()
@@ -1793,13 +1793,13 @@ class PreisAlarmApp(tk.Tk):
             self.after(0, self._vg_alle_pruefen)
 
         menu = pystray.Menu(
-            TrayItem("🔔 Preis-Alarm Tracker", zeigen, default=True),
-            TrayItem("🔄 Jetzt prüfen",         pruefen),
+            TrayItem("🔔 Price Alert Tracker", zeigen, default=True),
+            TrayItem("🔄 Check Now",         pruefen),
             pystray.Menu.SEPARATOR,
-            TrayItem("❌ Beenden",               beenden),
+            TrayItem("❌ Quit",               beenden),
         )
         img = tray_icon_erstellen()
-        self._tray_icon = pystray.Icon("PreisAlarm", img, "Preis-Alarm Tracker", menu)
+        self._tray_icon = pystray.Icon("PreisAlarm", img, "Price Alert Tracker", menu)
         self._tray_thread = threading.Thread(target=self._tray_icon.run, daemon=True)
         self._tray_thread.start()
 
@@ -1810,7 +1810,7 @@ class PreisAlarmApp(tk.Tk):
         self.destroy()
 
     def _auto_check_starten(self):
-        """Startet automatische Preisprüfung — sofort beim Start, dann alle X Stunden."""
+        """Starts automatic price check — immediately on start, then every X hours."""
         def check_und_planen():
             if self.vergleiche:
                 threading.Thread(target=self._vg_check_alle, daemon=True).start()
@@ -1828,12 +1828,12 @@ class PreisAlarmApp(tk.Tk):
     def _vg_chart_zeigen(self):
         g = self._aktuelle_vg()
         if not g:
-            messagebox.showinfo("Hinweis", "Bitte erst eine Gruppe auswählen.")
+            messagebox.showinfo("Info", "Please select a group first.")
             return
 
         # Preisverlauf: pro Zeitpunkt günstigsten UND Durchschnittspreis sammeln
-        tages_preise = {}   # datum -> günstigster Preis
-        tages_summen = {}   # datum -> [alle Preise] für Durchschnitt
+        tages_preise = {}   # timestamp -> lowest price
+        tages_summen = {}   # timestamp -> [all prices] for average
         for s in g["shops"]:
             for eintrag in s.get("verlauf", []):
                 datum = eintrag["datum"][:16]
@@ -1843,13 +1843,13 @@ class PreisAlarmApp(tk.Tk):
                 tages_summen.setdefault(datum, []).append(preis)
 
         if len(tages_preise) < 1:
-            messagebox.showinfo("Hinweis",
-                "Noch keine Daten.\nBitte erst 'Alle prüfen' ausführen.")
+            messagebox.showinfo("Info",
+                "No data yet.\nPlease run 'Check All' first.")
             return
         if len(tages_preise) < 2:
             # Nur ein Datenpunkt — trotzdem anzeigen
             erster = list(tages_preise.items())[0]
-            tages_preise[erster[0] + " (2)"] = erster[1]  # Doppelten Punkt für Linie
+            tages_preise[erster[0] + " (2)"] = erster[1]  # Duplicate point for line rendering
 
         # Sortiert nach Datum/Uhrzeit
         punkte    = sorted(tages_preise.items())
@@ -1861,7 +1861,7 @@ class PreisAlarmApp(tk.Tk):
 
         # Chart-Fenster
         dlg = tk.Toplevel(self)
-        dlg.title(f"Preisverlauf — {g['name']}")
+        dlg.title(f"Price History — {g['name']}")
         dlg.geometry("750x460")
         dlg.configure(bg=BG)
         dlg.resizable(True, True)
@@ -1869,17 +1869,17 @@ class PreisAlarmApp(tk.Tk):
         # Zeitraum-Buttons
         zeitraum_bar = tk.Frame(dlg, bg=BG)
         zeitraum_bar.pack(fill="x", padx=16, pady=(12,0))
-        zeitraum_var = tk.StringVar(value="Alles")
+        zeitraum_var = tk.StringVar(value="All")
 
         def zeitraum_filtern():
             from datetime import datetime as _dt, timedelta
             zr = zeitraum_var.get()
             jetzt = _dt.now()
-            if zr == "Tag":
+            if zr == "Day":
                 grenze = (jetzt - timedelta(days=1)).strftime("%Y-%m-%d %H:%M")
-            elif zr == "Woche":
+            elif zr == "Week":
                 grenze = (jetzt - timedelta(weeks=1)).strftime("%Y-%m-%d %H:%M")
-            elif zr == "Monat":
+            elif zr == "Month":
                 grenze = (jetzt - timedelta(days=30)).strftime("%Y-%m-%d %H:%M")
             else:
                 grenze = ""
@@ -1894,9 +1894,9 @@ class PreisAlarmApp(tk.Tk):
             pkt = sorted(gefiltert.items())
             return pkt, gefiltert_avg
 
-        tk.Label(zeitraum_bar, text="Zeitraum:", bg=BG, fg=TEXT2,
+        tk.Label(zeitraum_bar, text="Period:", bg=BG, fg=TEXT2,
                  font=("Segoe UI", 9)).pack(side="left", padx=(0,8))
-        for zr in ["Tag", "Woche", "Monat", "Alles"]:
+        for zr in ["Day", "Week", "Month", "All"]:
             tk.Radiobutton(zeitraum_bar, text=zr, variable=zeitraum_var, value=zr,
                            bg=BG, fg=TEXT, activebackground=BG, selectcolor=BG3,
                            font=("Segoe UI", 9),
@@ -1918,18 +1918,18 @@ class PreisAlarmApp(tk.Tk):
             from datetime import datetime as _dt, timedelta
             zr = zeitraum_var.get()
             jetzt = _dt.now()
-            if zr == "Tag":
+            if zr == "Day":
                 grenze = (jetzt - timedelta(days=1)).strftime("%Y-%m-%d %H:%M")
-            elif zr == "Woche":
+            elif zr == "Week":
                 grenze = (jetzt - timedelta(weeks=1)).strftime("%Y-%m-%d %H:%M")
-            elif zr == "Monat":
+            elif zr == "Month":
                 grenze = (jetzt - timedelta(days=30)).strftime("%Y-%m-%d %H:%M")
             else:
                 grenze = ""
             gefiltertes_dict = {d: p for d, p in tages_preise.items()
                                 if not grenze or d >= grenze}
             if not gefiltertes_dict:
-                canvas.create_text(w//2, h//2, text="Keine Daten für diesen Zeitraum",
+                canvas.create_text(w//2, h//2, text="No data for this period",
                                    fill=TEXT2, font=("Segoe UI", 11))
                 return
             pkt_gefiltert = sorted(gefiltertes_dict.items())
@@ -1955,9 +1955,9 @@ class PreisAlarmApp(tk.Tk):
 
             # Farblegende oben links
             legende = [
-                ("Günstigster Preis", TEXT2,    False),
-                ("Ø Durchschnitt",    "#60a5fa", True),
-                ("Zielpreis",         AKZENT,    True),
+                ("Best Price", TEXT2,    False),
+                ("Ø Average",    "#60a5fa", True),
+                ("Target",         AKZENT,    True),
             ]
             lx = pad_l
             for i, (ltext, lfarbe, gestrichelt) in enumerate(legende):
@@ -1970,10 +1970,10 @@ class PreisAlarmApp(tk.Tk):
                                    font=("Segoe UI", 8), anchor="w")
 
             # Info-Zeile oben rechts
-            info = (f"Messpunkte: {len(preise)}   "
+            info = (f"Data points: {len(preise)}   "
                     f"Min: {min(preise):.2f}€   "
-                    f"Ø Akt: {avg_preise[-1]:.2f}€   "
-                    f"Günstigster: {preise[-1]:.2f}€")
+                    f"Ø Avg: {avg_preise[-1]:.2f}€   "
+                    f"Best: {preise[-1]:.2f}€")
             canvas.create_text(w - pad_r + 80, 14, text=info,
                                fill=TEXT2, font=("Segoe UI", 8), anchor="e")
 
