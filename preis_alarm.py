@@ -242,7 +242,7 @@ def redirects_aufloesen_via_produktseite(source_url, shops):
         for shop in shops:
             shop_name = shop.get("shop_name") or shop["shop"]
             redir_url = shop.get("url","")
-            if not ("geizhals.de/redir/" in redir_url or "geizhals.at/redir/" in redir_url):
+            if not ("geizhals.de/redir/" in redir_url or "geizhals.at/redir/" in redir_url or "geizhals.eu/redir/" in redir_url):
                 continue
 
             try:
@@ -256,7 +256,7 @@ def redirects_aufloesen_via_produktseite(source_url, shops):
                     driver.switch_to.window(tabs[-1])
                     time.sleep(2)
                     final_url = driver.current_url
-                    if "geizhals.de" not in final_url and "geizhals.at" not in final_url:
+                    if "geizhals.de" not in final_url and "geizhals.at" not in final_url and "geizhals.eu" not in final_url:
                         ergebnis[shop_name] = final_url
                         log(f"  ✓ {shop_name}: {final_url[:50]}")
                     else:
@@ -350,7 +350,7 @@ def _selenium_get(url, wait=4):
     driver = None
     try:
         opts = Options()
-        ist_geizhals = "geizhals.de" in url
+        ist_geizhals = "geizhals.de" in url or "geizhals.eu" in url or "geizhals.at" in url or "geizhals.eu" in url
         opts.add_argument("--headless=new")
         opts.add_argument("--no-sandbox")
         opts.add_argument("--disable-dev-shm-usage")
@@ -403,6 +403,27 @@ def _selenium_get(url, wait=4):
                 else:
                     break
 
+        # PriceSpy: "Show more prices" button klicken
+        ist_pricespy = "pricespy.co.uk" in url or "pricespy.com" in url
+        if ist_pricespy:
+            driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+            time.sleep(2)
+            for i in range(10):
+                try:
+                    btn_el = driver.find_element(
+                        By.XPATH,
+                        "//button[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'more price')]"
+                    )
+                    driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn_el)
+                    time.sleep(0.5)
+                    driver.execute_script("arguments[0].click();", btn_el)
+                    log(f"  PriceSpy: more prices loaded (click {i+1})")
+                    time.sleep(3)
+                    driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+                    time.sleep(1)
+                except:
+                    break  # Button gone = all loaded
+
         return driver.page_source
     except Exception as e:
         log(f"Selenium error: {e}")
@@ -439,7 +460,7 @@ def shops_aus_url_laden(url, max_shops=999):
                 break
 
         anbieter = set()
-        ist_geizhals = "geizhals.de" in url
+        ist_geizhals = "geizhals.de" in url or "geizhals.eu" in url or "geizhals.at" in url or "geizhals.eu" in url
         ist_idealo   = "idealo.de"   in url
 
         # ── JSON-LD (zuverlässigste Methode) ──────────────────────────────────
@@ -554,10 +575,14 @@ def geizhals_suchen(suchbegriff, max_shops=999):
     """Sucht auf Geizhals (DE + EU), Fallback auf Idealo."""
     log(f"Search: '{suchbegriff}'")
     try:
-        # Geizhals: DE zuerst, dann EU
-        for hloc in ["de", "de,at,ch,eu"]:
-            such_url = "https://geizhals.de/?fs={}&bl=&hloc={}&in=&v=e&sort=p".format(
-                requests.utils.quote(suchbegriff), hloc)
+        # Geizhals: DE first, then EU (both .de and .eu domains)
+        for base, hloc in [
+            ("https://geizhals.de", "de"),
+            ("https://geizhals.de", "de,at,ch,eu,uk"),
+            ("https://geizhals.eu", "de,at,ch,eu,uk,pl"),
+        ]:
+            such_url = "{}/?fs={}&bl=&hloc={}&in=&v=e&sort=p".format(
+                base, requests.utils.quote(suchbegriff), hloc)
             log(f"Geizhals search ({hloc}): {such_url[:80]}")
             html = _selenium_get(such_url, wait=4)
             if not html:
@@ -612,8 +637,96 @@ def geizhals_suchen(suchbegriff, max_shops=999):
         return [], suchbegriff, ""
 
 
+def pricespy_laden(url, max_shops=999):
+    """Loads all shops from a PriceSpy product page."""
+    shops = []
+    produkt_name = ""
+    try:
+        log(f"Loading PriceSpy: {url[:60]}")
+        html = _selenium_get(url, wait=5)
+        if not html:
+            r = requests.get(url, headers=HEADERS, timeout=20)
+            html = r.text
+        soup = BeautifulSoup(html, "html.parser")
+
+        # Product name
+        h1 = soup.find("h1")
+        if h1:
+            produkt_name = h1.get_text(strip=True)[:80]
+
+        def _parse_gbp(text):
+            m = re.search(r"£\s*(\d{1,4}[.,]\d{2})", text)
+            if m:
+                c = m.group(1).replace(",",".")
+                try: return float(c)
+                except: pass
+            return None
+
+        # Parse shops from pj-ui-price-row
+        for row in soup.find_all(class_="pj-ui-price-row")[:max_shops]:
+            try:
+                text  = row.get_text(" ", strip=True)
+                price = _parse_gbp(text)
+                if not price: continue
+
+                # Shop name
+                store_el = row.find(class_=re.compile("StoreInfoTitle"))
+                shop_name = store_el.get_text(strip=True) if store_el else ""
+
+                # Direct shop link
+                shop_url = url
+                for a in row.find_all("a", href=True):
+                    if "go-to-shop" in a["href"]:
+                        href = a["href"]
+                        if not href.startswith("http"):
+                            href = "https://pricespy.co.uk" + href
+                        shop_url = href
+                        break
+
+                if shop_name and price:
+                    shops.append({
+                        "name":     shop_name,
+                        "url":      shop_url,
+                        "preis":    price,
+                        "shop_key": _shop_key_aus_name(shop_name),
+                    })
+            except: pass
+
+        log(f"PriceSpy: {len(shops)} shops found")
+        return shops, produkt_name
+    except Exception as e:
+        log(f"PriceSpy error: {e}")
+        return [], ""
+
+
+def pricespy_suchen(suchbegriff, max_shops=999):
+    """Searches PriceSpy for a product."""
+    try:
+        such_url = "https://pricespy.co.uk/search.php?search={}".format(
+            requests.utils.quote(suchbegriff))
+        log(f"PriceSpy search: {such_url[:80]}")
+        html = _selenium_get(such_url, wait=4)
+        if not html:
+            r = requests.get(such_url, headers=HEADERS, timeout=20)
+            html = r.text
+        soup = BeautifulSoup(html, "html.parser")
+
+        # Find first product link
+        for a in soup.find_all("a", href=True):
+            href = a["href"]
+            if "product.php?p=" in href:
+                if not href.startswith("http"):
+                    href = "https://pricespy.co.uk" + href
+                log(f"PriceSpy product: {href[:80]}")
+                return pricespy_laden(href, max_shops)
+        return [], suchbegriff
+    except Exception as e:
+        log(f"PriceSpy search error: {e}")
+        return [], suchbegriff
+
+
 def alle_quellen_suchen(suchbegriff, max_shops=999):
-    """Haupteinstieg: Sucht auf allen Quellen."""
+    """Main entry: searches on all sources."""
     return geizhals_suchen(suchbegriff, max_shops)
 
 
@@ -1222,9 +1335,9 @@ class PreisAlarmApp(tk.Tk):
         dlg.resizable(False, False)
         dlg.grab_set()
 
-        tk.Label(dlg, text="Product name, search term or Geizhals/Idealo URL",
+        tk.Label(dlg, text="Product name, search term or Geizhals/PriceSpy URL",
                  bg=BG, fg=TEXT2, font=("Segoe UI", 10)).pack(anchor="w", padx=20, pady=(16,4))
-        tk.Label(dlg, text="Tip: Paste a Geizhals or Idealo URL directly → all shops are detected automatically",
+        tk.Label(dlg, text="Tip: Paste a Geizhals URL (.de/.eu) or PriceSpy URL → all shops detected automatically",
                  bg=BG, fg=GRAU, font=("Segoe UI", 8)).pack(anchor="w", padx=20)
 
         such_row = tk.Frame(dlg, bg=BG)
@@ -1265,15 +1378,21 @@ class PreisAlarmApp(tk.Tk):
             self._vg_shop_vars.clear()
             gefunden.clear()
             btn_such.config(state="disabled", text="  ⏳  ")
-            ist_url = eingabe.startswith("http") and (
-                "geizhals.de" in eingabe or "idealo.de" in eingabe)
+            ist_url = eingabe.startswith("http") and any(
+                d in eingabe for d in [
+                    "geizhals.de", "geizhals.eu", "geizhals.at",
+                    "pricespy.co.uk", "pricespy.com"
+                ])
             status_lbl.config(
                 text="🔍  Loading shops from URL..." if ist_url else "🔍  Searching on Geizhals/Idealo...",
                 fg=TEXT2)
 
             def _thread():
                 if ist_url:
-                    shops, name = shops_aus_url_laden(eingabe)
+                    if any(d in eingabe for d in ["pricespy.co.uk","pricespy.com"]):
+                        shops, name = pricespy_laden(eingabe)
+                    else:
+                        shops, name = shops_aus_url_laden(eingabe)
                     gefundene_source_url[0] = eingabe
                 else:
                     result = alle_quellen_suchen(eingabe)
@@ -1342,7 +1461,11 @@ class PreisAlarmApp(tk.Tk):
 
             # Geizhals/Idealo URL merken für spätere Preisaktualisierungen
             eingabe_url = e_such.get().strip()
-            if eingabe_url.startswith("http") and ("geizhals.de" in eingabe_url or "idealo.de" in eingabe_url):
+            if eingabe_url.startswith("http") and any(
+                    d in eingabe_url for d in [
+                        "geizhals.de", "geizhals.eu", "geizhals.at",
+                        "pricespy.co.uk", "pricespy.com"
+                    ]):
                 source_url = eingabe_url
             elif gefundene_source_url[0]:
                 source_url = gefundene_source_url[0]
@@ -1373,7 +1496,7 @@ class PreisAlarmApp(tk.Tk):
             # Im Hintergrund echte URLs auflösen
             def _urls_aufloesen():
                 hat_redirects = any(
-                    "geizhals.de/redir/" in s["url"] or "geizhals.at/redir/" in s["url"]
+                    "geizhals.de/redir/" in s.get("url","") or "geizhals.at/redir/" in s.get("url","") or "geizhals.eu/redir/" in s.get("url","")
                     for s in g["shops"]
                 )
                 if not hat_redirects:
@@ -1543,10 +1666,14 @@ class PreisAlarmApp(tk.Tk):
             source_url = g.get("source_url", "")
             ts = datetime.now().strftime("%d.%m. %H:%M")
 
-            if source_url and ("geizhals.de" in source_url or "idealo.de" in source_url):
+            is_pricespy = any(d in source_url for d in ["pricespy.co.uk","pricespy.com"]) if source_url else False
+            if source_url and ("geizhals.de" in source_url or "geizhals.eu" in source_url or is_pricespy):
                 # ── Geizhals/Idealo: Produktseite komplett neu laden
                 log(f"  Loading product page: {source_url[:60]}")
-                neue_shops, _ = shops_aus_url_laden(source_url, max_shops=999)
+                if is_pricespy:
+                    neue_shops, _ = pricespy_laden(source_url, max_shops=999)
+                else:
+                    neue_shops, _ = shops_aus_url_laden(source_url, max_shops=999)
                 if neue_shops:
                     # Preis-Map: Name (lowercase) → Preis
                     preis_map = {s["name"].lower().strip(): s["preis"] for s in neue_shops}
@@ -1576,7 +1703,7 @@ class PreisAlarmApp(tk.Tk):
                             if preis_alt and abs(preis - preis_alt) > 0.01:
                                 # Echte Shop-URL ermitteln (nicht Geizhals-Redirect)
                                 shop_url = s.get("url_real") or s["url"]
-                                if "geizhals.de/redir/" in shop_url or "geizhals.at/redir/" in shop_url:
+                                if "geizhals.de/redir/" in shop_url or "geizhals.at/redir/" in shop_url or "geizhals.eu/redir/" in shop_url:
                                     # Redirect per requests auflösen
                                     try:
                                         r = requests.get(shop_url, headers=HEADERS,
@@ -1621,7 +1748,7 @@ class PreisAlarmApp(tk.Tk):
                     for ns in neue_shops:
                         if ns["name"].lower() not in bestehende_namen:
                             # Redirect durch Geizhals-Produktseite ersetzen
-                            shop_url = source_url if ("geizhals.de/redir/" in ns["url"] or "geizhals.at/redir/" in ns["url"]) else ns["url"]
+                            shop_url = source_url if ("geizhals.de/redir/" in ns["url"] or "geizhals.at/redir/" in ns["url"] or "geizhals.eu/redir/" in ns["url"]) else ns["url"]
                             g["shops"].append({
                                 "id":        str(int(time.time()*1000)) + ns["name"][:5],
                                 "url":       shop_url,
