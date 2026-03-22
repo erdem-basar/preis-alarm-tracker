@@ -133,7 +133,10 @@ TRANSLATIONS = {
         "loading_url": "🔍  Loading shops from URL...",
         "searching": "🔍  Searching on Geizhals...",
         "prices_checked": "{n} prices checked — {ts}",
-        "target_lbl": "Target Price (€)"},
+        "target_lbl": "Target Price (€)",
+        "theme": "Theme",
+        "theme_hint": "Restart to apply theme change",
+        "font_label": "Font"},
     "de": {
         "app_title": "Preis-Alarm Tracker", "tab_compare": "  ⚖ Preisvergleich  ",
         "tab_settings": "  ⚙ Einstellungen  ", "tab_log": "  📄 Log  ",
@@ -205,7 +208,10 @@ TRANSLATIONS = {
         "loading_url": "🔍  Lade Shops von URL...",
         "searching": "🔍  Suche auf Geizhals...",
         "prices_checked": "{n} Preise geprüft — {ts}",
-        "target_lbl": "Zielpreis (€)"},
+        "target_lbl": "Zielpreis (€)",
+        "theme": "Design",
+        "theme_hint": "Neustart zum Übernehmen",
+        "font_label": "Schriftart"},
     "fr": {
         "app_title": "Suivi des Prix", "tab_compare": "  ⚖ Comparaison  ",
         "tab_settings": "  ⚙ Paramètres  ", "tab_log": "  📄 Journal  ",
@@ -277,7 +283,10 @@ TRANSLATIONS = {
         "loading_url": "🔍  Chargement...",
         "searching": "🔍  Recherche...",
         "prices_checked": "{n} prix vérifiés — {ts}",
-        "target_lbl": "Prix cible (€)"},
+        "target_lbl": "Prix cible (€)",
+        "theme": "Thème",
+        "theme_hint": "Redémarrer pour appliquer",
+        "font_label": "Police"},
     "es": {
         "app_title": "Rastreador de Precios", "tab_compare": "  ⚖ Comparación  ",
         "tab_settings": "  ⚙ Ajustes  ", "tab_log": "  📄 Registro  ",
@@ -349,7 +358,10 @@ TRANSLATIONS = {
         "loading_url": "🔍  Cargando...",
         "searching": "🔍  Buscando...",
         "prices_checked": "{n} precios verificados — {ts}",
-        "target_lbl": "Precio objetivo (€)"},
+        "target_lbl": "Precio objetivo (€)",
+        "theme": "Tema",
+        "theme_hint": "Reiniciar para aplicar",
+        "font_label": "Fuente"},
     "it": {
         "app_title": "Monitoraggio Prezzi", "tab_compare": "  ⚖ Confronto  ",
         "tab_settings": "  ⚙ Impostazioni  ", "tab_log": "  📄 Registro  ",
@@ -421,7 +433,10 @@ TRANSLATIONS = {
         "loading_url": "🔍  Caricamento...",
         "searching": "🔍  Ricerca...",
         "prices_checked": "{n} prezzi verificati — {ts}",
-        "target_lbl": "Prezzo target (€)"},
+        "target_lbl": "Prezzo target (€)",
+        "theme": "Tema",
+        "theme_hint": "Riavvia per applicare",
+        "font_label": "Carattere"},
     "nl": {
         "app_title": "Prijsalarm Tracker", "tab_compare": "  ⚖ Vergelijking  ",
         "tab_settings": "  ⚙ Instellingen  ", "tab_log": "  📄 Log  ",
@@ -493,7 +508,10 @@ TRANSLATIONS = {
         "loading_url": "🔍  Laden...",
         "searching": "🔍  Zoeken...",
         "prices_checked": "{n} prijzen gecontroleerd — {ts}",
-        "target_lbl": "Doelprijs (€)"},
+        "target_lbl": "Doelprijs (€)",
+        "theme": "Thema",
+        "theme_hint": "Herstart om toe te passen",
+        "font_label": "Lettertype"},
     "pl": {
         "app_title": "Śledzenie Cen", "tab_compare": "  ⚖ Porównanie  ",
         "tab_settings": "  ⚙ Ustawienia  ", "tab_log": "  📄 Dziennik  ",
@@ -565,7 +583,10 @@ TRANSLATIONS = {
         "loading_url": "🔍  Ładowanie...",
         "searching": "🔍  Szukanie...",
         "prices_checked": "{n} cen sprawdzonych — {ts}",
-        "target_lbl": "Cena docelowa (€)"},
+        "target_lbl": "Cena docelowa (€)",
+        "theme": "Motyw",
+        "theme_hint": "Uruchom ponownie aby zastosować",
+        "font_label": "Czcionka"},
     "pt": {
         "app_title": "Rastreador de Preços", "tab_compare": "  ⚖ Comparação  ",
         "tab_settings": "  ⚙ Definições  ", "tab_log": "  📄 Registo  ",
@@ -637,7 +658,10 @@ TRANSLATIONS = {
         "loading_url": "🔍  Carregando...",
         "searching": "🔍  Pesquisando...",
         "prices_checked": "{n} preços verificados — {ts}",
-        "target_lbl": "Preço alvo (€)"},
+        "target_lbl": "Preço alvo (€)",
+        "theme": "Tema",
+        "theme_hint": "Reiniciar para aplicar",
+        "font_label": "Fonte"},
     "tr": {
         "app_title": "Fiyat Takip Aracı", "tab_compare": "  ⚖ Karşılaştırma  ",
         "tab_settings": "  ⚙ Ayarlar  ", "tab_log": "  📄 Günlük  ",
@@ -709,7 +733,10 @@ TRANSLATIONS = {
         "loading_url": "🔍  Yükleniyor...",
         "searching": "🔍  Aranıyor...",
         "prices_checked": "{n} fiyat kontrol edildi — {ts}",
-        "target_lbl": "Hedef fiyat (€)"},
+        "target_lbl": "Hedef fiyat (€)",
+        "theme": "Tema",
+        "theme_hint": "Uygulamak için yeniden başlat",
+        "font_label": "Yazı tipi"},
     "ru": {
         "app_title": "Отслеживание цен", "tab_compare": "  ⚖ Сравнение  ",
         "tab_settings": "  ⚙ Настройки  ", "tab_log": "  📄 Журнал  ",
@@ -781,7 +808,10 @@ TRANSLATIONS = {
         "loading_url": "🔍  Загрузка...",
         "searching": "🔍  Поиск...",
         "prices_checked": "{n} цен проверено — {ts}",
-        "target_lbl": "Целевая цена (€)"},
+        "target_lbl": "Целевая цена (€)",
+        "theme": "Тема",
+        "theme_hint": "Перезапустите для применения",
+        "font_label": "Шрифт"},
     "zh": {
         "app_title": "价格追踪器", "tab_compare": "  ⚖ 价格比较  ",
         "tab_settings": "  ⚙ 设置  ", "tab_log": "  📄 日志  ",
@@ -853,7 +883,10 @@ TRANSLATIONS = {
         "loading_url": "🔍  加载中...",
         "searching": "🔍  搜索中...",
         "prices_checked": "{n} 个价格已检查 — {ts}",
-        "target_lbl": "目标价格 (€)"},
+        "target_lbl": "目标价格 (€)",
+        "theme": "主题",
+        "theme_hint": "重启以应用",
+        "font_label": "字体"},
     "ja": {
         "app_title": "価格追跡ツール", "tab_compare": "  ⚖ 価格比較  ",
         "tab_settings": "  ⚙ 設定  ", "tab_log": "  📄 ログ  ",
@@ -925,7 +958,10 @@ TRANSLATIONS = {
         "loading_url": "🔍  読み込み中...",
         "searching": "🔍  検索中...",
         "prices_checked": "{n} 件の価格を確認 — {ts}",
-        "target_lbl": "目標価格 (€)"},
+        "target_lbl": "目標価格 (€)",
+        "theme": "テーマ",
+        "theme_hint": "再起動して適用",
+        "font_label": "フォント"},
     "ar": {
         "app_title": "متتبع الأسعار", "tab_compare": "  ⚖ مقارنة الأسعار  ",
         "tab_settings": "  ⚙ الإعدادات  ", "tab_log": "  📄 السجل  ",
@@ -997,7 +1033,10 @@ TRANSLATIONS = {
         "loading_url": "🔍  جارٍ التحميل...",
         "searching": "🔍  جارٍ البحث...",
         "prices_checked": "تم فحص {n} سعر — {ts}",
-        "target_lbl": "السعر المستهدف (€)"},
+        "target_lbl": "السعر المستهدف (€)",
+        "theme": "السمة",
+        "theme_hint": "أعد التشغيل للتطبيق",
+        "font_label": "الخط"},
 }
 def T(key):
     """Get translation for current language."""
@@ -1032,18 +1071,105 @@ CONFIG_DATEI    = BASE_DIR / "config.json"
 LOG_DATEI       = BASE_DIR / "log.txt"
 
 # ── Design ────────────────────────────────────────────────────────────────────
-BG     = "#0d0d12"   # Deep navy-black
-BG2    = "#13131a"   # Card background
-BG3    = "#1c1c27"   # Elevated surface
-AKZENT = "#6ee7b7"   # Mint green accent
-ROT    = "#f87171"   # Soft red
-GELB   = "#fbbf24"   # Amber
-GRAU   = "#64748b"   # Slate gray
-TEXT   = "#f0f4ff"   # Cool white
-TEXT2  = "#8b9cc8"   # Muted blue-gray
-BORDER = "#252535"   # Subtle border
-PURPLE = "#a78bfa"   # Violet accent
-BLUE   = "#60a5fa"   # Blue accent
+# ── Themes ────────────────────────────────────────────────────────────────────
+THEMES = {
+    "dark_mint": {
+        "name": "🌑 Dark Mint",
+        "BG":     "#0d0d12", "BG2":    "#13131a", "BG3":    "#1c1c27",
+        "AKZENT": "#6ee7b7", "ROT":    "#f87171", "GELB":   "#fbbf24",
+        "GRAU":   "#64748b", "TEXT":   "#f0f4ff", "TEXT2":  "#8b9cc8",
+        "BORDER": "#252535", "PURPLE": "#a78bfa", "BLUE":   "#60a5fa",
+    },
+    "dark_blue": {
+        "name": "🔵 Dark Blue",
+        "BG":     "#0a0f1e", "BG2":    "#111827", "BG3":    "#1e2a3a",
+        "AKZENT": "#60a5fa", "ROT":    "#f87171", "GELB":   "#fbbf24",
+        "GRAU":   "#64748b", "TEXT":   "#f0f8ff", "TEXT2":  "#93c5fd",
+        "BORDER": "#1e3a5f", "PURPLE": "#818cf8", "BLUE":   "#38bdf8",
+    },
+    "dark_purple": {
+        "name": "🟣 Dark Purple",
+        "BG":     "#0f0a1e", "BG2":    "#1a1030", "BG3":    "#251840",
+        "AKZENT": "#c084fc", "ROT":    "#f87171", "GELB":   "#fbbf24",
+        "GRAU":   "#6b7280", "TEXT":   "#faf5ff", "TEXT2":  "#d8b4fe",
+        "BORDER": "#3b1f6e", "PURPLE": "#a855f7", "BLUE":   "#818cf8",
+    },
+    "dark_orange": {
+        "name": "🟠 Dark Orange",
+        "BG":     "#1a0f00", "BG2":    "#241500", "BG3":    "#321d00",
+        "AKZENT": "#fb923c", "ROT":    "#f87171", "GELB":   "#fbbf24",
+        "GRAU":   "#a8906a", "TEXT":   "#fff7ed", "TEXT2":  "#fed7aa",
+        "BORDER": "#5c3d10", "PURPLE": "#c084fc", "BLUE":   "#60a5fa",
+    },
+    "light": {
+        "name": "☀ Light",
+        "BG":     "#f0f4f8", "BG2":    "#ffffff", "BG3":    "#e8edf2",
+        "AKZENT": "#059669", "ROT":    "#dc2626", "GELB":   "#b45309",
+        "GRAU":   "#64748b", "TEXT":   "#1a2332", "TEXT2":  "#334155",
+        "BORDER": "#cbd5e1", "PURPLE": "#7c3aed", "BLUE":   "#1d4ed8",
+    },
+    "light_blue": {
+        "name": "🔵 Light Blue",
+        "BG":     "#eef4ff", "BG2":    "#ffffff", "BG3":    "#dce8ff",
+        "AKZENT": "#1d4ed8", "ROT":    "#dc2626", "GELB":   "#b45309",
+        "GRAU":   "#64748b", "TEXT":   "#0f2040", "TEXT2":  "#1e40af",
+        "BORDER": "#93c5fd", "PURPLE": "#6d28d9", "BLUE":   "#1d4ed8",
+    },
+}
+
+# ── Fonts ─────────────────────────────────────────────────────────────────────
+FONTS = {
+    "segoe":    {"name": "Segoe UI",    "label": "Segoe UI (Standard)"},
+    "bahnschrift": {"name": "Bahnschrift", "label": "Bahnschrift (Modern)"},
+    "calibri":  {"name": "Calibri",        "label": "Calibri (Office)"},
+    "verdana":  {"name": "Verdana",        "label": "Verdana (Readable)"},
+    "trebuchet":{"name": "Trebuchet MS",   "label": "Trebuchet MS (Clean)"},
+    "tahoma":   {"name": "Tahoma",         "label": "Tahoma (Classic)"},
+    "arial":    {"name": "Arial",          "label": "Arial (Universal)"},
+    "gothic":   {"name": "Century Gothic", "label": "Century Gothic (Round)"},
+}
+
+def _load_font():
+    try:
+        import json as _j, os as _o
+        from pathlib import Path as _P
+        cfg = _P(_o.getenv("APPDATA", ".")) / "PreisAlarm" / "config.json"
+        if cfg.exists():
+            data = _j.loads(cfg.read_text(encoding="utf-8"))
+            font_id = data.get("font", "segoe")
+            return FONTS.get(font_id, FONTS["segoe"])["name"], font_id
+    except: pass
+    return UI_FONT, "segoe"
+
+UI_FONT, _font_id = _load_font()
+
+
+def _load_theme():
+    """Load theme from config."""
+    try:
+        import json as _j, os as _o
+        from pathlib import Path as _P
+        cfg = _P(_o.getenv("APPDATA", ".")) / "PreisAlarm" / "config.json"
+        if cfg.exists():
+            data = _j.loads(cfg.read_text(encoding="utf-8"))
+            theme_id = data.get("theme", "dark_mint")
+            return THEMES.get(theme_id, THEMES["dark_mint"]), theme_id
+    except: pass
+    return THEMES["dark_mint"], "dark_mint"
+
+_theme, _theme_id = _load_theme()
+BG     = _theme["BG"]
+BG2    = _theme["BG2"]
+BG3    = _theme["BG3"]
+AKZENT = _theme["AKZENT"]
+ROT    = _theme["ROT"]
+GELB   = _theme["GELB"]
+GRAU   = _theme["GRAU"]
+TEXT   = _theme["TEXT"]
+TEXT2  = _theme["TEXT2"]
+BORDER = _theme["BORDER"]
+PURPLE = _theme["PURPLE"]
+BLUE   = _theme["BLUE"]
 
 SHOPS = {
     "amazon": "Amazon.de", "mediamarkt": "MediaMarkt", "saturn": "Saturn",
@@ -2123,7 +2249,7 @@ class PreisAlarmApp(tk.Tk):
     def _btn(self, parent, text, cmd, bg=BG3, fg=TEXT):
         return tk.Button(parent, text=text, command=cmd, bg=bg, fg=fg,
                          activebackground=bg, activeforeground=fg,
-                         font=("Segoe UI", 10), relief="flat", cursor="hand2",
+                         font=(UI_FONT, 10), relief="flat", cursor="hand2",
                          padx=14, pady=6, bd=0)
 
     def _aktuelle_vg(self):
@@ -2135,17 +2261,17 @@ class PreisAlarmApp(tk.Tk):
         s.theme_use("clam")
         s.configure(".", background=BG, foreground=TEXT, fieldbackground=BG3,
                     bordercolor=BORDER, troughcolor=BG2,
-                    selectbackground=AKZENT, selectforeground="#000", font=("Segoe UI", 10))
-        s.configure("Treeview", background="#13131e", foreground=TEXT, fieldbackground="#13131e",
-                    rowheight=36, borderwidth=0, font=("Segoe UI", 10))
-        s.configure("Treeview.Heading", background="#0d0d18", foreground=TEXT2, relief="flat",
-                    font=("Segoe UI", 9, "bold"), padding=[8, 10])
+                    selectbackground=AKZENT, selectforeground="#000", font=(UI_FONT, 10))
+        s.configure("Treeview", background=BG2, foreground=TEXT, fieldbackground=BG2,
+                    rowheight=36, borderwidth=0, font=(UI_FONT, 10))
+        s.configure("Treeview.Heading", background=BG3, foreground=TEXT2, relief="flat",
+                    font=(UI_FONT, 9, "bold"), padding=[8, 10])
         s.map("Treeview",
-              background=[("selected", "#1e2040")],
+              background=[("selected", BG3)],
               foreground=[("selected", AKZENT)])
         s.configure("TNotebook", background=BG2, borderwidth=0, tabmargins=[0,0,0,0])
         s.configure("TNotebook.Tab", background=BG2, foreground=GRAU,
-                    padding=[20, 10], font=("Segoe UI", 10),
+                    padding=[20, 10], font=(UI_FONT, 10),
                     borderwidth=0, relief="flat")
         s.map("TNotebook.Tab",
               background=[("selected", BG2), ("active", BG2)],
@@ -2154,7 +2280,13 @@ class PreisAlarmApp(tk.Tk):
         s.configure("TEntry", fieldbackground=BG3, foreground=TEXT, insertcolor=AKZENT,
                     bordercolor=BORDER, relief="flat", padding=8)
         s.configure("TCombobox", fieldbackground=BG3, foreground=TEXT,
-                    selectbackground=BG3, arrowcolor=TEXT2)
+                    selectbackground=AKZENT, selectforeground=BG,
+                    arrowcolor=TEXT2, insertcolor=TEXT)
+        s.map("TCombobox",
+              fieldbackground=[("readonly", BG3)],
+              foreground=[("readonly", TEXT)],
+              selectbackground=[("readonly", BG3)],
+              selectforeground=[("readonly", TEXT)])
         s.configure("TScrollbar", background=BG2, troughcolor=BG,
                     arrowcolor=GRAU, borderwidth=0, relief="flat")
         s.map("TScrollbar", background=[("active", BG3)])
@@ -2174,19 +2306,19 @@ class PreisAlarmApp(tk.Tk):
         logo_f = tk.Frame(inner_hdr, bg=BG2)
         logo_f.pack(side="left")
         tk.Label(logo_f, text="🔔", bg=BG2, fg=AKZENT,
-                 font=("Segoe UI", 20)).pack(side="left", padx=(0,10))
+                 font=(UI_FONT, 20)).pack(side="left", padx=(0,10))
         title_f = tk.Frame(logo_f, bg=BG2)
         title_f.pack(side="left")
         tk.Label(title_f, text=T("app_title"), bg=BG2, fg=TEXT,
-                 font=("Segoe UI", 16, "bold")).pack(anchor="w")
+                 font=(UI_FONT, 16, "bold")).pack(anchor="w")
         tk.Label(title_f, text=T("subtitle") if "subtitle" in TRANSLATIONS.get(_current_lang(),{}) else T("subtitle") if "subtitle" in TRANSLATIONS.get(_current_lang(),{}) else T("subtitle"), bg=BG2, fg=GRAU,
-                 font=("Segoe UI", 8)).pack(anchor="w")
+                 font=(UI_FONT, 8)).pack(anchor="w")
 
         # Version badge
         ver_f = tk.Frame(inner_hdr, bg=BG3, cursor="hand2")
         ver_f.pack(side="left", padx=16)
         self.update_lbl = tk.Label(ver_f, text=f"v{APP_VERSION}", bg=BG3, fg=GRAU,
-                                   font=("Segoe UI", 8, "bold"), padx=8, pady=3,
+                                   font=(UI_FONT, 8, "bold"), padx=8, pady=3,
                                    cursor="hand2")
         self.update_lbl.pack()
         ver_f.bind("<Button-1>", lambda e: self._update_pruefen())
@@ -2234,7 +2366,7 @@ class PreisAlarmApp(tk.Tk):
             col = tk.Frame(tab_bar, bg=BG2)
             col.pack(side="left")
             btn = tk.Button(col, text=label, bg=BG2, fg=GRAU,
-                            font=("Segoe UI", 10), relief="flat",
+                            font=(UI_FONT, 10), relief="flat",
                             cursor="hand2", borderwidth=0,
                             activebackground=BG2, activeforeground=TEXT,
                             padx=4, pady=10,
@@ -2260,7 +2392,7 @@ class PreisAlarmApp(tk.Tk):
         self._btn(inner_bar, T("new_group"), self._vg_neu, AKZENT, "#000").pack(side="left", padx=(0,6))
         self.btn_pruefen = self._btn(inner_bar, T("check_all"), self._vg_alle_pruefen, BG3, TEXT)
         self.btn_pruefen.pack(side="left", padx=(0,6))
-        self.status_check_lbl = tk.Label(inner_bar, text="", bg=BG2, fg=TEXT2, font=("Segoe UI", 9))
+        self.status_check_lbl = tk.Label(inner_bar, text="", bg=BG2, fg=TEXT2, font=(UI_FONT, 9))
         self.status_check_lbl.pack(side="left", padx=10)
         self._btn(inner_bar, T("delete"), self._vg_loeschen, BG3, ROT).pack(side="right")
 
@@ -2273,16 +2405,57 @@ class PreisAlarmApp(tk.Tk):
         lbl_f = tk.Frame(left, bg=BG2)
         lbl_f.pack(fill="x", padx=12, pady=(12,6))
         tk.Label(lbl_f, text=T("product_groups"), bg=BG2, fg=GRAU,
-                 font=("Segoe UI", 8, "bold")).pack(side="left")
+                 font=(UI_FONT, 8, "bold")).pack(side="left")
         self.vg_listbox = tk.Listbox(
             left, bg=BG2, fg=TEXT, selectbackground="#1e2040",
             selectforeground=AKZENT,
-            font=("Segoe UI", 10), relief="flat", borderwidth=0, activestyle="none",
+            font=(UI_FONT, 10), relief="flat", borderwidth=0, activestyle="none",
             highlightthickness=0)
         self.vg_listbox.pack(fill="both", expand=True)
         self.vg_listbox.bind("<<ListboxSelect>>", lambda e: self._vg_gruppe_waehlen())
         self.vg_listbox.bind("<Delete>",    lambda e: self._vg_loeschen())
         self.vg_listbox.bind("<BackSpace>", lambda e: self._vg_loeschen())
+
+        # Drag & Drop to reorder groups
+        self._drag_start_idx = None
+        self._drag_indicator = None
+
+        def _drag_start(e):
+            self._drag_start_idx = self.vg_listbox.nearest(e.y)
+            self.vg_listbox.config(cursor="fleur")
+
+        def _drag_motion(e):
+            idx = self.vg_listbox.nearest(e.y)
+            if self._drag_start_idx is None or idx == self._drag_start_idx:
+                return
+            # Visual feedback - highlight drop target
+            self.vg_listbox.selection_clear(0, "end")
+            self.vg_listbox.selection_set(idx)
+
+        def _drag_end(e):
+            self.vg_listbox.config(cursor="")
+            if self._drag_start_idx is None:
+                return
+            target_idx = self.vg_listbox.nearest(e.y)
+            src = self._drag_start_idx
+            self._drag_start_idx = None
+            if src == target_idx or src < 0 or target_idx < 0:
+                return
+            if src >= len(self.vergleiche) or target_idx >= len(self.vergleiche):
+                return
+            # Reorder in data
+            g = self.vergleiche.pop(src)
+            self.vergleiche.insert(target_idx, g)
+            speichere_vergleiche(self.vergleiche)
+            # Reload listbox and reselect
+            self.vg_aktuelle_gruppe = self.vergleiche[target_idx]
+            self._vg_listbox_laden()
+            self.vg_listbox.selection_set(target_idx)
+            self.vg_listbox.see(target_idx)
+
+        self.vg_listbox.bind("<ButtonPress-1>",  _drag_start)
+        self.vg_listbox.bind("<B1-Motion>",      _drag_motion)
+        self.vg_listbox.bind("<ButtonRelease-1>", _drag_end)
 
         right = tk.Frame(pane, bg=BG)
         right.pack(side="left", fill="both", expand=True)
@@ -2292,10 +2465,10 @@ class PreisAlarmApp(tk.Tk):
         title_col = tk.Frame(hdr2, bg=BG)
         title_col.pack(side="left")
         self.vg_titel_lbl = tk.Label(title_col, text=T("select_group"),
-                                     bg=BG, fg=TEXT2, font=("Segoe UI", 13, "bold"))
+                                     bg=BG, fg=TEXT2, font=(UI_FONT, 13, "bold"))
         self.vg_titel_lbl.pack(anchor="w")
         self.vg_ziel_lbl = tk.Label(title_col, text="", bg=BG, fg=AKZENT,
-                                    font=("Segoe UI", 9))
+                                    font=(UI_FONT, 9))
         self.vg_ziel_lbl.pack(anchor="w")
         btn_col = tk.Frame(hdr2, bg=BG)
         btn_col.pack(side="right")
@@ -2326,12 +2499,12 @@ class PreisAlarmApp(tk.Tk):
         self.vg_tree.bind("<Delete>",    lambda e: self._vg_shop_loeschen())
         self.vg_tree.bind("<BackSpace>", lambda e: self._vg_shop_loeschen())
         self.vg_tree.bind("<Double-1>",  lambda e: self._vg_shop_oeffnen())
-        self.vg_tree.tag_configure("best",      foreground=AKZENT, font=("Segoe UI", 10, "bold"), background="#0d1f1a")
+        self.vg_tree.tag_configure("best",      foreground=AKZENT, font=(UI_FONT, 10, "bold"), background="#0d1f1a")
         self.vg_tree.tag_configure("alarm",     foreground=AKZENT)
         self.vg_tree.tag_configure("normal",    foreground=TEXT)
         self.vg_tree.tag_configure("fehler",    foreground=ROT)
-        self.vg_tree.tag_configure("gesunken",  foreground="#6ee7b7", font=("Segoe UI", 10, "bold"), background="#0a1a14")
-        self.vg_tree.tag_configure("gestiegen", foreground="#fbbf24", font=("Segoe UI", 10, "bold"), background="#1a1400")
+        self.vg_tree.tag_configure("gesunken",  foreground="#6ee7b7", font=(UI_FONT, 10, "bold"), background="#0a1a14")
+        self.vg_tree.tag_configure("gestiegen", foreground="#fbbf24", font=(UI_FONT, 10, "bold"), background="#1a1400")
         self._vg_listbox_laden()
 
     # ── Tab: Einstellungen ────────────────────────────────────────────────────
@@ -2360,14 +2533,14 @@ class PreisAlarmApp(tk.Tk):
 
         def section(text):
             tk.Label(wrap, text=text, bg=BG, fg=TEXT2,
-                     font=("Segoe UI", 9, "bold")).pack(anchor="w", pady=(16,4))
+                     font=(UI_FONT, 9, "bold")).pack(anchor="w", pady=(16,4))
             tk.Frame(wrap, bg=BORDER, height=1).pack(fill="x", pady=(0,8))
 
         def erow(label, var, show=""):
             r = tk.Frame(wrap, bg=BG)
             r.pack(fill="x", pady=5)
             tk.Label(r, text=label, bg=BG, fg=TEXT2, width=18, anchor="w",
-                     font=("Segoe UI", 10)).pack(side="left")
+                     font=(UI_FONT, 10)).pack(side="left")
             e = ttk.Entry(r, textvariable=var, show=show)
             e.pack(side="left", fill="x", expand=True, ipady=4)
             return e
@@ -2391,10 +2564,10 @@ class PreisAlarmApp(tk.Tk):
         r = tk.Frame(wrap, bg=BG)
         r.pack(fill="x", pady=5)
         tk.Label(r, text=T("interval_label"), bg=BG, fg=TEXT2, width=18, anchor="w",
-                 font=("Segoe UI", 10)).pack(side="left")
+                 font=(UI_FONT, 10)).pack(side="left")
         ttk.Entry(r, textvariable=self.v_int, width=6).pack(side="left", ipady=4)
         tk.Label(r, text=T("interval_hint"), bg=BG, fg=GRAU,
-                 font=("Segoe UI", 9)).pack(side="left", padx=8)
+                 font=(UI_FONT, 9)).pack(side="left", padx=8)
 
         tk.Frame(wrap, bg=BORDER, height=1).pack(fill="x", pady=16)
         btn_row = tk.Frame(wrap, bg=BG)
@@ -2407,22 +2580,50 @@ class PreisAlarmApp(tk.Tk):
         lang_row = tk.Frame(wrap, bg=BG)
         lang_row.pack(fill="x", pady=5)
         tk.Label(lang_row, text=T("language"), bg=BG, fg=TEXT2,
-                 width=18, anchor="w", font=("Segoe UI", 10)).pack(side="left")
+                 width=18, anchor="w", font=(UI_FONT, 10)).pack(side="left")
         cur_lang = self.config_data.get("language","en")
         self.v_lang = tk.StringVar(value=LANGUAGES.get(cur_lang, LANGUAGES["en"]))
         lang_combo = ttk.Combobox(lang_row, textvariable=self.v_lang,
                                    values=list(LANGUAGES.values()),
                                    state="readonly", width=26,
-                                   font=("Segoe UI", 10))
+                                   font=(UI_FONT, 10))
         lang_combo.pack(side="left", ipady=4)
         lang_combo.bind("<<ComboboxSelected>>", lambda e: self._lang_aendern())
+
+        # Theme selector
+        theme_row = tk.Frame(wrap, bg=BG)
+        theme_row.pack(fill="x", pady=5)
+        tk.Label(theme_row, text=T("theme"), bg=BG, fg=TEXT2,
+                 width=18, anchor="w", font=(UI_FONT, 10)).pack(side="left")
+        cur_theme = self.config_data.get("theme", "dark_mint")
+        self.v_theme = tk.StringVar(value=THEMES.get(cur_theme, THEMES["dark_mint"])["name"])
+        theme_combo = ttk.Combobox(theme_row, textvariable=self.v_theme,
+                                    values=[t["name"] for t in THEMES.values()],
+                                    state="readonly", width=26, font=(UI_FONT, 10))
+        theme_combo.pack(side="left", ipady=4)
+        tk.Label(theme_row, text=f"  ← {T('theme_hint')}", bg=BG, fg=GRAU,
+                 font=(UI_FONT, 8)).pack(side="left")
+        theme_combo.bind("<<ComboboxSelected>>", lambda e: self._theme_aendern())
+
+        # Font selector
+        font_row = tk.Frame(wrap, bg=BG)
+        font_row.pack(fill="x", pady=5)
+        tk.Label(font_row, text=T("font_label"), bg=BG, fg=TEXT2,
+                 width=18, anchor="w", font=(UI_FONT, 10)).pack(side="left")
+        cur_font_id = self.config_data.get("font", "segoe")
+        self.v_font = tk.StringVar(value=FONTS.get(cur_font_id, FONTS["segoe"])["label"])
+        font_combo = ttk.Combobox(font_row, textvariable=self.v_font,
+                                   values=[f["label"] for f in FONTS.values()],
+                                   state="readonly", width=26, font=(UI_FONT, 10))
+        font_combo.pack(side="left", ipady=4)
+        font_combo.bind("<<ComboboxSelected>>", lambda e: self._font_aendern())
 
         sys_row = tk.Frame(wrap, bg=BG)
         sys_row.pack(fill="x", pady=5)
         self.v_autostart = tk.BooleanVar(value=autostart_aktiv())
         tk.Checkbutton(sys_row, variable=self.v_autostart,
                        bg=BG, fg=TEXT, activebackground=BG, selectcolor=BG3,
-                       font=("Segoe UI", 10),
+                       font=(UI_FONT, 10),
                        text=T("start_windows"),
                        command=self._autostart_toggle).pack(side="left")
 
@@ -2431,7 +2632,7 @@ class PreisAlarmApp(tk.Tk):
         self.v_tray = tk.BooleanVar(value=self.config_data.get("minimize_to_tray", True))
         tk.Checkbutton(tray_row, variable=self.v_tray,
                        bg=BG, fg=TEXT, activebackground=BG, selectcolor=BG3,
-                       font=("Segoe UI", 10),
+                       font=(UI_FONT, 10),
                        text=T("minimize_tray"),
                        command=self._tray_toggle).pack(side="left")
 
@@ -2461,12 +2662,12 @@ class PreisAlarmApp(tk.Tk):
             row_f.pack(fill="x", pady=2)
             btn = tk.Button(row_f, text=name, bg=BG3, fg=TEXT,
                             activebackground=AKZENT, activeforeground="#000",
-                            font=("Segoe UI", 9, "bold"), relief="flat",
+                            font=(UI_FONT, 9, "bold"), relief="flat",
                             cursor="hand2", padx=10, pady=3, width=12,
                             command=lambda s=server, p=port: apply_preset(s, p))
             btn.pack(side="left", padx=(0,8))
             tk.Label(row_f, text=f"{server}  |  Port: {port}   {hint}",
-                     bg=BG, fg=GRAU, font=("Segoe UI", 9), anchor="w").pack(side="left")
+                     bg=BG, fg=GRAU, font=(UI_FONT, 9), anchor="w").pack(side="left")
 
     # ── Tab: Log ──────────────────────────────────────────────────────────────
     def _tab_log(self):
@@ -2602,17 +2803,17 @@ class PreisAlarmApp(tk.Tk):
         dlg.grab_set()
 
         tk.Label(dlg, text=T("search_hint"),
-                 bg=BG, fg=TEXT2, font=("Segoe UI", 10)).pack(anchor="w", padx=20, pady=(16,4))
+                 bg=BG, fg=TEXT2, font=(UI_FONT, 10)).pack(anchor="w", padx=20, pady=(16,4))
         tk.Label(dlg, text=T("url_tip"),
-                 bg=BG, fg=GRAU, font=("Segoe UI", 8)).pack(anchor="w", padx=20)
+                 bg=BG, fg=GRAU, font=(UI_FONT, 8)).pack(anchor="w", padx=20)
 
         such_row = tk.Frame(dlg, bg=BG)
         such_row.pack(fill="x", padx=20, pady=(6,0))
-        e_such = ttk.Entry(such_row, font=("Segoe UI", 10))
+        e_such = ttk.Entry(such_row, font=(UI_FONT, 10))
         e_such.pack(side="left", fill="x", expand=True, ipady=5)
         e_such.focus()
 
-        status_lbl = tk.Label(dlg, text="", bg=BG, fg=TEXT2, font=("Segoe UI", 9), anchor="w")
+        status_lbl = tk.Label(dlg, text="", bg=BG, fg=TEXT2, font=(UI_FONT, 9), anchor="w")
         status_lbl.pack(fill="x", padx=20, pady=(4,0))
 
         self._vg_shop_vars = {}
@@ -2628,11 +2829,11 @@ class PreisAlarmApp(tk.Tk):
         ziel_row = tk.Frame(dlg, bg=BG)
         ziel_row.pack(fill="x", padx=20, pady=(10,0))
         tk.Label(ziel_row, text=T("target_price")+" (€)", bg=BG, fg=TEXT2, width=14,
-                 anchor="w", font=("Segoe UI", 10)).pack(side="left")
+                 anchor="w", font=(UI_FONT, 10)).pack(side="left")
         e_ziel = ttk.Entry(ziel_row)
         e_ziel.pack(side="left", fill="x", expand=True, ipady=5)
         tk.Label(ziel_row, text=T("alert_hint"),
-                 bg=BG, fg=GRAU, font=("Segoe UI", 9)).pack(side="left")
+                 bg=BG, fg=GRAU, font=(UI_FONT, 9)).pack(side="left")
 
         gefunden = []
         gefundene_source_url = [""]  # Mutable container for thread
@@ -2699,9 +2900,9 @@ class PreisAlarmApp(tk.Tk):
 
             ctrl = tk.Frame(inner, bg=BG)
             ctrl.pack(fill="x", pady=(0,4))
-            tk.Button(ctrl, text=T("all_btn"),  bg=BG3, fg=TEXT2, font=("Segoe UI",8), relief="flat", padx=6, pady=2,
+            tk.Button(ctrl, text=T("all_btn"),  bg=BG3, fg=TEXT2, font=(UI_FONT,8), relief="flat", padx=6, pady=2,
                       command=lambda: [v.set(True)  for v,_ in self._vg_shop_vars.values()]).pack(side="left", padx=(0,4))
-            tk.Button(ctrl, text=T("none_btn"), bg=BG3, fg=TEXT2, font=("Segoe UI",8), relief="flat", padx=6, pady=2,
+            tk.Button(ctrl, text=T("none_btn"), bg=BG3, fg=TEXT2, font=(UI_FONT,8), relief="flat", padx=6, pady=2,
                       command=lambda: [v.set(False) for v,_ in self._vg_shop_vars.values()]).pack(side="left")
 
             min_preis = min(s["preis"] for s in shops)
@@ -2715,12 +2916,12 @@ class PreisAlarmApp(tk.Tk):
                 row_f.pack(fill="x", pady=1)
                 tk.Checkbutton(row_f, variable=var, bg=BG, fg=TEXT,
                                activebackground=BG, selectcolor=BG3,
-                               font=("Segoe UI",9)).pack(side="left")
+                               font=(UI_FONT,9)).pack(side="left")
                 tk.Label(row_f, text=s["name"], bg=BG, fg=TEXT,
-                         font=("Segoe UI",9,"bold"), width=24, anchor="w").pack(side="left")
+                         font=(UI_FONT,9,"bold"), width=24, anchor="w").pack(side="left")
                 col = AKZENT if s["preis"] == min_preis else TEXT2
                 tk.Label(row_f, text=f"{dialog_cur}{s['preis']:.2f}", bg=BG, fg=col,
-                         font=("Segoe UI",9,"bold"), width=9, anchor="e").pack(side="left")
+                         font=(UI_FONT,9,"bold"), width=9, anchor="e").pack(side="left")
 
             if not e_ziel.get():
                 e_ziel.insert(0, f"{min_preis * 0.90:.2f}")
@@ -2837,13 +3038,13 @@ class PreisAlarmApp(tk.Tk):
         dlg.grab_set()
 
         tk.Label(dlg, text="Product URL", bg=BG, fg=TEXT2,
-                 font=("Segoe UI",10)).pack(anchor="w", padx=20, pady=(16,4))
+                 font=(UI_FONT,10)).pack(anchor="w", padx=20, pady=(16,4))
         url_row = tk.Frame(dlg, bg=BG)
         url_row.pack(fill="x", padx=20)
         e_url = ttk.Entry(url_row)
         e_url.pack(side="left", fill="x", expand=True, ipady=5)
         e_url.focus()
-        status_lbl = tk.Label(dlg, text="", bg=BG, fg=TEXT2, font=("Segoe UI",9), anchor="w")
+        status_lbl = tk.Label(dlg, text="", bg=BG, fg=TEXT2, font=(UI_FONT,9), anchor="w")
         status_lbl.pack(fill="x", padx=20, pady=4)
         preis_var = tk.StringVar()
 
@@ -2867,7 +3068,7 @@ class PreisAlarmApp(tk.Tk):
         preis_row = tk.Frame(dlg, bg=BG)
         preis_row.pack(fill="x", padx=20, pady=4)
         tk.Label(preis_row, text="Price (€)", bg=BG, fg=TEXT2, width=10, anchor="w",
-                 font=("Segoe UI",10)).pack(side="left")
+                 font=(UI_FONT,10)).pack(side="left")
         ttk.Entry(preis_row, textvariable=preis_var, width=10).pack(side="left", ipady=4)
 
         def hinzufuegen(*_):
@@ -3168,25 +3369,66 @@ class PreisAlarmApp(tk.Tk):
 
     # ── Autostart & Tray ─────────────────────────────────────────────────────
     def _lang_aendern(self):
-        """Switch language — saves config and restarts app."""
+        """Switch language live — no restart needed."""
         selected = self.v_lang.get()
         lang_code = next((k for k, v in LANGUAGES.items() if v == selected), "en")
         self.config_data["language"] = lang_code
         speichere_config(self.config_data)
+        self._rebuild_ui()
 
-        # Restart using pythonw (no CMD window)
-        import subprocess as _sp, os as _os
+    def _font_aendern(self):
+        """Switch font live — no restart needed."""
+        selected_label = self.v_font.get()
+        font_id = next((k for k, v in FONTS.items() if v["label"] == selected_label), "segoe")
+        self.config_data["font"] = font_id
+        speichere_config(self.config_data)
+        global UI_FONT
+        UI_FONT = FONTS[font_id]["name"]
+        self._rebuild_ui()
+
+    def _rebuild_ui(self):
+        """Rebuild entire UI with current language and font."""
+        # Remember active tab
+        active = self._active_tab[0] if self._active_tab else "compare"
+        # Destroy everything below the accent bar
+        for widget in self.winfo_children():
+            widget.destroy()
+        # Reset state
+        self._tab_btns = {}
+        self._active_tab = [None]
+        # Rebuild
+        self._build_ui()
+        # Restore active tab
+        tab_map = {
+            "compare":  self.tab_vergleich,
+            "settings": self.tab_einst,
+            "log":      self.tab_log,
+        }
+        if active in self._tab_btns and active in tab_map:
+            btn, ind = self._tab_btns[active]
+            for f in [self.tab_vergleich, self.tab_einst, self.tab_log]:
+                f.pack_forget()
+            tab_map[active].pack(fill="both", expand=True)
+            for key, (b, i) in self._tab_btns.items():
+                b.config(fg=TEXT if key == active else GRAU)
+                i.config(bg=AKZENT if key == active else BG2)
+            self._active_tab[0] = active
+        # Reload group list
+        self._vg_laden()
+
+    def _theme_aendern(self):
+        """Switch theme and restart app."""
+        selected_name = self.v_theme.get()
+        theme_id = next((k for k, v in THEMES.items() if v["name"] == selected_name), "dark_mint")
+        self.config_data["theme"] = theme_id
+        speichere_config(self.config_data)
+        import subprocess as _sp
         script = str(Path(__file__).resolve())
-        # Try pythonw first (no console window)
-        pythonw = sys.executable.replace("python.exe", "pythonw.exe")
-        exe = pythonw if Path(pythonw).exists() else sys.executable
-        _sp.Popen(
-            [exe, script],
-            creationflags=0x00000008,  # DETACHED_PROCESS
-            close_fds=True,
-            cwd=str(Path(script).parent)
-        )
-        self.after(200, self.destroy)
+        exe = sys.executable.replace("python.exe", "pythonw.exe")
+        if not Path(exe).exists():
+            exe = sys.executable
+        _sp.Popen([exe, script], creationflags=getattr(_sp, "DETACHED_PROCESS", 0))
+        self.after(300, self.destroy)
 
     def _autostart_toggle(self):
         aktiv = self.v_autostart.get()
@@ -3401,33 +3643,33 @@ class PreisAlarmApp(tk.Tk):
         hdr_f = tk.Frame(dlg, bg="#1e1b4b")
         hdr_f.pack(fill="x")
         tk.Label(hdr_f, text="🤖  " + T("ai_title"), bg="#1e1b4b", fg="#a78bfa",
-                 font=("Segoe UI", 13, "bold")).pack(anchor="w", padx=20, pady=(14,2))
+                 font=(UI_FONT, 13, "bold")).pack(anchor="w", padx=20, pady=(14,2))
         tk.Label(hdr_f, text=g["name"], bg="#1e1b4b", fg=TEXT2,
-                 font=("Segoe UI", 10)).pack(anchor="w", padx=20, pady=(0,12))
+                 font=(UI_FONT, 10)).pack(anchor="w", padx=20, pady=(0,12))
 
         # Recommendation box
         rec_f = tk.Frame(dlg, bg=BG2)
         rec_f.pack(fill="x", padx=16, pady=(12,4))
         tk.Label(rec_f, text=T("recommendation"), bg=BG2, fg=TEXT2,
-                 font=("Segoe UI", 8, "bold")).pack(anchor="w", padx=14, pady=(10,4))
+                 font=(UI_FONT, 8, "bold")).pack(anchor="w", padx=14, pady=(10,4))
         tk.Label(rec_f, text=empfehlung, bg=BG2, fg=empf_farbe,
-                 font=("Segoe UI", 16, "bold")).pack(anchor="w", padx=14, pady=(0,4))
+                 font=(UI_FONT, 16, "bold")).pack(anchor="w", padx=14, pady=(0,4))
         tk.Label(rec_f, text=empf_grund, bg=BG2, fg=TEXT2,
-                 font=("Segoe UI", 9), wraplength=460, justify="left").pack(
+                 font=(UI_FONT, 9), wraplength=460, justify="left").pack(
                  anchor="w", padx=14, pady=(0,12))
 
         def section(text):
             tk.Label(dlg, text=text, bg=BG, fg="#a78bfa",
-                     font=("Segoe UI", 9, "bold")).pack(anchor="w", padx=16, pady=(10,2))
+                     font=(UI_FONT, 9, "bold")).pack(anchor="w", padx=16, pady=(10,2))
             tk.Frame(dlg, bg="#2d2060", height=1).pack(fill="x", padx=16)
 
         def row(label, value, color=TEXT2):
             r = tk.Frame(dlg, bg=BG2)
             r.pack(fill="x", padx=16, pady=1)
             tk.Label(r, text=label, bg=BG2, fg=GRAU,
-                     font=("Segoe UI", 9), width=22, anchor="w").pack(side="left", padx=10, pady=6)
+                     font=(UI_FONT, 9), width=22, anchor="w").pack(side="left", padx=10, pady=6)
             tk.Label(r, text=value, bg=BG2, fg=color,
-                     font=("Segoe UI", 9, "bold"), anchor="e").pack(side="right", padx=10)
+                     font=(UI_FONT, 9, "bold"), anchor="e").pack(side="right", padx=10)
 
         section("📊  " + T("price_analysis"))
         row(T("cur_best"),   f"{cur}{preis_jetzt:.2f}", AKZENT)
@@ -3457,12 +3699,12 @@ class PreisAlarmApp(tk.Tk):
             r2 = tk.Frame(dlg, bg=BG2)
             r2.pack(fill="x", padx=16, pady=1)
             tk.Label(r2, text=insight, bg=BG2, fg=TEXT2,
-                     font=("Segoe UI", 9), wraplength=460, justify="left").pack(
+                     font=(UI_FONT, 9), wraplength=460, justify="left").pack(
                      anchor="w", padx=10, pady=8)
 
         note = tk.Label(dlg,
             text="ℹ  Analysis based on collected price data. More data = better accuracy.",
-            bg=BG, fg=GRAU, font=("Segoe UI", 8), wraplength=460)
+            bg=BG, fg=GRAU, font=(UI_FONT, 8), wraplength=460)
         note.pack(anchor="w", padx=16, pady=(8,4))
 
         self._btn(dlg, T("close"), dlg.destroy, BG3, TEXT).pack(pady=10, ipadx=20)
@@ -3496,14 +3738,14 @@ class PreisAlarmApp(tk.Tk):
         dlg.configure(bg=BG)
         dlg.resizable(False, False)
         tk.Label(dlg, text=f"📊  {g['name']}", bg=BG, fg=TEXT,
-                 font=("Segoe UI", 13, "bold")).pack(anchor="w", padx=20, pady=(16,12))
+                 font=(UI_FONT, 13, "bold")).pack(anchor="w", padx=20, pady=(16,12))
         def stat_row(label, value, color=TEXT):
             r = tk.Frame(dlg, bg=BG2)
             r.pack(fill="x", padx=20, pady=2)
             tk.Label(r, text=label, bg=BG2, fg=TEXT2,
-                     font=("Segoe UI", 10), width=24, anchor="w").pack(side="left", padx=12, pady=8)
+                     font=(UI_FONT, 10), width=24, anchor="w").pack(side="left", padx=12, pady=8)
             tk.Label(r, text=value, bg=BG2, fg=color,
-                     font=("Segoe UI", 10, "bold"), anchor="e").pack(side="right", padx=12)
+                     font=(UI_FONT, 10, "bold"), anchor="e").pack(side="right", padx=12)
         stat_row(T("shops_tracked"),        str(len(shops)))
         stat_row(T("target_price_lbl"),         f"{cur}{g['zielpreis']:.2f}")
         tk.Frame(dlg, bg=BORDER, height=1).pack(fill="x", padx=20, pady=6)
@@ -3598,11 +3840,11 @@ class PreisAlarmApp(tk.Tk):
             return pkt, gefiltert_avg
 
         tk.Label(zeitraum_bar, text=T("period"), bg=BG, fg=TEXT2,
-                 font=("Segoe UI", 9)).pack(side="left", padx=(0,8))
+                 font=(UI_FONT, 9)).pack(side="left", padx=(0,8))
         for zr in [T("day"), T("week"), T("month"), T("all_btn")]:
             tk.Radiobutton(zeitraum_bar, text=zr, variable=zeitraum_var, value=zr,
                            bg=BG, fg=TEXT, activebackground=BG, selectcolor=BG3,
-                           font=("Segoe UI", 9),
+                           font=(UI_FONT, 9),
                            command=lambda: canvas.event_generate("<Configure>")
                            ).pack(side="left", padx=4)
 
@@ -3633,7 +3875,7 @@ class PreisAlarmApp(tk.Tk):
                                 if not grenze or d >= grenze}
             if not gefiltertes_dict:
                 canvas.create_text(w//2, h//2, text="No data for this period",
-                                   fill=TEXT2, font=("Segoe UI", 11))
+                                   fill=TEXT2, font=(UI_FONT, 11))
                 return
             pkt_gefiltert = sorted(gefiltertes_dict.items())
             daten   = [p[0][:16] for p in pkt_gefiltert]
@@ -3670,7 +3912,7 @@ class PreisAlarmApp(tk.Tk):
                 if dash: kw["dash"] = dash
                 canvas.create_line(lx, ly, lx+30, ly, **kw)
                 canvas.create_text(lx+34, ly, text=ltext, fill=lfarbe,
-                                   font=("Segoe UI", 8), anchor="w")
+                                   font=(UI_FONT, 8), anchor="w")
 
             # Info-Zeile oben rechts
             info = (f"Data points: {len(preise)}   "
@@ -3678,7 +3920,7 @@ class PreisAlarmApp(tk.Tk):
                     f"Ø Avg: {avg_preise[-1]:.2f}€   "
                     f"Best: {preise[-1]:.2f}€")
             canvas.create_text(w - pad_r + 80, 14, text=info,
-                               fill=TEXT2, font=("Segoe UI", 8), anchor="e")
+                               fill=TEXT2, font=(UI_FONT, 8), anchor="e")
 
             # Gitternetz
             for step in range(5):
@@ -3687,7 +3929,7 @@ class PreisAlarmApp(tk.Tk):
                 canvas.create_line(pad_l, py, pad_l + chart_w, py,
                                    fill="#2a2a2a", dash=(4,4))
                 canvas.create_text(pad_l - 6, py, text=f"{preis_val:.0f}€",
-                                   fill=TEXT2, font=("Segoe UI", 8), anchor="e")
+                                   fill=TEXT2, font=(UI_FONT, 8), anchor="e")
 
             # Zielpreis-Linie
             yz = cy(ziel)
@@ -3695,7 +3937,7 @@ class PreisAlarmApp(tk.Tk):
                                fill=AKZENT, dash=(6,3), width=1.5)
             canvas.create_text(pad_l + chart_w + 6, yz,
                                text=f"Ziel {ziel:.0f}€",
-                               fill=AKZENT, font=("Segoe UI", 8), anchor="w")
+                               fill=AKZENT, font=(UI_FONT, 8), anchor="w")
 
             # Durchschnittslinie
             avg_xy = [(cx(i), cy(avg_preise[i])) for i in range(len(avg_preise))]
@@ -3721,7 +3963,7 @@ class PreisAlarmApp(tk.Tk):
                 if i == 0 or i == len(preise)-1 or preise[i] == min(preise):
                     anker = "sw" if i == len(preise)-1 else "se"
                     canvas.create_text(px, py2-8, text=f"{preise[i]:.0f}€",
-                                       fill=TEXT, font=("Segoe UI", 8, "bold"), anchor=anker)
+                                       fill=TEXT, font=(UI_FONT, 8, "bold"), anchor=anker)
 
             # X-Achse
             max_labels = max(2, min(len(daten), chart_w // 70))
@@ -3730,7 +3972,7 @@ class PreisAlarmApp(tk.Tk):
                 px = cx(i)
                 label = daten[i][5:]  # "03-15 10:49"
                 canvas.create_text(px, pad_t + chart_h + 14, text=label,
-                                   fill=TEXT2, font=("Segoe UI", 8), anchor="n")
+                                   fill=TEXT2, font=(UI_FONT, 8), anchor="n")
                 canvas.create_line(px, pad_t + chart_h, px, pad_t + chart_h + 5, fill=BORDER)
 
             # Achsenlinien
@@ -3784,17 +4026,17 @@ class PreisAlarmApp(tk.Tk):
         hdr_f.pack(fill="x")
         tk.Label(hdr_f, text=f"🆕  Version {new_ver} available!",
                  bg="#14532d", fg="#4ade80",
-                 font=("Segoe UI", 13, "bold")).pack(anchor="w", padx=20, pady=(14,2))
+                 font=(UI_FONT, 13, "bold")).pack(anchor="w", padx=20, pady=(14,2))
         tk.Label(hdr_f, text=f"You are on v{APP_VERSION}",
                  bg="#14532d", fg="#86efac",
-                 font=("Segoe UI", 9)).pack(anchor="w", padx=20, pady=(0,12))
+                 font=(UI_FONT, 9)).pack(anchor="w", padx=20, pady=(0,12))
 
         # Release notes
         tk.Label(dlg, text="What's new:", bg=BG, fg=TEXT2,
-                 font=("Segoe UI", 10, "bold")).pack(anchor="w", padx=16, pady=(12,4))
+                 font=(UI_FONT, 10, "bold")).pack(anchor="w", padx=16, pady=(12,4))
 
         from tkinter import scrolledtext as _st
-        notes_box = _st.ScrolledText(dlg, bg=BG2, fg=TEXT, font=("Segoe UI", 9),
+        notes_box = _st.ScrolledText(dlg, bg=BG2, fg=TEXT, font=(UI_FONT, 9),
                                       height=12, borderwidth=0, relief="flat",
                                       wrap="word", state="normal")
         notes_box.pack(fill="both", expand=True, padx=16, pady=(0,8))
