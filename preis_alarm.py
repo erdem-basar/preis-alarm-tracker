@@ -156,16 +156,18 @@ CONFIG_DATEI    = BASE_DIR / "config.json"
 LOG_DATEI       = BASE_DIR / "log.txt"
 
 # ── Design ────────────────────────────────────────────────────────────────────
-BG     = "#0f0f0f"
-BG2    = "#1a1a1a"
-BG3    = "#242424"
-AKZENT = "#22c55e"
-ROT    = "#ef4444"
-GELB   = "#f59e0b"
-GRAU   = "#6b7280"
-TEXT   = "#f1f5f9"
-TEXT2  = "#94a3b8"
-BORDER = "#2d2d2d"
+BG     = "#0d0d12"   # Deep navy-black
+BG2    = "#13131a"   # Card background
+BG3    = "#1c1c27"   # Elevated surface
+AKZENT = "#6ee7b7"   # Mint green accent
+ROT    = "#f87171"   # Soft red
+GELB   = "#fbbf24"   # Amber
+GRAU   = "#64748b"   # Slate gray
+TEXT   = "#f0f4ff"   # Cool white
+TEXT2  = "#8b9cc8"   # Muted blue-gray
+BORDER = "#252535"   # Subtle border
+PURPLE = "#a78bfa"   # Violet accent
+BLUE   = "#60a5fa"   # Blue accent
 
 SHOPS = {
     "amazon": "Amazon.de", "mediamarkt": "MediaMarkt", "saturn": "Saturn",
@@ -881,7 +883,7 @@ def alle_quellen_suchen(suchbegriff, max_shops=999):
     return geizhals_suchen(suchbegriff, max_shops)
 
 
-APP_VERSION = "1.4.0"
+APP_VERSION = "1.4.1"
 GITHUB_API  = "https://api.github.com/repos/erdem-basar/preis-alarm-tracker/releases/latest"
 
 def check_for_update():
@@ -1245,69 +1247,149 @@ class PreisAlarmApp(tk.Tk):
         s.configure(".", background=BG, foreground=TEXT, fieldbackground=BG3,
                     bordercolor=BORDER, troughcolor=BG2,
                     selectbackground=AKZENT, selectforeground="#000", font=("Segoe UI", 10))
-        s.configure("Treeview", background=BG2, foreground=TEXT, fieldbackground=BG2,
-                    rowheight=34, borderwidth=0)
-        s.configure("Treeview.Heading", background=BG3, foreground=TEXT2, relief="flat",
-                    font=("Segoe UI", 9, "bold"))
-        s.map("Treeview", background=[("selected", BG3)], foreground=[("selected", AKZENT)])
-        s.configure("TNotebook", background=BG, borderwidth=0)
-        s.configure("TNotebook.Tab", background=BG3, foreground=TEXT2, padding=[16, 8])
-        s.map("TNotebook.Tab", background=[("selected", BG2)], foreground=[("selected", TEXT)])
-        s.configure("TEntry", fieldbackground=BG3, foreground=TEXT, insertcolor=TEXT,
-                    bordercolor=BORDER, relief="flat", padding=6)
+        s.configure("Treeview", background="#13131e", foreground=TEXT, fieldbackground="#13131e",
+                    rowheight=36, borderwidth=0, font=("Segoe UI", 10))
+        s.configure("Treeview.Heading", background="#0d0d18", foreground=TEXT2, relief="flat",
+                    font=("Segoe UI", 9, "bold"), padding=[8, 10])
+        s.map("Treeview",
+              background=[("selected", "#1e2040")],
+              foreground=[("selected", AKZENT)])
+        s.configure("TNotebook", background=BG2, borderwidth=0, tabmargins=[0,0,0,0])
+        s.configure("TNotebook.Tab", background=BG2, foreground=GRAU,
+                    padding=[20, 10], font=("Segoe UI", 10),
+                    borderwidth=0, relief="flat")
+        s.map("TNotebook.Tab",
+              background=[("selected", BG2), ("active", BG2)],
+              foreground=[("selected", TEXT), ("active", TEXT2)],
+              expand=[("selected", [0, 0, 0, 0])])
+        s.configure("TEntry", fieldbackground=BG3, foreground=TEXT, insertcolor=AKZENT,
+                    bordercolor=BORDER, relief="flat", padding=8)
         s.configure("TCombobox", fieldbackground=BG3, foreground=TEXT,
                     selectbackground=BG3, arrowcolor=TEXT2)
-        s.configure("TScrollbar", background=BG2, troughcolor=BG, arrowcolor=GRAU)
+        s.configure("TScrollbar", background=BG2, troughcolor=BG,
+                    arrowcolor=GRAU, borderwidth=0, relief="flat")
+        s.map("TScrollbar", background=[("active", BG3)])
 
     # ── Haupt-UI ───────────────────────────────────────────────────────────────
     def _build_ui(self):
-        hdr = tk.Frame(self, bg=BG)
-        hdr.pack(fill="x", padx=20, pady=(16, 0))
-        tk.Label(hdr, text="🔔 Price Alert Tracker", bg=BG, fg=TEXT,
-                 font=("Segoe UI", 18, "bold")).pack(side="left")
-        self.update_lbl = tk.Label(hdr, text=f"v{APP_VERSION}", bg=BG, fg=GRAU,
-                                   font=("Segoe UI", 9), cursor="hand2")
-        self.update_lbl.pack(side="left", padx=12)
+        # Top accent bar
+        tk.Frame(self, bg=AKZENT, height=2).pack(fill="x")
+
+        # Header
+        hdr = tk.Frame(self, bg=BG2)
+        hdr.pack(fill="x")
+        inner_hdr = tk.Frame(hdr, bg=BG2)
+        inner_hdr.pack(fill="x", padx=24, pady=12)
+
+        # Logo + title
+        logo_f = tk.Frame(inner_hdr, bg=BG2)
+        logo_f.pack(side="left")
+        tk.Label(logo_f, text="🔔", bg=BG2, fg=AKZENT,
+                 font=("Segoe UI", 20)).pack(side="left", padx=(0,10))
+        title_f = tk.Frame(logo_f, bg=BG2)
+        title_f.pack(side="left")
+        tk.Label(title_f, text="Price Alert Tracker", bg=BG2, fg=TEXT,
+                 font=("Segoe UI", 16, "bold")).pack(anchor="w")
+        tk.Label(title_f, text="Smart price monitoring", bg=BG2, fg=GRAU,
+                 font=("Segoe UI", 8)).pack(anchor="w")
+
+        # Version badge
+        ver_f = tk.Frame(inner_hdr, bg=BG3, cursor="hand2")
+        ver_f.pack(side="left", padx=16)
+        self.update_lbl = tk.Label(ver_f, text=f"v{APP_VERSION}", bg=BG3, fg=GRAU,
+                                   font=("Segoe UI", 8, "bold"), padx=8, pady=3,
+                                   cursor="hand2")
+        self.update_lbl.pack()
+        ver_f.bind("<Button-1>", lambda e: self._update_pruefen())
         self.update_lbl.bind("<Button-1>", lambda e: self._update_pruefen())
+
+        # Separator
+        tk.Frame(self, bg=BORDER, height=1).pack(fill="x")
+
         # Check for update in background after 3s
         self.after(3000, lambda: threading.Thread(target=self._update_check_bg, daemon=True).start())
 
-        nb = ttk.Notebook(self)
-        nb.pack(fill="both", expand=True, padx=16, pady=12)
-        self.tab_vergleich = tk.Frame(nb, bg=BG)
-        self.tab_einst     = tk.Frame(nb, bg=BG)
-        self.tab_log       = tk.Frame(nb, bg=BG)
-        nb.add(self.tab_vergleich, text="  ⚖ Price Comparison  ")
-        nb.add(self.tab_einst,     text="  ⚙ Settings  ")
-        nb.add(self.tab_log,       text="  📄 Log  ")
+        # Chrome-style custom tab bar
+        tab_bar = tk.Frame(self, bg=BG2)
+        tab_bar.pack(fill="x")
+        tk.Frame(self, bg=BORDER, height=1).pack(fill="x")
+
+        # Tab content frames
+        self.tab_vergleich = tk.Frame(self, bg=BG)
+        self.tab_einst     = tk.Frame(self, bg=BG)
+        self.tab_log       = tk.Frame(self, bg=BG)
+
+        self._active_tab = [None]
+        self._tab_btns   = {}
+
+        def switch_tab(frame, btn_key):
+            for f in [self.tab_vergleich, self.tab_einst, self.tab_log]:
+                f.pack_forget()
+            frame.pack(fill="both", expand=True)
+            # Update tab indicators
+            for key, (btn, ind) in self._tab_btns.items():
+                if key == btn_key:
+                    btn.config(fg=TEXT)
+                    ind.config(bg=AKZENT)
+                else:
+                    btn.config(fg=GRAU)
+                    ind.config(bg=BG2)
+            self._active_tab[0] = btn_key
+
+        tabs = [
+            ("compare", "  ⚖  Price Comparison  ", self.tab_vergleich),
+            ("settings","  ⚙  Settings  ",          self.tab_einst),
+            ("log",     "  📄  Log  ",              self.tab_log),
+        ]
+        for key, label, frame in tabs:
+            col = tk.Frame(tab_bar, bg=BG2)
+            col.pack(side="left")
+            btn = tk.Button(col, text=label, bg=BG2, fg=GRAU,
+                            font=("Segoe UI", 10), relief="flat",
+                            cursor="hand2", borderwidth=0,
+                            activebackground=BG2, activeforeground=TEXT,
+                            padx=4, pady=10,
+                            command=lambda f=frame, k=key: switch_tab(f, k))
+            btn.pack()
+            ind = tk.Frame(col, bg=BG2, height=2)
+            ind.pack(fill="x")
+            self._tab_btns[key] = (btn, ind)
+
         self._tab_vergleich()
         self._tab_einstellungen()
         self._tab_log()
+        switch_tab(self.tab_vergleich, "compare")
 
     # ── Tab: Preisvergleich ───────────────────────────────────────────────────
     def _tab_vergleich(self):
         f = self.tab_vergleich
-        bar = tk.Frame(f, bg=BG)
-        bar.pack(fill="x", padx=12, pady=(12, 6))
-        self._btn(bar, "➕  New Group",    self._vg_neu,          AKZENT, "#000").pack(side="left", padx=(0,8))
-        self.btn_pruefen = self._btn(bar, "🔄  Check All", self._vg_alle_pruefen, BG3, TEXT)
-        self.btn_pruefen.pack(side="left", padx=(0,8))
-        self.status_check_lbl = tk.Label(bar, text="", bg=BG, fg=TEXT2, font=("Segoe UI", 9))
+        bar = tk.Frame(f, bg=BG2)
+        bar.pack(fill="x")
+        tk.Frame(f, bg=BORDER, height=1).pack(fill="x")
+        inner_bar = tk.Frame(bar, bg=BG2)
+        inner_bar.pack(fill="x", padx=16, pady=10)
+        self._btn(inner_bar, "＋  New Group", self._vg_neu, AKZENT, "#000").pack(side="left", padx=(0,6))
+        self.btn_pruefen = self._btn(inner_bar, "↺  Check All", self._vg_alle_pruefen, BG3, TEXT)
+        self.btn_pruefen.pack(side="left", padx=(0,6))
+        self.status_check_lbl = tk.Label(inner_bar, text="", bg=BG2, fg=TEXT2, font=("Segoe UI", 9))
         self.status_check_lbl.pack(side="left", padx=10)
-        self._btn(bar, "🗑  Delete (DEL)", self._vg_loeschen,     BG3, ROT).pack(side="right")
+        self._btn(inner_bar, "🗑  Delete", self._vg_loeschen, BG3, ROT).pack(side="right")
 
         pane = tk.Frame(f, bg=BG)
-        pane.pack(fill="both", expand=True, padx=12, pady=(0,12))
+        pane.pack(fill="both", expand=True)
 
-        left = tk.Frame(pane, bg=BG, width=220)
-        left.pack(side="left", fill="y", padx=(0,12))
+        left = tk.Frame(pane, bg=BG2, width=230)
+        left.pack(side="left", fill="y", padx=(0,1))
         left.pack_propagate(False)
-        tk.Label(left, text="PRODUCT GROUPS", bg=BG, fg=TEXT2,
-                 font=("Segoe UI", 9, "bold")).pack(anchor="w", pady=(4,6))
+        lbl_f = tk.Frame(left, bg=BG2)
+        lbl_f.pack(fill="x", padx=12, pady=(12,6))
+        tk.Label(lbl_f, text="GROUPS", bg=BG2, fg=GRAU,
+                 font=("Segoe UI", 8, "bold")).pack(side="left")
         self.vg_listbox = tk.Listbox(
-            left, bg=BG2, fg=TEXT, selectbackground=BG3, selectforeground=AKZENT,
+            left, bg=BG2, fg=TEXT, selectbackground="#1e2040",
+            selectforeground=AKZENT,
             font=("Segoe UI", 10), relief="flat", borderwidth=0, activestyle="none",
-            highlightthickness=1, highlightcolor=BORDER, highlightbackground=BORDER)
+            highlightthickness=0)
         self.vg_listbox.pack(fill="both", expand=True)
         self.vg_listbox.bind("<<ListboxSelect>>", lambda e: self._vg_gruppe_waehlen())
         self.vg_listbox.bind("<Delete>",    lambda e: self._vg_loeschen())
@@ -1317,16 +1399,21 @@ class PreisAlarmApp(tk.Tk):
         right.pack(side="left", fill="both", expand=True)
 
         hdr2 = tk.Frame(right, bg=BG)
-        hdr2.pack(fill="x", pady=(4,8))
-        self.vg_titel_lbl = tk.Label(hdr2, text="← Select a group or create new",
-                                     bg=BG, fg=TEXT2, font=("Segoe UI", 12, "bold"))
-        self.vg_titel_lbl.pack(side="left")
-        self.vg_ziel_lbl = tk.Label(hdr2, text="", bg=BG, fg=GRAU, font=("Segoe UI", 10))
-        self.vg_ziel_lbl.pack(side="left", padx=12)
-        self._btn(hdr2, "🤖 AI Analysis",  self._vg_ai_analyse,  BG3, "#a78bfa").pack(side="right", padx=(0,6))
-        self._btn(hdr2, "📊 Statistics",   self._vg_statistiken, BG3, TEXT2).pack(side="right", padx=(0,6))
-        self._btn(hdr2, "📈 Price History", self._vg_chart_zeigen, BG3, TEXT2).pack(side="right", padx=(0,6))
-        self._btn(hdr2, "+ Add URL",  self._vg_shop_manuell, BG3, GRAU).pack(side="right")
+        hdr2.pack(fill="x", padx=16, pady=(12,8))
+        title_col = tk.Frame(hdr2, bg=BG)
+        title_col.pack(side="left")
+        self.vg_titel_lbl = tk.Label(title_col, text="Select a group or create new",
+                                     bg=BG, fg=TEXT2, font=("Segoe UI", 13, "bold"))
+        self.vg_titel_lbl.pack(anchor="w")
+        self.vg_ziel_lbl = tk.Label(title_col, text="", bg=BG, fg=AKZENT,
+                                    font=("Segoe UI", 9))
+        self.vg_ziel_lbl.pack(anchor="w")
+        btn_col = tk.Frame(hdr2, bg=BG)
+        btn_col.pack(side="right")
+        self._btn(btn_col, "🤖 AI",       self._vg_ai_analyse,   BG3, PURPLE).pack(side="left", padx=(0,4))
+        self._btn(btn_col, "📊 Stats",    self._vg_statistiken,  BG3, TEXT2).pack(side="left", padx=(0,4))
+        self._btn(btn_col, "📈 History",  self._vg_chart_zeigen, BG3, TEXT2).pack(side="left", padx=(0,4))
+        self._btn(btn_col, "+ URL",       self._vg_shop_manuell, BG3, GRAU).pack(side="left")
 
         # Sortier-Status: col -> bool (True=aufsteigend)
         self._sort_col   = "preis"
@@ -1341,6 +1428,8 @@ class PreisAlarmApp(tk.Tk):
                                  command=lambda c=col: self._vg_sort_klick(c))
             self.vg_tree.column(col, width=w,
                                 anchor="w" if col in ("shop","url","status","zuletzt") else "e")
+        # Header separator line
+        tk.Frame(right, bg=BORDER, height=1).pack(fill="x")
         sb = ttk.Scrollbar(right, orient="vertical", command=self.vg_tree.yview)
         self.vg_tree.configure(yscrollcommand=sb.set)
         self.vg_tree.pack(side="left", fill="both", expand=True)
@@ -1348,12 +1437,12 @@ class PreisAlarmApp(tk.Tk):
         self.vg_tree.bind("<Delete>",    lambda e: self._vg_shop_loeschen())
         self.vg_tree.bind("<BackSpace>", lambda e: self._vg_shop_loeschen())
         self.vg_tree.bind("<Double-1>",  lambda e: self._vg_shop_oeffnen())
-        self.vg_tree.tag_configure("best",      foreground=AKZENT, font=("Segoe UI", 10, "bold"))
+        self.vg_tree.tag_configure("best",      foreground=AKZENT, font=("Segoe UI", 10, "bold"), background="#0d1f1a")
         self.vg_tree.tag_configure("alarm",     foreground=AKZENT)
         self.vg_tree.tag_configure("normal",    foreground=TEXT)
         self.vg_tree.tag_configure("fehler",    foreground=ROT)
-        self.vg_tree.tag_configure("gesunken",  foreground="#22c55e", font=("Segoe UI", 10, "bold"))
-        self.vg_tree.tag_configure("gestiegen", foreground="#f59e0b", font=("Segoe UI", 10, "bold"))
+        self.vg_tree.tag_configure("gesunken",  foreground="#6ee7b7", font=("Segoe UI", 10, "bold"), background="#0a1a14")
+        self.vg_tree.tag_configure("gestiegen", foreground="#fbbf24", font=("Segoe UI", 10, "bold"), background="#1a1400")
         self._vg_listbox_laden()
 
     # ── Tab: Einstellungen ────────────────────────────────────────────────────
