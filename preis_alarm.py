@@ -45,89 +45,882 @@ except ImportError:
     pass
 
 # ── Translations ─────────────────────────────────────────────────────────────
-TRANSLATIONS = {
-    "en": {
-        "app_title":        "Price Alert Tracker",
-        "tab_compare":      "  ⚖ Price Comparison  ",
-        "tab_settings":     "  ⚙ Settings  ",
-        "tab_log":          "  📄 Log  ",
-        "new_group":        "➕  New Group",
-        "check_all":        "🔄  Check All",
-        "checking":         "⏳  Checking...",
-        "delete":           "🗑  Delete (DEL)",
-        "price_history":    "📈 Price History",
-        "add_url":          "+ Add URL",
-        "product_groups":   "PRODUCT GROUPS",
-        "select_group":     "← Select a group or create new",
-        "best_price":       "🏆 Best Price",
-        "target_reached":   "🔔 Target reached!",
-        "no_price":         "⚠ No Price",
-        "still_too_much":   "still {diff} too much",
-        "save":             "💾  Save",
-        "test_email":       "✉  Test Email",
-        "settings_saved":   "Settings saved successfully.",
-        "email_sent":       "Test email sent successfully!",
-        "autostart_on":     "Autostart enabled.",
-        "autostart_off":    "Autostart disabled.",
-        "start_windows":    "Start with Windows (Autostart)",
-        "minimize_tray":    "Minimize to system tray on close",
-        "smtp_presets":     "ℹ  SMTP Presets  —  click to apply",
-        "interval_label":   "Every X Hours",
-        "interval_hint":    " hours (1–24)",
-        "sender_email":     "Sender Email",
-        "password":         "Password",
-        "recipient_email":  "Recipient Email",
-        "clear_log":        "🗑  Clear Log",
-        "search_hint":      "Product name, search term or Geizhals/PriceSpy URL",
-        "url_tip":          "Tip: Paste a Geizhals URL (.de/.eu) or PriceSpy URL → all shops detected automatically",
-        "target_price":     "Target Price",
-        "create_group":     "✅  Create group & track",
-        "all_btn":          "All",
-        "none_btn":         "None",
-        "language":         "Language",
-    },
-    "de": {
-        "app_title":        "Preis-Alarm Tracker",
-        "tab_compare":      "  ⚖ Preisvergleich  ",
-        "tab_settings":     "  ⚙ Einstellungen  ",
-        "tab_log":          "  📄 Log  ",
-        "new_group":        "➕  Neue Gruppe",
-        "check_all":        "🔄  Alle prüfen",
-        "checking":         "⏳  Prüfe...",
-        "delete":           "🗑  Löschen (ENTF)",
-        "price_history":    "📈 Preisverlauf",
-        "add_url":          "+ URL hinzufügen",
-        "product_groups":   "PRODUKTGRUPPEN",
-        "select_group":     "← Gruppe auswählen oder neu erstellen",
-        "best_price":       "🏆 Günstigster Preis",
-        "target_reached":   "🔔 Zielpreis erreicht!",
-        "no_price":         "⚠ Kein Preis",
-        "still_too_much":   "noch {diff} zu viel",
-        "save":             "💾  Speichern",
-        "test_email":       "✉  Test-E-Mail",
-        "settings_saved":   "Einstellungen wurden gespeichert.",
-        "email_sent":       "Test-E-Mail wurde gesendet!",
-        "autostart_on":     "Autostart aktiviert.",
-        "autostart_off":    "Autostart deaktiviert.",
-        "start_windows":    "Mit Windows starten (Autostart)",
-        "minimize_tray":    "Beim Schließen in System-Tray minimieren",
-        "smtp_presets":     "ℹ  SMTP Voreinstellungen  —  klicken zum Übernehmen",
-        "interval_label":   "Alle X Stunden",
-        "interval_hint":    " Stunden (1–24)",
-        "sender_email":     "Absender E-Mail",
-        "password":         "Passwort",
-        "recipient_email":  "Empfänger E-Mail",
-        "clear_log":        "🗑  Log leeren",
-        "search_hint":      "Produktname, Suchbegriff oder Geizhals-/PriceSpy-URL",
-        "url_tip":          "Tipp: Geizhals URL (.de/.eu) oder PriceSpy URL einfügen → Shops werden automatisch erkannt",
-        "target_price":     "Zielpreis",
-        "create_group":     "✅  Gruppe erstellen & tracken",
-        "all_btn":          "Alle",
-        "none_btn":         "Keine",
-        "language":         "Sprache",
-    }
+LANGUAGES = {
+    "en": "🇬🇧 English",
+    "de": "🇩🇪 Deutsch",
+    "fr": "🇫🇷 Français",
+    "es": "🇪🇸 Español",
+    "it": "🇮🇹 Italiano",
+    "nl": "🇳🇱 Nederlands",
+    "pl": "🇵🇱 Polski",
+    "pt": "🇵🇹 Português",
+    "tr": "🇹🇷 Türkçe",
+    "ru": "🇷🇺 Русский",
+    "zh": "🇨🇳 中文",
+    "ja": "🇯🇵 日本語",
+    "ar": "🇸🇦 العربية",
 }
 
+TRANSLATIONS = {
+    "en": {
+        "app_title": "Price Alert Tracker", "tab_compare": "  ⚖ Price Comparison  ",
+        "tab_settings": "  ⚙ Settings  ", "tab_log": "  📄 Log  ",
+        "new_group": "＋  New Group", "check_all": "↺  Check All",
+        "checking": "⏳  Checking...", "delete": "🗑  Delete",
+        "price_history": "📈 Price History", "add_url": "+ URL",
+        "product_groups": "GROUPS", "select_group": "Select a group or create new",
+        "best_price": "🏆 Best Price", "target_reached": "🔔 Target reached!",
+        "no_price": "⚠ No Price", "still_too_much": "still {diff} too much",
+        "save": "💾  Save", "test_email": "✉  Test Email",
+        "settings_saved": "Settings saved successfully.", "email_sent": "Test email sent!",
+        "autostart_on": "Autostart enabled.", "autostart_off": "Autostart disabled.",
+        "start_windows": "Start with Windows (Autostart)",
+        "minimize_tray": "Minimize to system tray on close",
+        "smtp_presets": "ℹ  SMTP Presets  —  click to apply",
+        "interval_label": "Every X Hours", "interval_hint": " hours (1–24)",
+        "sender_email": "Sender Email", "password": "Password",
+        "recipient_email": "Recipient Email", "clear_log": "🗑  Clear Log",
+        "search_hint": "Product name, search term or Geizhals/PriceSpy URL",
+        "url_tip": "Tip: Paste a Geizhals URL (.de/.eu) or PriceSpy URL",
+        "target_price": "Target Price", "create_group": "✅  Create group & track",
+        "all_btn": "All", "none_btn": "None", "language": "Language",
+        "buy_now": "🟢 BUY NOW", "wait": "⏳ WAIT", "monitor": "⏳ MONITOR",
+        "buy_soon": "🔴 BUY SOON — Price rising", "almost": "🟡 ALMOST THERE",
+        "wait_falling": "🟡 WAIT — Price falling",
+        "ai_title": "Smart Price Analysis",
+        "recommendation": "RECOMMENDATION",
+        "price_analysis": "Price Analysis",
+        "trend_volatility": "Trend & Volatility",
+        "insight": "Insight",
+        "cur_best": "Current best price",
+        "your_target": "Your target",
+        "dist_target": "Distance to target",
+        "vs_alltime": "vs. all-time low",
+        "price_trend": "Price trend",
+        "price_stab": "Price stability",
+        "data_points": "Data points",
+        "seasonal": "Seasonal pattern",
+        "price_spread": "Price spread (shops)",
+        "close": "Close",
+        "shops_tracked": "Shops tracked",
+        "target_price_lbl": "Target price",
+        "cur_avg": "Current avg price",
+        "cur_worst": "Current worst price",
+        "alltime_low": "All-time lowest",
+        "alltime_high": "All-time highest",
+        "alltime_avg": "All-time average",
+        "total_points": "Total data points",
+        "cheapest_shop": "Cheapest shop",
+        "expensive_shop": "Most expensive shop",
+        "max_savings": "Max savings possible",
+        "period": "Period:",
+        "day": "Day",
+        "week": "Week",
+        "month": "Month",
+        "all": "All",
+        "subtitle": "Smart price monitoring",
+        "email_config": "Email Configuration",
+        "check_interval": "Check Interval",
+        "above_target_track": "Price is {pct}% above target — keep tracking",
+        "above_target_wait": "Price is {pct}% above target — set an alert and be patient",
+        "above_target_falling": "Price is falling and {pct}% above target — likely to reach it soon",
+        "price_rising_grund": "Price is rising — buy before it gets more expensive",
+        "at_target": "Price is at or below your target",
+        "almost_grund": "Only {pct}% above your target — consider buying now",
+        "avg_legend": "Ø Average"},
+    "de": {
+        "app_title": "Preis-Alarm Tracker", "tab_compare": "  ⚖ Preisvergleich  ",
+        "tab_settings": "  ⚙ Einstellungen  ", "tab_log": "  📄 Log  ",
+        "new_group": "＋  Neue Gruppe", "check_all": "↺  Alle prüfen",
+        "checking": "⏳  Prüfe...", "delete": "🗑  Löschen",
+        "price_history": "📈 Preisverlauf", "add_url": "+ URL",
+        "product_groups": "GRUPPEN", "select_group": "Gruppe auswählen oder neu erstellen",
+        "best_price": "🏆 Günstigster Preis", "target_reached": "🔔 Zielpreis erreicht!",
+        "no_price": "⚠ Kein Preis", "still_too_much": "noch {diff} zu viel",
+        "save": "💾  Speichern", "test_email": "✉  Test-E-Mail",
+        "settings_saved": "Einstellungen gespeichert.", "email_sent": "Test-E-Mail gesendet!",
+        "autostart_on": "Autostart aktiviert.", "autostart_off": "Autostart deaktiviert.",
+        "start_windows": "Mit Windows starten (Autostart)",
+        "minimize_tray": "Beim Schließen in System-Tray minimieren",
+        "smtp_presets": "ℹ  SMTP Voreinstellungen  —  klicken zum Übernehmen",
+        "interval_label": "Alle X Stunden", "interval_hint": " Stunden (1–24)",
+        "sender_email": "Absender E-Mail", "password": "Passwort",
+        "recipient_email": "Empfänger E-Mail", "clear_log": "🗑  Log leeren",
+        "search_hint": "Produktname, Suchbegriff oder Geizhals-/PriceSpy-URL",
+        "url_tip": "Tipp: Geizhals URL (.de/.eu) oder PriceSpy URL einfügen",
+        "target_price": "Zielpreis", "create_group": "✅  Gruppe erstellen & tracken",
+        "all_btn": "Alle", "none_btn": "Keine", "language": "Sprache",
+        "buy_now": "🟢 JETZT KAUFEN", "wait": "⏳ WARTEN", "monitor": "⏳ BEOBACHTEN",
+        "buy_soon": "🔴 BALD KAUFEN — Preis steigt", "almost": "🟡 FAST ERREICHT",
+        "wait_falling": "🟡 WARTEN — Preis fällt",
+        "ai_title": "Smarte Preisanalyse",
+        "recommendation": "EMPFEHLUNG",
+        "price_analysis": "Preisanalyse",
+        "trend_volatility": "Trend & Volatilität",
+        "insight": "Einblick",
+        "cur_best": "Aktuell günstigster Preis",
+        "your_target": "Dein Zielpreis",
+        "dist_target": "Abstand zum Ziel",
+        "vs_alltime": "vs. Allzeit-Tief",
+        "price_trend": "Preistrend",
+        "price_stab": "Preisstabilität",
+        "data_points": "Datenpunkte",
+        "seasonal": "Saisonales Muster",
+        "price_spread": "Preisunterschied (Shops)",
+        "close": "Schließen",
+        "shops_tracked": "Verfolgte Shops",
+        "target_price_lbl": "Zielpreis",
+        "cur_avg": "Durchschnittspreis",
+        "cur_worst": "Teuerster Preis",
+        "alltime_low": "Allzeit-Tief",
+        "alltime_high": "Allzeit-Hoch",
+        "alltime_avg": "Allzeit-Durchschnitt",
+        "total_points": "Gesamte Datenpunkte",
+        "cheapest_shop": "Günstigster Shop",
+        "expensive_shop": "Teuerster Shop",
+        "max_savings": "Maximale Ersparnis",
+        "period": "Zeitraum:",
+        "day": "Tag",
+        "week": "Woche",
+        "month": "Monat",
+        "all": "Alles",
+        "subtitle": "Smarte Preisüberwachung",
+        "email_config": "E-Mail Konfiguration",
+        "check_interval": "Prüf-Intervall",
+        "above_target_track": "Preis liegt {pct}% über Ziel — weiter beobachten",
+        "above_target_wait": "Preis liegt {pct}% über Ziel — Alarm setzen und warten",
+        "above_target_falling": "Preis fällt und liegt {pct}% über Ziel — bald erreicht",
+        "price_rising_grund": "Preis steigt — jetzt kaufen bevor er teurer wird",
+        "at_target": "Preis liegt am oder unter deinem Zielpreis",
+        "almost_grund": "Nur noch {pct}% über deinem Ziel — jetzt kaufen erwägen",
+        "avg_legend": "Ø Durchschnitt"},
+    "fr": {
+        "app_title": "Suivi des Prix", "tab_compare": "  ⚖ Comparaison  ",
+        "tab_settings": "  ⚙ Paramètres  ", "tab_log": "  📄 Journal  ",
+        "new_group": "＋  Nouveau groupe", "check_all": "↺  Tout vérifier",
+        "checking": "⏳  Vérification...", "delete": "🗑  Supprimer",
+        "price_history": "📈 Historique", "add_url": "+ URL",
+        "product_groups": "GROUPES", "select_group": "Sélectionner un groupe",
+        "best_price": "🏆 Meilleur prix", "target_reached": "🔔 Objectif atteint!",
+        "no_price": "⚠ Pas de prix", "still_too_much": "encore {diff} de trop",
+        "save": "💾  Enregistrer", "test_email": "✉  E-mail test",
+        "settings_saved": "Paramètres enregistrés.", "email_sent": "E-mail test envoyé!",
+        "autostart_on": "Démarrage auto activé.", "autostart_off": "Démarrage auto désactivé.",
+        "start_windows": "Démarrer avec Windows",
+        "minimize_tray": "Réduire dans la barre système",
+        "smtp_presets": "ℹ  Préréglages SMTP", "interval_label": "Toutes les X heures",
+        "interval_hint": " heures (1–24)", "sender_email": "E-mail expéditeur",
+        "password": "Mot de passe", "recipient_email": "E-mail destinataire",
+        "clear_log": "🗑  Effacer journal",
+        "search_hint": "Nom du produit, terme de recherche ou URL",
+        "url_tip": "Astuce: Collez une URL Geizhals ou PriceSpy",
+        "target_price": "Prix cible", "create_group": "✅  Créer le groupe",
+        "all_btn": "Tout", "none_btn": "Aucun", "language": "Langue",
+        "buy_now": "🟢 ACHETER", "wait": "⏳ ATTENDRE", "monitor": "⏳ SURVEILLER",
+        "buy_soon": "🔴 ACHETER VITE", "almost": "🟡 PRESQUE",
+        "wait_falling": "🟡 ATTENDRE — Prix en baisse",
+        "ai_title": "Analyse intelligente",
+        "recommendation": "RECOMMANDATION",
+        "price_analysis": "Analyse des prix",
+        "trend_volatility": "Tendance & Volatilité",
+        "insight": "Aperçu",
+        "cur_best": "Meilleur prix actuel",
+        "your_target": "Votre objectif",
+        "dist_target": "Distance à l'objectif",
+        "vs_alltime": "vs. plus bas historique",
+        "price_trend": "Tendance",
+        "price_stab": "Stabilité",
+        "data_points": "Points de données",
+        "seasonal": "Modèle saisonnier",
+        "price_spread": "Écart de prix",
+        "close": "Fermer",
+        "shops_tracked": "Boutiques suivies",
+        "target_price_lbl": "Prix cible",
+        "cur_avg": "Prix moyen",
+        "cur_worst": "Prix le plus élevé",
+        "alltime_low": "Plus bas historique",
+        "alltime_high": "Plus haut historique",
+        "alltime_avg": "Moyenne historique",
+        "total_points": "Total des points",
+        "cheapest_shop": "Boutique la moins chère",
+        "expensive_shop": "Boutique la plus chère",
+        "max_savings": "Économies max",
+        "period": "Période:",
+        "day": "Jour",
+        "week": "Semaine",
+        "month": "Mois",
+        "all": "Tout",
+        "subtitle": "Suivi intelligent des prix",
+        "email_config": "Configuration e-mail",
+        "check_interval": "Intervalle de vérification",
+        "above_target_track": "Prix {pct}% au-dessus de l'objectif",
+        "above_target_wait": "Prix {pct}% au-dessus — attendre",
+        "above_target_falling": "Prix en baisse, {pct}% au-dessus",
+        "price_rising_grund": "Prix en hausse — achetez maintenant",
+        "at_target": "Prix atteint l'objectif",
+        "almost_grund": "Seulement {pct}% au-dessus",
+        "avg_legend": "Ø Moyenne"},
+    "es": {
+        "app_title": "Rastreador de Precios", "tab_compare": "  ⚖ Comparación  ",
+        "tab_settings": "  ⚙ Ajustes  ", "tab_log": "  📄 Registro  ",
+        "new_group": "＋  Nuevo grupo", "check_all": "↺  Verificar todo",
+        "checking": "⏳  Verificando...", "delete": "🗑  Eliminar",
+        "price_history": "📈 Historial", "add_url": "+ URL",
+        "product_groups": "GRUPOS", "select_group": "Seleccionar un grupo",
+        "best_price": "🏆 Mejor precio", "target_reached": "🔔 ¡Objetivo alcanzado!",
+        "no_price": "⚠ Sin precio", "still_too_much": "{diff} demasiado",
+        "save": "💾  Guardar", "test_email": "✉  Correo de prueba",
+        "settings_saved": "Ajustes guardados.", "email_sent": "¡Correo enviado!",
+        "autostart_on": "Inicio automático activado.", "autostart_off": "Inicio automático desactivado.",
+        "start_windows": "Iniciar con Windows",
+        "minimize_tray": "Minimizar a la bandeja del sistema",
+        "smtp_presets": "ℹ  Preajustes SMTP", "interval_label": "Cada X horas",
+        "interval_hint": " horas (1–24)", "sender_email": "Correo remitente",
+        "password": "Contraseña", "recipient_email": "Correo destinatario",
+        "clear_log": "🗑  Limpiar registro",
+        "search_hint": "Nombre del producto, término de búsqueda o URL",
+        "url_tip": "Consejo: Pega una URL de Geizhals o PriceSpy",
+        "target_price": "Precio objetivo", "create_group": "✅  Crear grupo",
+        "all_btn": "Todo", "none_btn": "Ninguno", "language": "Idioma",
+        "buy_now": "🟢 COMPRAR", "wait": "⏳ ESPERAR", "monitor": "⏳ VIGILAR",
+        "buy_soon": "🔴 COMPRAR PRONTO", "almost": "🟡 CASI",
+        "wait_falling": "🟡 ESPERAR — Precio bajando",
+        "ai_title": "Análisis inteligente",
+        "recommendation": "RECOMENDACIÓN",
+        "price_analysis": "Análisis de precio",
+        "trend_volatility": "Tendencia & Volatilidad",
+        "insight": "Perspectiva",
+        "cur_best": "Mejor precio actual",
+        "your_target": "Tu objetivo",
+        "dist_target": "Distancia al objetivo",
+        "vs_alltime": "vs. mínimo histórico",
+        "price_trend": "Tendencia",
+        "price_stab": "Estabilidad",
+        "data_points": "Puntos de datos",
+        "seasonal": "Patrón estacional",
+        "price_spread": "Diferencia de precio",
+        "close": "Cerrar",
+        "shops_tracked": "Tiendas seguidas",
+        "target_price_lbl": "Precio objetivo",
+        "cur_avg": "Precio promedio",
+        "cur_worst": "Precio más alto",
+        "alltime_low": "Mínimo histórico",
+        "alltime_high": "Máximo histórico",
+        "alltime_avg": "Promedio histórico",
+        "total_points": "Total de puntos",
+        "cheapest_shop": "Tienda más barata",
+        "expensive_shop": "Tienda más cara",
+        "max_savings": "Ahorro máximo",
+        "period": "Período:",
+        "day": "Día",
+        "week": "Semana",
+        "month": "Mes",
+        "all": "Todo",
+        "subtitle": "Monitoreo inteligente",
+        "email_config": "Configuración de correo",
+        "check_interval": "Intervalo de verificación",
+        "above_target_track": "Precio {pct}% sobre objetivo",
+        "above_target_wait": "Precio {pct}% sobre objetivo — esperar",
+        "above_target_falling": "Precio bajando, {pct}% sobre objetivo",
+        "price_rising_grund": "Precio subiendo — compra ahora",
+        "at_target": "Precio en el objetivo",
+        "almost_grund": "Solo {pct}% sobre objetivo",
+        "avg_legend": "Ø Promedio"},
+    "it": {
+        "app_title": "Monitoraggio Prezzi", "tab_compare": "  ⚖ Confronto  ",
+        "tab_settings": "  ⚙ Impostazioni  ", "tab_log": "  📄 Registro  ",
+        "new_group": "＋  Nuovo gruppo", "check_all": "↺  Controlla tutto",
+        "checking": "⏳  Controllo...", "delete": "🗑  Elimina",
+        "price_history": "📈 Storico", "add_url": "+ URL",
+        "product_groups": "GRUPPI", "select_group": "Seleziona un gruppo",
+        "best_price": "🏆 Miglior prezzo", "target_reached": "🔔 Obiettivo raggiunto!",
+        "no_price": "⚠ Nessun prezzo", "still_too_much": "ancora {diff} troppo",
+        "save": "💾  Salva", "test_email": "✉  Email di test",
+        "settings_saved": "Impostazioni salvate.", "email_sent": "Email inviata!",
+        "autostart_on": "Avvio auto attivato.", "autostart_off": "Avvio auto disattivato.",
+        "start_windows": "Avvia con Windows",
+        "minimize_tray": "Riduci a icona nella barra",
+        "smtp_presets": "ℹ  Preimpostazioni SMTP", "interval_label": "Ogni X ore",
+        "interval_hint": " ore (1–24)", "sender_email": "Email mittente",
+        "password": "Password", "recipient_email": "Email destinatario",
+        "clear_log": "🗑  Cancella registro",
+        "search_hint": "Nome prodotto, termine di ricerca o URL",
+        "url_tip": "Suggerimento: Incolla un URL Geizhals o PriceSpy",
+        "target_price": "Prezzo target", "create_group": "✅  Crea gruppo",
+        "all_btn": "Tutti", "none_btn": "Nessuno", "language": "Lingua",
+        "buy_now": "🟢 COMPRA ORA", "wait": "⏳ ASPETTA", "monitor": "⏳ MONITORA",
+        "buy_soon": "🔴 COMPRA PRESTO", "almost": "🟡 QUASI",
+        "wait_falling": "🟡 ASPETTA — Prezzo in calo",
+        "ai_title": "Analisi intelligente",
+        "recommendation": "RACCOMANDAZIONE",
+        "price_analysis": "Analisi prezzi",
+        "trend_volatility": "Tendenza & Volatilità",
+        "insight": "Approfondimento",
+        "cur_best": "Miglior prezzo attuale",
+        "your_target": "Il tuo obiettivo",
+        "dist_target": "Distanza dall'obiettivo",
+        "vs_alltime": "vs. minimo storico",
+        "price_trend": "Tendenza",
+        "price_stab": "Stabilità",
+        "data_points": "Punti dati",
+        "seasonal": "Schema stagionale",
+        "price_spread": "Differenza di prezzo",
+        "close": "Chiudi",
+        "shops_tracked": "Negozi tracciati",
+        "target_price_lbl": "Prezzo target",
+        "cur_avg": "Prezzo medio",
+        "cur_worst": "Prezzo più alto",
+        "alltime_low": "Minimo storico",
+        "alltime_high": "Massimo storico",
+        "alltime_avg": "Media storica",
+        "total_points": "Totale punti",
+        "cheapest_shop": "Negozio più economico",
+        "expensive_shop": "Negozio più caro",
+        "max_savings": "Risparmio massimo",
+        "period": "Periodo:",
+        "day": "Giorno",
+        "week": "Settimana",
+        "month": "Mese",
+        "all": "Tutto",
+        "subtitle": "Monitoraggio intelligente",
+        "email_config": "Configurazione email",
+        "check_interval": "Intervallo di controllo",
+        "above_target_track": "Prezzo {pct}% sopra obiettivo",
+        "above_target_wait": "Prezzo {pct}% sopra — aspettare",
+        "above_target_falling": "Prezzo in calo, {pct}% sopra",
+        "price_rising_grund": "Prezzo in aumento — compra ora",
+        "at_target": "Prezzo all'obiettivo",
+        "almost_grund": "Solo {pct}% sopra obiettivo",
+        "avg_legend": "Ø Media"},
+    "nl": {
+        "app_title": "Prijsalarm Tracker", "tab_compare": "  ⚖ Vergelijking  ",
+        "tab_settings": "  ⚙ Instellingen  ", "tab_log": "  📄 Log  ",
+        "new_group": "＋  Nieuwe groep", "check_all": "↺  Alles controleren",
+        "checking": "⏳  Controleren...", "delete": "🗑  Verwijderen",
+        "price_history": "📈 Prijsgeschiedenis", "add_url": "+ URL",
+        "product_groups": "GROEPEN", "select_group": "Selecteer een groep",
+        "best_price": "🏆 Beste prijs", "target_reached": "🔔 Doelprijs bereikt!",
+        "no_price": "⚠ Geen prijs", "still_too_much": "nog {diff} te veel",
+        "save": "💾  Opslaan", "test_email": "✉  Test e-mail",
+        "settings_saved": "Instellingen opgeslagen.", "email_sent": "Test e-mail verzonden!",
+        "autostart_on": "Autostart ingeschakeld.", "autostart_off": "Autostart uitgeschakeld.",
+        "start_windows": "Starten met Windows",
+        "minimize_tray": "Minimaliseren naar systeemvak",
+        "smtp_presets": "ℹ  SMTP Presets", "interval_label": "Elke X uur",
+        "interval_hint": " uur (1–24)", "sender_email": "Afzender e-mail",
+        "password": "Wachtwoord", "recipient_email": "Ontvanger e-mail",
+        "clear_log": "🗑  Log wissen",
+        "search_hint": "Productnaam, zoekterm of URL",
+        "url_tip": "Tip: Plak een Geizhals of PriceSpy URL",
+        "target_price": "Doelprijs", "create_group": "✅  Groep aanmaken",
+        "all_btn": "Alle", "none_btn": "Geen", "language": "Taal",
+        "buy_now": "🟢 KOOP NU", "wait": "⏳ WACHT", "monitor": "⏳ MONITOR",
+        "buy_soon": "🔴 KOOP SNEL", "almost": "🟡 BIJNA",
+        "wait_falling": "🟡 WACHT — Prijs daalt",
+        "ai_title": "Slimme analyse",
+        "recommendation": "AANBEVELING",
+        "price_analysis": "Prijsanalyse",
+        "trend_volatility": "Trend & Volatiliteit",
+        "insight": "Inzicht",
+        "cur_best": "Huidige beste prijs",
+        "your_target": "Jouw doel",
+        "dist_target": "Afstand tot doel",
+        "vs_alltime": "vs. historisch laagst",
+        "price_trend": "Prijstrend",
+        "price_stab": "Prijsstabiliteit",
+        "data_points": "Datapunten",
+        "seasonal": "Seizoenspatroon",
+        "price_spread": "Prijsverschil",
+        "close": "Sluiten",
+        "shops_tracked": "Gevolgde winkels",
+        "target_price_lbl": "Doelprijs",
+        "cur_avg": "Gemiddelde prijs",
+        "cur_worst": "Hoogste prijs",
+        "alltime_low": "Historisch laagst",
+        "alltime_high": "Historisch hoogst",
+        "alltime_avg": "Historisch gemiddeld",
+        "total_points": "Totaal punten",
+        "cheapest_shop": "Goedkoopste winkel",
+        "expensive_shop": "Duurste winkel",
+        "max_savings": "Maximale besparing",
+        "period": "Periode:",
+        "day": "Dag",
+        "week": "Week",
+        "month": "Maand",
+        "all": "Alles",
+        "subtitle": "Slimme prijsbewaking",
+        "email_config": "E-mailconfiguratie",
+        "check_interval": "Controle-interval",
+        "above_target_track": "Prijs {pct}% boven doel",
+        "above_target_wait": "Prijs {pct}% boven doel — wachten",
+        "above_target_falling": "Prijs daalt, {pct}% boven doel",
+        "price_rising_grund": "Prijs stijgt — nu kopen",
+        "at_target": "Prijs op doel",
+        "almost_grund": "Nog maar {pct}% boven doel",
+        "avg_legend": "Ø Gemiddelde"},
+    "pl": {
+        "app_title": "Śledzenie Cen", "tab_compare": "  ⚖ Porównanie  ",
+        "tab_settings": "  ⚙ Ustawienia  ", "tab_log": "  📄 Dziennik  ",
+        "new_group": "＋  Nowa grupa", "check_all": "↺  Sprawdź wszystko",
+        "checking": "⏳  Sprawdzanie...", "delete": "🗑  Usuń",
+        "price_history": "📈 Historia cen", "add_url": "+ URL",
+        "product_groups": "GRUPY", "select_group": "Wybierz grupę",
+        "best_price": "🏆 Najlepsza cena", "target_reached": "🔔 Cel osiągnięty!",
+        "no_price": "⚠ Brak ceny", "still_too_much": "jeszcze {diff} za dużo",
+        "save": "💾  Zapisz", "test_email": "✉  E-mail testowy",
+        "settings_saved": "Ustawienia zapisane.", "email_sent": "E-mail wysłany!",
+        "autostart_on": "Autostart włączony.", "autostart_off": "Autostart wyłączony.",
+        "start_windows": "Uruchom z Windows",
+        "minimize_tray": "Minimalizuj do zasobnika",
+        "smtp_presets": "ℹ  Presety SMTP", "interval_label": "Co X godzin",
+        "interval_hint": " godzin (1–24)", "sender_email": "E-mail nadawcy",
+        "password": "Hasło", "recipient_email": "E-mail odbiorcy",
+        "clear_log": "🗑  Wyczyść dziennik",
+        "search_hint": "Nazwa produktu, hasło lub URL",
+        "url_tip": "Wskazówka: Wklej URL Geizhals lub PriceSpy",
+        "target_price": "Cena docelowa", "create_group": "✅  Utwórz grupę",
+        "all_btn": "Wszystkie", "none_btn": "Żadne", "language": "Język",
+        "buy_now": "🟢 KUP TERAZ", "wait": "⏳ CZEKAJ", "monitor": "⏳ MONITORUJ",
+        "buy_soon": "🔴 KUP WKRÓTCE", "almost": "🟡 PRAWIE",
+        "wait_falling": "🟡 CZEKAJ — Cena spada",
+        "ai_title": "Inteligentna analiza",
+        "recommendation": "REKOMENDACJA",
+        "price_analysis": "Analiza cen",
+        "trend_volatility": "Trend & Zmienność",
+        "insight": "Wgląd",
+        "cur_best": "Najlepsza cena",
+        "your_target": "Twój cel",
+        "dist_target": "Odległość od celu",
+        "vs_alltime": "vs. historyczne minimum",
+        "price_trend": "Trend cenowy",
+        "price_stab": "Stabilność",
+        "data_points": "Punkty danych",
+        "seasonal": "Wzorzec sezonowy",
+        "price_spread": "Różnica cen",
+        "close": "Zamknij",
+        "shops_tracked": "Śledzone sklepy",
+        "target_price_lbl": "Cena docelowa",
+        "cur_avg": "Średnia cena",
+        "cur_worst": "Najwyższa cena",
+        "alltime_low": "Historyczne minimum",
+        "alltime_high": "Historyczne maksimum",
+        "alltime_avg": "Historyczna średnia",
+        "total_points": "Łączne punkty",
+        "cheapest_shop": "Najtańszy sklep",
+        "expensive_shop": "Najdroższy sklep",
+        "max_savings": "Maks. oszczędności",
+        "period": "Okres:",
+        "day": "Dzień",
+        "week": "Tydzień",
+        "month": "Miesiąc",
+        "all": "Wszystko",
+        "subtitle": "Inteligentne śledzenie cen",
+        "email_config": "Konfiguracja e-mail",
+        "check_interval": "Interwał sprawdzania",
+        "above_target_track": "Cena {pct}% powyżej celu",
+        "above_target_wait": "Cena {pct}% powyżej — czekaj",
+        "above_target_falling": "Cena spada, {pct}% powyżej",
+        "price_rising_grund": "Cena rośnie — kup teraz",
+        "at_target": "Cena osiągnęła cel",
+        "almost_grund": "Tylko {pct}% powyżej celu",
+        "avg_legend": "Ø Średnia"},
+    "pt": {
+        "app_title": "Rastreador de Preços", "tab_compare": "  ⚖ Comparação  ",
+        "tab_settings": "  ⚙ Definições  ", "tab_log": "  📄 Registo  ",
+        "new_group": "＋  Novo grupo", "check_all": "↺  Verificar tudo",
+        "checking": "⏳  Verificando...", "delete": "🗑  Eliminar",
+        "price_history": "📈 Histórico", "add_url": "+ URL",
+        "product_groups": "GRUPOS", "select_group": "Selecionar um grupo",
+        "best_price": "🏆 Melhor preço", "target_reached": "🔔 Objetivo atingido!",
+        "no_price": "⚠ Sem preço", "still_too_much": "ainda {diff} a mais",
+        "save": "💾  Guardar", "test_email": "✉  Email de teste",
+        "settings_saved": "Definições guardadas.", "email_sent": "Email enviado!",
+        "autostart_on": "Início auto ativado.", "autostart_off": "Início auto desativado.",
+        "start_windows": "Iniciar com o Windows",
+        "minimize_tray": "Minimizar para a bandeja",
+        "smtp_presets": "ℹ  Predefinições SMTP", "interval_label": "A cada X horas",
+        "interval_hint": " horas (1–24)", "sender_email": "Email remetente",
+        "password": "Senha", "recipient_email": "Email destinatário",
+        "clear_log": "🗑  Limpar registo",
+        "search_hint": "Nome do produto, termo de pesquisa ou URL",
+        "url_tip": "Dica: Cole um URL do Geizhals ou PriceSpy",
+        "target_price": "Preço alvo", "create_group": "✅  Criar grupo",
+        "all_btn": "Todos", "none_btn": "Nenhum", "language": "Idioma",
+        "buy_now": "🟢 COMPRAR", "wait": "⏳ AGUARDAR", "monitor": "⏳ MONITORAR",
+        "buy_soon": "🔴 COMPRAR RÁPIDO", "almost": "🟡 QUASE",
+        "wait_falling": "🟡 AGUARDAR — Preço a cair",
+        "ai_title": "Análise inteligente",
+        "recommendation": "RECOMENDAÇÃO",
+        "price_analysis": "Análise de preço",
+        "trend_volatility": "Tendência & Volatilidade",
+        "insight": "Perspectiva",
+        "cur_best": "Melhor preço atual",
+        "your_target": "Seu objetivo",
+        "dist_target": "Distância ao objetivo",
+        "vs_alltime": "vs. mínimo histórico",
+        "price_trend": "Tendência",
+        "price_stab": "Estabilidade",
+        "data_points": "Pontos de dados",
+        "seasonal": "Padrão sazonal",
+        "price_spread": "Diferença de preço",
+        "close": "Fechar",
+        "shops_tracked": "Lojas rastreadas",
+        "target_price_lbl": "Preço alvo",
+        "cur_avg": "Preço médio",
+        "cur_worst": "Preço mais alto",
+        "alltime_low": "Mínimo histórico",
+        "alltime_high": "Máximo histórico",
+        "alltime_avg": "Média histórica",
+        "total_points": "Total de pontos",
+        "cheapest_shop": "Loja mais barata",
+        "expensive_shop": "Loja mais cara",
+        "max_savings": "Poupança máxima",
+        "period": "Período:",
+        "day": "Dia",
+        "week": "Semana",
+        "month": "Mês",
+        "all": "Tudo",
+        "subtitle": "Monitoramento inteligente",
+        "email_config": "Configuração de e-mail",
+        "check_interval": "Intervalo de verificação",
+        "above_target_track": "Preço {pct}% acima do objetivo",
+        "above_target_wait": "Preço {pct}% acima — aguardar",
+        "above_target_falling": "Preço a cair, {pct}% acima",
+        "price_rising_grund": "Preço subindo — compre agora",
+        "at_target": "Preço no objetivo",
+        "almost_grund": "Só {pct}% acima do objetivo",
+        "avg_legend": "Ø Média"},
+    "tr": {
+        "app_title": "Fiyat Takip Aracı", "tab_compare": "  ⚖ Karşılaştırma  ",
+        "tab_settings": "  ⚙ Ayarlar  ", "tab_log": "  📄 Günlük  ",
+        "new_group": "＋  Yeni Grup", "check_all": "↺  Hepsini Kontrol Et",
+        "checking": "⏳  Kontrol ediliyor...", "delete": "🗑  Sil",
+        "price_history": "📈 Fiyat Geçmişi", "add_url": "+ URL",
+        "product_groups": "GRUPLAR", "select_group": "Bir grup seçin",
+        "best_price": "🏆 En İyi Fiyat", "target_reached": "🔔 Hedef ulaşıldı!",
+        "no_price": "⚠ Fiyat yok", "still_too_much": "hâlâ {diff} fazla",
+        "save": "💾  Kaydet", "test_email": "✉  Test E-postası",
+        "settings_saved": "Ayarlar kaydedildi.", "email_sent": "Test e-postası gönderildi!",
+        "autostart_on": "Otomatik başlatma açık.", "autostart_off": "Otomatik başlatma kapalı.",
+        "start_windows": "Windows ile başlat",
+        "minimize_tray": "Sistem tepsisine küçült",
+        "smtp_presets": "ℹ  SMTP Önayarları", "interval_label": "Her X saatte",
+        "interval_hint": " saat (1–24)", "sender_email": "Gönderen e-posta",
+        "password": "Şifre", "recipient_email": "Alıcı e-posta",
+        "clear_log": "🗑  Günlüğü temizle",
+        "search_hint": "Ürün adı, arama terimi veya URL",
+        "url_tip": "İpucu: Geizhals veya PriceSpy URL'si yapıştırın",
+        "target_price": "Hedef Fiyat", "create_group": "✅  Grup oluştur",
+        "all_btn": "Tümü", "none_btn": "Hiçbiri", "language": "Dil",
+        "buy_now": "🟢 ŞİMDİ AL", "wait": "⏳ BEKLE", "monitor": "⏳ İZLE",
+        "buy_soon": "🔴 YAKINDA AL", "almost": "🟡 NEREDEYSE",
+        "wait_falling": "🟡 BEKLE — Fiyat düşüyor",
+        "ai_title": "Akıllı analiz",
+        "recommendation": "TAVSİYE",
+        "price_analysis": "Fiyat analizi",
+        "trend_volatility": "Trend & Oynaklık",
+        "insight": "Görüş",
+        "cur_best": "Mevcut en iyi fiyat",
+        "your_target": "Hedefiniz",
+        "dist_target": "Hedefe uzaklık",
+        "vs_alltime": "vs. tüm zamanların en düşüğü",
+        "price_trend": "Fiyat trendi",
+        "price_stab": "Fiyat istikrarı",
+        "data_points": "Veri noktaları",
+        "seasonal": "Mevsimsel desen",
+        "price_spread": "Fiyat farkı",
+        "close": "Kapat",
+        "shops_tracked": "Takip edilen mağazalar",
+        "target_price_lbl": "Hedef fiyat",
+        "cur_avg": "Ortalama fiyat",
+        "cur_worst": "En yüksek fiyat",
+        "alltime_low": "Tüm zamanların en düşüğü",
+        "alltime_high": "Tüm zamanların en yükseği",
+        "alltime_avg": "Tarihsel ortalama",
+        "total_points": "Toplam nokta",
+        "cheapest_shop": "En ucuz mağaza",
+        "expensive_shop": "En pahalı mağaza",
+        "max_savings": "Maks. tasarruf",
+        "period": "Dönem:",
+        "day": "Gün",
+        "week": "Hafta",
+        "month": "Ay",
+        "all": "Tümü",
+        "subtitle": "Akıllı fiyat takibi",
+        "email_config": "E-posta yapılandırması",
+        "check_interval": "Kontrol aralığı",
+        "above_target_track": "Fiyat hedefin {pct}% üzerinde",
+        "above_target_wait": "Fiyat {pct}% üzerinde — bekle",
+        "above_target_falling": "Fiyat düşüyor, {pct}% üzerinde",
+        "price_rising_grund": "Fiyat artıyor — şimdi al",
+        "at_target": "Fiyat hedefe ulaştı",
+        "almost_grund": "Sadece {pct}% üzerinde",
+        "avg_legend": "Ø Ortalama"},
+    "ru": {
+        "app_title": "Отслеживание цен", "tab_compare": "  ⚖ Сравнение  ",
+        "tab_settings": "  ⚙ Настройки  ", "tab_log": "  📄 Журнал  ",
+        "new_group": "＋  Новая группа", "check_all": "↺  Проверить всё",
+        "checking": "⏳  Проверка...", "delete": "🗑  Удалить",
+        "price_history": "📈 История цен", "add_url": "+ URL",
+        "product_groups": "ГРУППЫ", "select_group": "Выберите группу",
+        "best_price": "🏆 Лучшая цена", "target_reached": "🔔 Цель достигнута!",
+        "no_price": "⚠ Нет цены", "still_too_much": "ещё {diff} лишних",
+        "save": "💾  Сохранить", "test_email": "✉  Тест почты",
+        "settings_saved": "Настройки сохранены.", "email_sent": "Письмо отправлено!",
+        "autostart_on": "Автозапуск включён.", "autostart_off": "Автозапуск выключен.",
+        "start_windows": "Запускать с Windows",
+        "minimize_tray": "Свернуть в трей",
+        "smtp_presets": "ℹ  Настройки SMTP", "interval_label": "Каждые X часов",
+        "interval_hint": " часов (1–24)", "sender_email": "Email отправителя",
+        "password": "Пароль", "recipient_email": "Email получателя",
+        "clear_log": "🗑  Очистить журнал",
+        "search_hint": "Название товара, поисковый запрос или URL",
+        "url_tip": "Совет: Вставьте URL Geizhals или PriceSpy",
+        "target_price": "Целевая цена", "create_group": "✅  Создать группу",
+        "all_btn": "Все", "none_btn": "Ни одного", "language": "Язык",
+        "buy_now": "🟢 КУПИТЬ", "wait": "⏳ ЖДАТЬ", "monitor": "⏳ СЛЕДИТЬ",
+        "buy_soon": "🔴 КУПИТЬ СКОРО", "almost": "🟡 ПОЧТИ",
+        "wait_falling": "🟡 ЖДАТЬ — Цена падает",
+        "ai_title": "Умный анализ",
+        "recommendation": "РЕКОМЕНДАЦИЯ",
+        "price_analysis": "Анализ цен",
+        "trend_volatility": "Тренд & Волатильность",
+        "insight": "Вывод",
+        "cur_best": "Лучшая цена сейчас",
+        "your_target": "Ваша цель",
+        "dist_target": "Расстояние до цели",
+        "vs_alltime": "vs. исторический минимум",
+        "price_trend": "Тренд цены",
+        "price_stab": "Стабильность",
+        "data_points": "Точки данных",
+        "seasonal": "Сезонная закономерность",
+        "price_spread": "Разброс цен",
+        "close": "Закрыть",
+        "shops_tracked": "Отслеживаемые магазины",
+        "target_price_lbl": "Целевая цена",
+        "cur_avg": "Средняя цена",
+        "cur_worst": "Самая высокая цена",
+        "alltime_low": "Исторический минимум",
+        "alltime_high": "Исторический максимум",
+        "alltime_avg": "Среднее за всё время",
+        "total_points": "Всего точек",
+        "cheapest_shop": "Самый дешёвый магазин",
+        "expensive_shop": "Самый дорогой магазин",
+        "max_savings": "Макс. экономия",
+        "period": "Период:",
+        "day": "День",
+        "week": "Неделя",
+        "month": "Месяц",
+        "all": "Всё",
+        "subtitle": "Умный мониторинг цен",
+        "email_config": "Настройка почты",
+        "check_interval": "Интервал проверки",
+        "above_target_track": "Цена на {pct}% выше цели",
+        "above_target_wait": "Цена на {pct}% выше — ждать",
+        "above_target_falling": "Цена падает, {pct}% выше цели",
+        "price_rising_grund": "Цена растёт — покупайте сейчас",
+        "at_target": "Цена достигла цели",
+        "almost_grund": "Только {pct}% выше цели",
+        "avg_legend": "Ø Среднее"},
+    "zh": {
+        "app_title": "价格追踪器", "tab_compare": "  ⚖ 价格比较  ",
+        "tab_settings": "  ⚙ 设置  ", "tab_log": "  📄 日志  ",
+        "new_group": "＋  新建组", "check_all": "↺  全部检查",
+        "checking": "⏳  检查中...", "delete": "🗑  删除",
+        "price_history": "📈 价格历史", "add_url": "+ URL",
+        "product_groups": "分组", "select_group": "选择一个分组",
+        "best_price": "🏆 最低价", "target_reached": "🔔 已达目标价!",
+        "no_price": "⚠ 无价格", "still_too_much": "还差 {diff}",
+        "save": "💾  保存", "test_email": "✉  测试邮件",
+        "settings_saved": "设置已保存。", "email_sent": "测试邮件已发送！",
+        "autostart_on": "开机自启已开启。", "autostart_off": "开机自启已关闭。",
+        "start_windows": "随Windows启动",
+        "minimize_tray": "关闭时最小化到托盘",
+        "smtp_presets": "ℹ  SMTP 预设", "interval_label": "每 X 小时",
+        "interval_hint": " 小时 (1–24)", "sender_email": "发件人邮箱",
+        "password": "密码", "recipient_email": "收件人邮箱",
+        "clear_log": "🗑  清除日志",
+        "search_hint": "产品名称、搜索词或URL",
+        "url_tip": "提示：粘贴 Geizhals 或 PriceSpy 链接",
+        "target_price": "目标价格", "create_group": "✅  创建分组",
+        "all_btn": "全选", "none_btn": "取消", "language": "语言",
+        "buy_now": "🟢 立即购买", "wait": "⏳ 等待", "monitor": "⏳ 监控",
+        "buy_soon": "🔴 尽快购买", "almost": "🟡 快了",
+        "wait_falling": "🟡 等待 — 价格下降中",
+        "ai_title": "智能分析",
+        "recommendation": "建议",
+        "price_analysis": "价格分析",
+        "trend_volatility": "趋势与波动",
+        "insight": "洞察",
+        "cur_best": "当前最低价",
+        "your_target": "您的目标",
+        "dist_target": "距目标差距",
+        "vs_alltime": "vs. 历史最低",
+        "price_trend": "价格趋势",
+        "price_stab": "价格稳定性",
+        "data_points": "数据点",
+        "seasonal": "季节性规律",
+        "price_spread": "价格差距",
+        "close": "关闭",
+        "shops_tracked": "追踪店铺",
+        "target_price_lbl": "目标价格",
+        "cur_avg": "当前平均价",
+        "cur_worst": "当前最高价",
+        "alltime_low": "历史最低",
+        "alltime_high": "历史最高",
+        "alltime_avg": "历史平均",
+        "total_points": "总数据点",
+        "cheapest_shop": "最便宜店铺",
+        "expensive_shop": "最贵店铺",
+        "max_savings": "最大节省",
+        "period": "周期:",
+        "day": "天",
+        "week": "周",
+        "month": "月",
+        "all": "全部",
+        "subtitle": "智能价格监控",
+        "email_config": "邮件配置",
+        "check_interval": "检查间隔",
+        "above_target_track": "价格比目标高{pct}%",
+        "above_target_wait": "价格高{pct}% — 等待",
+        "above_target_falling": "价格下降中，高{pct}%",
+        "price_rising_grund": "价格上涨 — 现在购买",
+        "at_target": "价格已达目标",
+        "almost_grund": "仅高出{pct}%",
+        "avg_legend": "Ø 平均"},
+    "ja": {
+        "app_title": "価格追跡ツール", "tab_compare": "  ⚖ 価格比較  ",
+        "tab_settings": "  ⚙ 設定  ", "tab_log": "  📄 ログ  ",
+        "new_group": "＋  新しいグループ", "check_all": "↺  すべて確認",
+        "checking": "⏳  確認中...", "delete": "🗑  削除",
+        "price_history": "📈 価格履歴", "add_url": "+ URL",
+        "product_groups": "グループ", "select_group": "グループを選択",
+        "best_price": "🏆 最安値", "target_reached": "🔔 目標達成!",
+        "no_price": "⚠ 価格なし", "still_too_much": "まだ {diff} 高い",
+        "save": "💾  保存", "test_email": "✉  テストメール",
+        "settings_saved": "設定を保存しました。", "email_sent": "テストメール送信完了！",
+        "autostart_on": "自動起動オン。", "autostart_off": "自動起動オフ。",
+        "start_windows": "Windowsと一緒に起動",
+        "minimize_tray": "閉じるときにトレイへ最小化",
+        "smtp_presets": "ℹ  SMTPプリセット", "interval_label": "X時間ごと",
+        "interval_hint": " 時間 (1–24)", "sender_email": "送信者メール",
+        "password": "パスワード", "recipient_email": "受信者メール",
+        "clear_log": "🗑  ログを消去",
+        "search_hint": "製品名、検索語またはURL",
+        "url_tip": "ヒント：GeizhalsまたはPriceSpyのURLを貼り付け",
+        "target_price": "目標価格", "create_group": "✅  グループ作成",
+        "all_btn": "すべて", "none_btn": "なし", "language": "言語",
+        "buy_now": "🟢 今すぐ購入", "wait": "⏳ 待つ", "monitor": "⏳ 監視",
+        "buy_soon": "🔴 早めに購入", "almost": "🟡 もうすぐ",
+        "wait_falling": "🟡 待つ — 価格下落中",
+        "ai_title": "スマート分析",
+        "recommendation": "推薦",
+        "price_analysis": "価格分析",
+        "trend_volatility": "トレンドと変動",
+        "insight": "インサイト",
+        "cur_best": "現在の最安値",
+        "your_target": "目標価格",
+        "dist_target": "目標との差",
+        "vs_alltime": "vs. 過去最安値",
+        "price_trend": "価格トレンド",
+        "price_stab": "価格安定性",
+        "data_points": "データポイント",
+        "seasonal": "季節パターン",
+        "price_spread": "店舗間価格差",
+        "close": "閉じる",
+        "shops_tracked": "追跡中の店舗",
+        "target_price_lbl": "目標価格",
+        "cur_avg": "現在の平均価格",
+        "cur_worst": "現在の最高価格",
+        "alltime_low": "過去最安値",
+        "alltime_high": "過去最高値",
+        "alltime_avg": "過去の平均",
+        "total_points": "総データ数",
+        "cheapest_shop": "最安値ショップ",
+        "expensive_shop": "最高値ショップ",
+        "max_savings": "最大節約額",
+        "period": "期間:",
+        "day": "日",
+        "week": "週",
+        "month": "月",
+        "all": "全期間",
+        "subtitle": "スマート価格追跡",
+        "email_config": "メール設定",
+        "check_interval": "チェック間隔",
+        "above_target_track": "価格が目標より{pct}%高い",
+        "above_target_wait": "目標より{pct}%高い — 待機",
+        "above_target_falling": "価格下落中、{pct}%高い",
+        "price_rising_grund": "価格上昇中 — 今すぐ購入",
+        "at_target": "目標価格に到達",
+        "almost_grund": "目標より{pct}%のみ高い",
+        "avg_legend": "Ø 平均"},
+    "ar": {
+        "app_title": "متتبع الأسعار", "tab_compare": "  ⚖ مقارنة الأسعار  ",
+        "tab_settings": "  ⚙ الإعدادات  ", "tab_log": "  📄 السجل  ",
+        "new_group": "＋  مجموعة جديدة", "check_all": "↺  فحص الكل",
+        "checking": "⏳  جارٍ الفحص...", "delete": "🗑  حذف",
+        "price_history": "📈 تاريخ الأسعار", "add_url": "+ رابط",
+        "product_groups": "المجموعات", "select_group": "اختر مجموعة",
+        "best_price": "🏆 أفضل سعر", "target_reached": "🔔 تم بلوغ الهدف!",
+        "no_price": "⚠ لا يوجد سعر", "still_too_much": "لا يزال {diff} زائداً",
+        "save": "💾  حفظ", "test_email": "✉  بريد تجريبي",
+        "settings_saved": "تم حفظ الإعدادات.", "email_sent": "تم إرسال البريد التجريبي!",
+        "autostart_on": "التشغيل التلقائي مُفعَّل.", "autostart_off": "التشغيل التلقائي مُعطَّل.",
+        "start_windows": "بدء التشغيل مع ويندوز",
+        "minimize_tray": "تصغير إلى شريط المهام",
+        "smtp_presets": "ℹ  إعدادات SMTP المسبقة", "interval_label": "كل X ساعات",
+        "interval_hint": " ساعات (1–24)", "sender_email": "البريد المُرسِل",
+        "password": "كلمة المرور", "recipient_email": "البريد المُستقبِل",
+        "clear_log": "🗑  مسح السجل",
+        "search_hint": "اسم المنتج أو رابط URL",
+        "url_tip": "تلميح: الصق رابط Geizhals أو PriceSpy",
+        "target_price": "السعر المستهدف", "create_group": "✅  إنشاء المجموعة",
+        "all_btn": "الكل", "none_btn": "لا شيء", "language": "اللغة",
+        "buy_now": "🟢 اشتر الآن", "wait": "⏳ انتظر", "monitor": "⏳ راقب",
+        "buy_soon": "🔴 اشتر قريباً", "almost": "🟡 تقريباً",
+        "wait_falling": "🟡 انتظر — السعر ينخفض",
+        "ai_title": "تحليل ذكي",
+        "recommendation": "التوصية",
+        "price_analysis": "تحليل الأسعار",
+        "trend_volatility": "الاتجاه والتقلب",
+        "insight": "رؤية",
+        "cur_best": "أفضل سعر حالي",
+        "your_target": "هدفك",
+        "dist_target": "المسافة إلى الهدف",
+        "vs_alltime": "vs. أدنى مستوى تاريخي",
+        "price_trend": "اتجاه السعر",
+        "price_stab": "استقرار السعر",
+        "data_points": "نقاط البيانات",
+        "seasonal": "النمط الموسمي",
+        "price_spread": "فجوة الأسعار",
+        "close": "إغلاق",
+        "shops_tracked": "المتاجر المتتبعة",
+        "target_price_lbl": "السعر المستهدف",
+        "cur_avg": "متوسط السعر",
+        "cur_worst": "أعلى سعر",
+        "alltime_low": "أدنى مستوى تاريخي",
+        "alltime_high": "أعلى مستوى تاريخي",
+        "alltime_avg": "المتوسط التاريخي",
+        "total_points": "إجمالي النقاط",
+        "cheapest_shop": "أرخص متجر",
+        "expensive_shop": "أغلى متجر",
+        "max_savings": "أقصى توفير",
+        "period": "الفترة:",
+        "day": "يوم",
+        "week": "أسبوع",
+        "month": "شهر",
+        "all": "الكل",
+        "subtitle": "تتبع الأسعار الذكي",
+        "email_config": "إعداد البريد",
+        "check_interval": "فترة الفحص",
+        "above_target_track": "السعر أعلى من الهدف بـ{pct}%",
+        "above_target_wait": "أعلى من الهدف بـ{pct}% — انتظر",
+        "above_target_falling": "السعر ينخفض، أعلى بـ{pct}%",
+        "price_rising_grund": "السعر يرتفع — اشتر الآن",
+        "at_target": "السعر وصل للهدف",
+        "almost_grund": "أعلى بـ{pct}% فقط",
+        "avg_legend": "Ø متوسط"},
+}
 def T(key):
     """Get translation for current language."""
     lang = _current_lang()
@@ -135,10 +928,15 @@ def T(key):
 
 def _current_lang():
     try:
-        cfg = lade_config()
-        return cfg.get("language", "en")
+        import json as _json, os as _os
+        from pathlib import Path as _P
+        cfg = _P(_os.getenv("APPDATA", ".")) / "PreisAlarm" / "config.json"
+        if cfg.exists():
+            data = _json.loads(cfg.read_text(encoding="utf-8"))
+            return data.get("language", "en")
     except:
-        return "en"
+        pass
+    return "en"
 
 
 def toast(titel, text):
@@ -1203,10 +2001,23 @@ def app_icon_erstellen():
 class PreisAlarmApp(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Price Alert Tracker")
-        self.geometry("960x680")
+        self.title(T("app_title"))
+        # Restore last window position/size
+        cfg = self.config_data if hasattr(self, "config_data") else lade_config()
+        geo = cfg.get("window_geometry", "960x680")
+        try:
+            self.geometry(geo)
+        except:
+            self.geometry("960x680")
         self.minsize(800, 560)
         self.configure(bg=BG)
+        # Save position on move/resize
+        def _save_geo(e=None):
+            try:
+                self.config_data["window_geometry"] = self.geometry()
+                speichere_config(self.config_data)
+            except: pass
+        self.bind("<Configure>", lambda e: self.after(500, _save_geo))
         self.vergleiche  = lade_vergleiche()
         self.config_data = lade_config()
         self._vg_shop_vars      = {}
@@ -1288,9 +2099,9 @@ class PreisAlarmApp(tk.Tk):
                  font=("Segoe UI", 20)).pack(side="left", padx=(0,10))
         title_f = tk.Frame(logo_f, bg=BG2)
         title_f.pack(side="left")
-        tk.Label(title_f, text="Price Alert Tracker", bg=BG2, fg=TEXT,
+        tk.Label(title_f, text=T("app_title"), bg=BG2, fg=TEXT,
                  font=("Segoe UI", 16, "bold")).pack(anchor="w")
-        tk.Label(title_f, text="Smart price monitoring", bg=BG2, fg=GRAU,
+        tk.Label(title_f, text=T("subtitle") if "subtitle" in TRANSLATIONS.get(_current_lang(),{}) else T("subtitle") if "subtitle" in TRANSLATIONS.get(_current_lang(),{}) else T("subtitle"), bg=BG2, fg=GRAU,
                  font=("Segoe UI", 8)).pack(anchor="w")
 
         # Version badge
@@ -1337,9 +2148,9 @@ class PreisAlarmApp(tk.Tk):
             self._active_tab[0] = btn_key
 
         tabs = [
-            ("compare", "  ⚖  Price Comparison  ", self.tab_vergleich),
-            ("settings","  ⚙  Settings  ",          self.tab_einst),
-            ("log",     "  📄  Log  ",              self.tab_log),
+            ("compare", T("tab_compare"), self.tab_vergleich),
+            ("settings",T("tab_settings"),          self.tab_einst),
+            ("log",     T("tab_log"),              self.tab_log),
         ]
         for key, label, frame in tabs:
             col = tk.Frame(tab_bar, bg=BG2)
@@ -1368,12 +2179,12 @@ class PreisAlarmApp(tk.Tk):
         tk.Frame(f, bg=BORDER, height=1).pack(fill="x")
         inner_bar = tk.Frame(bar, bg=BG2)
         inner_bar.pack(fill="x", padx=16, pady=10)
-        self._btn(inner_bar, "＋  New Group", self._vg_neu, AKZENT, "#000").pack(side="left", padx=(0,6))
-        self.btn_pruefen = self._btn(inner_bar, "↺  Check All", self._vg_alle_pruefen, BG3, TEXT)
+        self._btn(inner_bar, T("new_group"), self._vg_neu, AKZENT, "#000").pack(side="left", padx=(0,6))
+        self.btn_pruefen = self._btn(inner_bar, T("check_all"), self._vg_alle_pruefen, BG3, TEXT)
         self.btn_pruefen.pack(side="left", padx=(0,6))
         self.status_check_lbl = tk.Label(inner_bar, text="", bg=BG2, fg=TEXT2, font=("Segoe UI", 9))
         self.status_check_lbl.pack(side="left", padx=10)
-        self._btn(inner_bar, "🗑  Delete", self._vg_loeschen, BG3, ROT).pack(side="right")
+        self._btn(inner_bar, T("delete"), self._vg_loeschen, BG3, ROT).pack(side="right")
 
         pane = tk.Frame(f, bg=BG)
         pane.pack(fill="both", expand=True)
@@ -1383,7 +2194,7 @@ class PreisAlarmApp(tk.Tk):
         left.pack_propagate(False)
         lbl_f = tk.Frame(left, bg=BG2)
         lbl_f.pack(fill="x", padx=12, pady=(12,6))
-        tk.Label(lbl_f, text="GROUPS", bg=BG2, fg=GRAU,
+        tk.Label(lbl_f, text=T("product_groups"), bg=BG2, fg=GRAU,
                  font=("Segoe UI", 8, "bold")).pack(side="left")
         self.vg_listbox = tk.Listbox(
             left, bg=BG2, fg=TEXT, selectbackground="#1e2040",
@@ -1402,7 +2213,7 @@ class PreisAlarmApp(tk.Tk):
         hdr2.pack(fill="x", padx=16, pady=(12,8))
         title_col = tk.Frame(hdr2, bg=BG)
         title_col.pack(side="left")
-        self.vg_titel_lbl = tk.Label(title_col, text="Select a group or create new",
+        self.vg_titel_lbl = tk.Label(title_col, text=T("select_group"),
                                      bg=BG, fg=TEXT2, font=("Segoe UI", 13, "bold"))
         self.vg_titel_lbl.pack(anchor="w")
         self.vg_ziel_lbl = tk.Label(title_col, text="", bg=BG, fg=AKZENT,
@@ -1412,8 +2223,8 @@ class PreisAlarmApp(tk.Tk):
         btn_col.pack(side="right")
         self._btn(btn_col, "🤖 AI",       self._vg_ai_analyse,   BG3, PURPLE).pack(side="left", padx=(0,4))
         self._btn(btn_col, "📊 Stats",    self._vg_statistiken,  BG3, TEXT2).pack(side="left", padx=(0,4))
-        self._btn(btn_col, "📈 History",  self._vg_chart_zeigen, BG3, TEXT2).pack(side="left", padx=(0,4))
-        self._btn(btn_col, "+ URL",       self._vg_shop_manuell, BG3, GRAU).pack(side="left")
+        self._btn(btn_col, T("price_history"),  self._vg_chart_zeigen, BG3, TEXT2).pack(side="left", padx=(0,4))
+        self._btn(btn_col, T("add_url"),       self._vg_shop_manuell, BG3, GRAU).pack(side="left")
 
         # Sortier-Status: col -> bool (True=aufsteigend)
         self._sort_col   = "preis"
@@ -1421,8 +2232,8 @@ class PreisAlarmApp(tk.Tk):
 
         cols = ("shop","url","preis","diff","status","zuletzt")
         self.vg_tree = ttk.Treeview(right, columns=cols, show="headings", selectmode="browse")
-        col_defs = [("shop","Shop ↕",130),("url","URL ↕",270),("preis","Cur. Price ↕",95),
-                    ("diff","Target ↕",95),("status","Status ↕",110),("zuletzt","Checked ↕",110)]
+        col_defs = [("shop","Shop ↕",130),("url","URL ↕",270),("preis",T("cur_best")[:10]+"↕",95),
+                    ("diff",T("target_price_lbl")+"↕",95),("status","Status ↕",110),("zuletzt",T("data_points")[:7]+"↕",110)]
         for col, text, w in col_defs:
             self.vg_tree.heading(col, text=text,
                                  command=lambda c=col: self._vg_sort_klick(c))
@@ -1448,8 +2259,26 @@ class PreisAlarmApp(tk.Tk):
     # ── Tab: Einstellungen ────────────────────────────────────────────────────
     def _tab_einstellungen(self):
         f = self.tab_einst
-        wrap = tk.Frame(f, bg=BG)
-        wrap.pack(fill="both", expand=True, padx=40, pady=24)
+        # Scrollable settings
+        canvas = tk.Canvas(f, bg=BG, highlightthickness=0)
+        sb = ttk.Scrollbar(f, orient="vertical", command=canvas.yview)
+        canvas.configure(yscrollcommand=sb.set)
+        sb.pack(side="right", fill="y")
+        canvas.pack(side="left", fill="both", expand=True)
+        wrap = tk.Frame(canvas, bg=BG)
+        wrap_id = canvas.create_window((0,0), window=wrap, anchor="nw")
+        def _on_resize(e):
+            canvas.itemconfig(wrap_id, width=e.width)
+        canvas.bind("<Configure>", _on_resize)
+        wrap.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+        # Mouse wheel scroll
+        def _scroll(e):
+            canvas.yview_scroll(int(-1*(e.delta/120)), "units")
+        canvas.bind_all("<MouseWheel>", _scroll)
+        # Inner padding frame
+        inner = tk.Frame(wrap, bg=BG)
+        inner.pack(fill="both", expand=True, padx=40, pady=24)
+        wrap = inner
 
         def section(text):
             tk.Label(wrap, text=text, bg=BG, fg=TEXT2,
@@ -1473,40 +2302,42 @@ class PreisAlarmApp(tk.Tk):
         self.v_port = tk.StringVar(value=str(cfg.get("smtp_port",587)))
         self.v_int  = tk.StringVar(value=str(cfg.get("intervall",6)))
 
-        section("📧  Email Configuration")
-        erow("Sender Email",  self.v_abs)
-        erow("Password",         self.v_pw,  show="●")
-        erow("Recipient Email", self.v_emp)
+        section("📧  " + T("email_config"))
+        erow(T("sender_email"),  self.v_abs)
+        erow(T("password"),         self.v_pw,  show="●")
+        erow(T("recipient_email"), self.v_emp)
         erow("SMTP Server",      self.v_smtp)
         erow("SMTP Port",        self.v_port)
 
-        section("⏱  Check Interval")
+        section("⏱  " + T("check_interval"))
         r = tk.Frame(wrap, bg=BG)
         r.pack(fill="x", pady=5)
-        tk.Label(r, text="Every X Hours", bg=BG, fg=TEXT2, width=18, anchor="w",
+        tk.Label(r, text=T("interval_label"), bg=BG, fg=TEXT2, width=18, anchor="w",
                  font=("Segoe UI", 10)).pack(side="left")
         ttk.Entry(r, textvariable=self.v_int, width=6).pack(side="left", ipady=4)
-        tk.Label(r, text=" hours (1–24)", bg=BG, fg=GRAU,
+        tk.Label(r, text=T("interval_hint"), bg=BG, fg=GRAU,
                  font=("Segoe UI", 9)).pack(side="left", padx=8)
 
         tk.Frame(wrap, bg=BORDER, height=1).pack(fill="x", pady=16)
         btn_row = tk.Frame(wrap, bg=BG)
         btn_row.pack(fill="x")
-        self._btn(btn_row, "💾  Save",  self._cfg_speichern, AKZENT, "#000").pack(side="left", padx=(0,10), ipady=4)
-        self._btn(btn_row, "✉  Test Email", self._test_email,    BG3, TEXT).pack(side="left", ipady=4)
+        self._btn(btn_row, T("save"),  self._cfg_speichern, AKZENT, "#000").pack(side="left", padx=(0,10), ipady=4)
+        self._btn(btn_row, T("test_email"), self._test_email,    BG3, TEXT).pack(side="left", ipady=4)
 
         section("🖥  System")
         # Language
         lang_row = tk.Frame(wrap, bg=BG)
         lang_row.pack(fill="x", pady=5)
-        tk.Label(lang_row, text="Language / Sprache", bg=BG, fg=TEXT2,
+        tk.Label(lang_row, text=T("language"), bg=BG, fg=TEXT2,
                  width=18, anchor="w", font=("Segoe UI", 10)).pack(side="left")
-        self.v_lang = tk.StringVar(value=self.config_data.get("language","en"))
-        for code, label in [("en","🇬🇧 English"), ("de","🇩🇪 Deutsch")]:
-            tk.Radiobutton(lang_row, text=label, variable=self.v_lang, value=code,
-                           bg=BG, fg=TEXT, activebackground=BG, selectcolor=BG3,
-                           font=("Segoe UI", 10),
-                           command=self._lang_aendern).pack(side="left", padx=(0,16))
+        cur_lang = self.config_data.get("language","en")
+        self.v_lang = tk.StringVar(value=LANGUAGES.get(cur_lang, LANGUAGES["en"]))
+        lang_combo = ttk.Combobox(lang_row, textvariable=self.v_lang,
+                                   values=list(LANGUAGES.values()),
+                                   state="readonly", width=26,
+                                   font=("Segoe UI", 10))
+        lang_combo.pack(side="left", ipady=4)
+        lang_combo.bind("<<ComboboxSelected>>", lambda e: self._lang_aendern())
 
         sys_row = tk.Frame(wrap, bg=BG)
         sys_row.pack(fill="x", pady=5)
@@ -1514,7 +2345,7 @@ class PreisAlarmApp(tk.Tk):
         tk.Checkbutton(sys_row, variable=self.v_autostart,
                        bg=BG, fg=TEXT, activebackground=BG, selectcolor=BG3,
                        font=("Segoe UI", 10),
-                       text="Start with Windows (Autostart)",
+                       text=T("start_windows"),
                        command=self._autostart_toggle).pack(side="left")
 
         tray_row = tk.Frame(wrap, bg=BG)
@@ -1523,10 +2354,10 @@ class PreisAlarmApp(tk.Tk):
         tk.Checkbutton(tray_row, variable=self.v_tray,
                        bg=BG, fg=TEXT, activebackground=BG, selectcolor=BG3,
                        font=("Segoe UI", 10),
-                       text="Minimize to system tray on close (runs in background)",
+                       text=T("minimize_tray"),
                        command=self._tray_toggle).pack(side="left")
 
-        section("ℹ  SMTP Presets  —  click to apply")
+        section("ℹ  " + T("smtp_presets"))
         SMTP_PRESETS = [
             ("GMX",          "mail.gmx.net",           587,  "@gmx.de / @gmx.net"),
             ("Web.de",       "smtp.web.de",             587,  "@web.de"),
@@ -1564,7 +2395,7 @@ class PreisAlarmApp(tk.Tk):
         f = self.tab_log
         bar = tk.Frame(f, bg=BG)
         bar.pack(fill="x", padx=12, pady=(12,4))
-        self._btn(bar, "🗑  Clear Log", self._log_leeren, BG3, TEXT).pack(side="left")
+        self._btn(bar, T("clear_log"), self._log_leeren, BG3, TEXT).pack(side="left")
         self.log_box = scrolledtext.ScrolledText(
             f, bg=BG2, fg=TEXT, font=("Consolas", 9),
             insertbackground=TEXT, borderwidth=0, relief="flat",
@@ -1589,7 +2420,7 @@ class PreisAlarmApp(tk.Tk):
         g = self.vergleiche[sel[0]]
         self.vg_aktuelle_gruppe = g["id"]
         self.vg_titel_lbl.config(text=g["name"])
-        self.vg_ziel_lbl.config(text=f"Target: {g.get('currency','€')}{g['zielpreis']:.2f}")
+        self.vg_ziel_lbl.config(text=f"{T('target_price_lbl')}: {g.get('currency','€')}{g['zielpreis']:.2f}")
         self._vg_tabelle_laden(g)
 
     def _vg_sort_klick(self, col):
@@ -1601,7 +2432,7 @@ class PreisAlarmApp(tk.Tk):
             self._sort_asc = True
         # Pfeil in Überschrift aktualisieren
         col_namen = {"shop":"Shop","url":"URL","preis":"Cur. Price",
-                     "diff":"Target","status":"Status","zuletzt":"Checked"}
+                     "diff":T("target_price_lbl"),"status":"Status","zuletzt":T("data_points")[:7]}
         for c, name in col_namen.items():
             if c == self._sort_col:
                 pfeil = " ↑" if self._sort_asc else " ↓"
@@ -1663,8 +2494,8 @@ class PreisAlarmApp(tk.Tk):
             d_str    = f"{cur}{ziel:.2f}"
             ist_best = preis and bester and preis == bester
             alarm    = preis and preis <= ziel
-            noch     = f"still {preis-ziel:.2f} {cur} too much" if (preis and not alarm) else ""
-            status   = "🏆 Best Price" if ist_best else ("🔔 Target reached!" if alarm else (f"⬇ {noch}" if preis else "⚠ No Price"))
+            noch     = T("still_too_much").replace("{diff}", f"{preis-ziel:.2f} {cur}") if (preis and not alarm) else ""
+            status   = T("best_price") if ist_best else (T("target_reached") if alarm else (f"⬇ {noch}" if preis else T("no_price")))
             # Tag: Preisänderung hat Vorrang vor normalem Status
             if trend == "gesunken":
                 tag = "gesunken"
@@ -1692,9 +2523,9 @@ class PreisAlarmApp(tk.Tk):
         dlg.resizable(False, False)
         dlg.grab_set()
 
-        tk.Label(dlg, text="Product name, search term or Geizhals/PriceSpy URL",
+        tk.Label(dlg, text=T("search_hint"),
                  bg=BG, fg=TEXT2, font=("Segoe UI", 10)).pack(anchor="w", padx=20, pady=(16,4))
-        tk.Label(dlg, text="Tip: Paste a Geizhals URL (.de/.eu) or PriceSpy URL → all shops detected automatically",
+        tk.Label(dlg, text=T("url_tip"),
                  bg=BG, fg=GRAU, font=("Segoe UI", 8)).pack(anchor="w", padx=20)
 
         such_row = tk.Frame(dlg, bg=BG)
@@ -1718,7 +2549,7 @@ class PreisAlarmApp(tk.Tk):
 
         ziel_row = tk.Frame(dlg, bg=BG)
         ziel_row.pack(fill="x", padx=20, pady=(10,0))
-        tk.Label(ziel_row, text="Target Price (€)", bg=BG, fg=TEXT2, width=14,
+        tk.Label(ziel_row, text=T("target_price")+" (€)", bg=BG, fg=TEXT2, width=14,
                  anchor="w", font=("Segoe UI", 10)).pack(side="left")
         e_ziel = ttk.Entry(ziel_row)
         e_ziel.pack(side="left", fill="x", expand=True, ipady=5)
@@ -1790,9 +2621,9 @@ class PreisAlarmApp(tk.Tk):
 
             ctrl = tk.Frame(inner, bg=BG)
             ctrl.pack(fill="x", pady=(0,4))
-            tk.Button(ctrl, text="All",  bg=BG3, fg=TEXT2, font=("Segoe UI",8), relief="flat", padx=6, pady=2,
+            tk.Button(ctrl, text=T("all_btn"),  bg=BG3, fg=TEXT2, font=("Segoe UI",8), relief="flat", padx=6, pady=2,
                       command=lambda: [v.set(True)  for v,_ in self._vg_shop_vars.values()]).pack(side="left", padx=(0,4))
-            tk.Button(ctrl, text="None", bg=BG3, fg=TEXT2, font=("Segoe UI",8), relief="flat", padx=6, pady=2,
+            tk.Button(ctrl, text=T("none_btn"), bg=BG3, fg=TEXT2, font=("Segoe UI",8), relief="flat", padx=6, pady=2,
                       command=lambda: [v.set(False) for v,_ in self._vg_shop_vars.values()]).pack(side="left")
 
             min_preis = min(s["preis"] for s in shops)
@@ -1910,7 +2741,7 @@ class PreisAlarmApp(tk.Tk):
         btn_such.pack(side="left", padx=(8,0), ipady=5)
         e_such.bind("<Return>", suchen)
         e_ziel.bind("<Return>", speichern)
-        self._btn(dlg, "✅  Create group & track", speichern, AKZENT, "#000").pack(
+        self._btn(dlg, T("create_group"), speichern, AKZENT, "#000").pack(
             padx=20, pady=(10,12), fill="x", ipady=8)
         dlg.lift()
         dlg.focus_force()
@@ -2026,7 +2857,7 @@ class PreisAlarmApp(tk.Tk):
         if not self.vergleiche:
             self.status_check_lbl.config(text="⚠ No groups available", fg=GELB)
             return
-        self.btn_pruefen.config(state="disabled", text="⏳  Checking...")
+        self.btn_pruefen.config(state="disabled", text=T("checking"))
         self.status_check_lbl.config(text="Fetching prices...", fg=TEXT2)
         threading.Thread(target=self._vg_check_alle, daemon=True).start()
 
@@ -2215,7 +3046,7 @@ class PreisAlarmApp(tk.Tk):
             ).start()
 
         def _fertig():
-            self.btn_pruefen.config(state="normal", text="🔄  Check All")
+            self.btn_pruefen.config(state="normal", text=T("check_all"))
             if alarme:
                 self.status_check_lbl.config(
                     text=f"🔔 Alert! {alarme[0]['name']}: {alarme[0].get('currency','€')}{alarme[0]['bester']:.2f}", fg=AKZENT)
@@ -2259,10 +3090,25 @@ class PreisAlarmApp(tk.Tk):
 
     # ── Autostart & Tray ─────────────────────────────────────────────────────
     def _lang_aendern(self):
-        """Switch language and restart UI."""
-        self.config_data["language"] = self.v_lang.get()
+        """Switch language — saves config and restarts app."""
+        selected = self.v_lang.get()
+        lang_code = next((k for k, v in LANGUAGES.items() if v == selected), "en")
+        self.config_data["language"] = lang_code
         speichere_config(self.config_data)
-        messagebox.showinfo("Language / Sprache", "Please restart the app to apply the language change.\nBitte die App neu starten um die Sprache zu übernehmen.")
+
+        # Restart using pythonw (no CMD window)
+        import subprocess as _sp, os as _os
+        script = str(Path(__file__).resolve())
+        # Try pythonw first (no console window)
+        pythonw = sys.executable.replace("python.exe", "pythonw.exe")
+        exe = pythonw if Path(pythonw).exists() else sys.executable
+        _sp.Popen(
+            [exe, script],
+            creationflags=0x00000008,  # DETACHED_PROCESS
+            close_fds=True,
+            cwd=str(Path(script).parent)
+        )
+        self.after(200, self.destroy)
 
     def _autostart_toggle(self):
         aktiv = self.v_autostart.get()
@@ -2306,7 +3152,7 @@ class PreisAlarmApp(tk.Tk):
             self.after(0, self._vg_alle_pruefen)
 
         menu = pystray.Menu(
-            TrayItem("🔔 Price Alert Tracker", zeigen, default=True),
+            TrayItem(T("app_title"), zeigen, default=True),
             TrayItem("🔄 Check Now",         pruefen),
             pystray.Menu.SEPARATOR,
             TrayItem("❌ Quit",               beenden),
@@ -2430,28 +3276,28 @@ class PreisAlarmApp(tk.Tk):
         abstand_zum_ziel = ((preis_jetzt - ziel) / ziel) * 100 if ziel else 0
 
         if preis_jetzt <= ziel:
-            empfehlung = "🟢 BUY NOW"
-            empf_grund = f"Price is at or below your target ({cur}{ziel:.2f})"
+            empfehlung = T("buy_now")
+            empf_grund = f"{T('at_target')} ({cur}{ziel:.2f})"
             empf_farbe = "#22c55e"
         elif len(alle_punkte) >= 3 and trend_pct < -0.3 and abstand_zum_ziel < 15:
-            empfehlung = "🟡 WAIT — Price falling"
-            empf_grund = f"Price is falling and {abstand_zum_ziel:.1f}% above target — likely to reach it soon"
+            empfehlung = T("wait_falling")
+            empf_grund = T("above_target_falling").replace("{pct}", f"{abstand_zum_ziel:.1f}")
             empf_farbe = "#f59e0b"
         elif len(alle_punkte) >= 3 and trend_pct > 0.5:
-            empfehlung = "🔴 BUY SOON — Price rising"
-            empf_grund = "Price is rising — buy before it gets more expensive"
+            empfehlung = T("buy_soon")
+            empf_grund = T("price_rising_grund")
             empf_farbe = "#ef4444"
         elif abstand_zum_ziel < 5:
-            empfehlung = "🟡 ALMOST THERE"
-            empf_grund = f"Only {abstand_zum_ziel:.1f}% above your target — consider buying now"
+            empfehlung = T("almost")
+            empf_grund = T("almost_grund").replace("{pct}", f"{abstand_zum_ziel:.1f}")
             empf_farbe = "#f59e0b"
         elif abstand_zum_ziel > 30:
-            empfehlung = "⏳ WAIT"
-            empf_grund = f"Price is {abstand_zum_ziel:.1f}% above target — set an alert and be patient"
+            empfehlung = T("wait")
+            empf_grund = T("above_target_wait").replace("{pct}", f"{abstand_zum_ziel:.1f}")
             empf_farbe = "#60a5fa"
         else:
-            empfehlung = "⏳ MONITOR"
-            empf_grund = f"Price is {abstand_zum_ziel:.1f}% above target — keep tracking"
+            empfehlung = T("monitor")
+            empf_grund = T("above_target_track").replace("{pct}", f"{abstand_zum_ziel:.1f}")
             empf_farbe = "#94a3b8"
 
         # 5. Allzeit-Tief vs. jetzt
@@ -2468,7 +3314,7 @@ class PreisAlarmApp(tk.Tk):
 
         # ── UI ─────────────────────────────────────────────────────────────────
         dlg = tk.Toplevel(self)
-        dlg.title(f"🤖 AI Analysis — {g['name']}")
+        dlg.title(f"🤖 {T('ai_title')} — {g['name']}")
         dlg.geometry("520x560")
         dlg.configure(bg=BG)
         dlg.resizable(False, False)
@@ -2476,7 +3322,7 @@ class PreisAlarmApp(tk.Tk):
         # Header
         hdr_f = tk.Frame(dlg, bg="#1e1b4b")
         hdr_f.pack(fill="x")
-        tk.Label(hdr_f, text="🤖  Smart Price Analysis", bg="#1e1b4b", fg="#a78bfa",
+        tk.Label(hdr_f, text="🤖  " + T("ai_title"), bg="#1e1b4b", fg="#a78bfa",
                  font=("Segoe UI", 13, "bold")).pack(anchor="w", padx=20, pady=(14,2))
         tk.Label(hdr_f, text=g["name"], bg="#1e1b4b", fg=TEXT2,
                  font=("Segoe UI", 10)).pack(anchor="w", padx=20, pady=(0,12))
@@ -2484,7 +3330,7 @@ class PreisAlarmApp(tk.Tk):
         # Recommendation box
         rec_f = tk.Frame(dlg, bg=BG2)
         rec_f.pack(fill="x", padx=16, pady=(12,4))
-        tk.Label(rec_f, text="RECOMMENDATION", bg=BG2, fg=TEXT2,
+        tk.Label(rec_f, text=T("recommendation"), bg=BG2, fg=TEXT2,
                  font=("Segoe UI", 8, "bold")).pack(anchor="w", padx=14, pady=(10,4))
         tk.Label(rec_f, text=empfehlung, bg=BG2, fg=empf_farbe,
                  font=("Segoe UI", 16, "bold")).pack(anchor="w", padx=14, pady=(0,4))
@@ -2505,26 +3351,26 @@ class PreisAlarmApp(tk.Tk):
             tk.Label(r, text=value, bg=BG2, fg=color,
                      font=("Segoe UI", 9, "bold"), anchor="e").pack(side="right", padx=10)
 
-        section("📊  Price Analysis")
-        row("Current best price",   f"{cur}{preis_jetzt:.2f}", AKZENT)
-        row("Your target",          f"{cur}{ziel:.2f}", "#a78bfa")
-        row("Distance to target",   f"{abstand_zum_ziel:+.1f}%",
+        section("📊  " + T("price_analysis"))
+        row(T("cur_best"),   f"{cur}{preis_jetzt:.2f}", AKZENT)
+        row(T("your_target"),          f"{cur}{ziel:.2f}", "#a78bfa")
+        row(T("dist_target"),   f"{abstand_zum_ziel:+.1f}%",
             AKZENT if abstand_zum_ziel <= 0 else ("#f59e0b" if abstand_zum_ziel < 10 else TEXT2))
         if allzeit_text:
-            row("vs. all-time low", allzeit_text, AKZENT if "all-time low" in allzeit_text else TEXT2)
+            row(T("vs_alltime"), allzeit_text, AKZENT if "all-time low" in allzeit_text else TEXT2)
 
-        section("📈  Trend & Volatility")
-        row("Price trend",      trend_text)
-        row("Price stability",  volatil_text)
-        row("Data points",      str(len(alle_punkte)))
+        section("📈  " + T("trend_volatility"))
+        row(T("price_trend"),      trend_text)
+        row(T("price_stab"),  volatil_text)
+        row(T("data_points"),      str(len(alle_punkte)))
         if saison_text:
-            row("Seasonal pattern", saison_text, "#60a5fa")
+            row(T("seasonal"), saison_text, "#60a5fa")
 
-        section("💡  Insight")
+        section("💡  " + T("insight"))
         # Extra insight
         if len(preise_aktuell) > 1:
             spread = max(preise_aktuell) - min(preise_aktuell)
-            row("Price spread (shops)", f"{cur}{spread:.2f}",
+            row(T("price_spread"), f"{cur}{spread:.2f}",
                 AKZENT if spread > 20 else TEXT2)
             if spread > 20:
                 insight = f"Big difference between shops! Cheapest saves you {cur}{spread:.2f} vs most expensive."
@@ -2541,7 +3387,7 @@ class PreisAlarmApp(tk.Tk):
             bg=BG, fg=GRAU, font=("Segoe UI", 8), wraplength=460)
         note.pack(anchor="w", padx=16, pady=(8,4))
 
-        self._btn(dlg, "Close", dlg.destroy, BG3, TEXT).pack(pady=10, ipadx=20)
+        self._btn(dlg, T("close"), dlg.destroy, BG3, TEXT).pack(pady=10, ipadx=20)
         dlg.lift()
         dlg.focus_force()
 
@@ -2567,7 +3413,7 @@ class PreisAlarmApp(tk.Tk):
         guenstigster_shop = min(shops, key=lambda s: s.get("preis") or 99999)
         teuerster_shop    = max(shops, key=lambda s: s.get("preis") or 0)
         dlg = tk.Toplevel(self)
-        dlg.title(f"Statistics — {g['name']}")
+        dlg.title(f"{T('price_analysis')} — {g['name']}"  )
         dlg.geometry("480x420")
         dlg.configure(bg=BG)
         dlg.resizable(False, False)
@@ -2580,26 +3426,26 @@ class PreisAlarmApp(tk.Tk):
                      font=("Segoe UI", 10), width=24, anchor="w").pack(side="left", padx=12, pady=8)
             tk.Label(r, text=value, bg=BG2, fg=color,
                      font=("Segoe UI", 10, "bold"), anchor="e").pack(side="right", padx=12)
-        stat_row("Shops tracked",        str(len(shops)))
-        stat_row("Target price",         f"{cur}{g['zielpreis']:.2f}")
+        stat_row(T("shops_tracked"),        str(len(shops)))
+        stat_row(T("target_price_lbl"),         f"{cur}{g['zielpreis']:.2f}")
         tk.Frame(dlg, bg=BORDER, height=1).pack(fill="x", padx=20, pady=6)
-        stat_row("Current best price",   f"{cur}{min(preise):.2f}", AKZENT)
-        stat_row("Current avg price",    f"{cur}{sum(preise)/len(preise):.2f}", "#60a5fa")
-        stat_row("Current worst price",  f"{cur}{max(preise):.2f}", "#f87171")
+        stat_row(T("cur_best"),   f"{cur}{min(preise):.2f}", AKZENT)
+        stat_row(T("cur_avg"),    f"{cur}{sum(preise)/len(preise):.2f}", "#60a5fa")
+        stat_row(T("cur_worst"),  f"{cur}{max(preise):.2f}", "#f87171")
         tk.Frame(dlg, bg=BORDER, height=1).pack(fill="x", padx=20, pady=6)
         if alle_verlauf:
-            stat_row("All-time lowest",   f"{cur}{min(alle_verlauf):.2f}", AKZENT)
-            stat_row("All-time highest",  f"{cur}{max(alle_verlauf):.2f}", "#f87171")
-            stat_row("All-time average",  f"{cur}{sum(alle_verlauf)/len(alle_verlauf):.2f}", "#60a5fa")
-            stat_row("Total data points", str(len(alle_verlauf)))
+            stat_row(T("alltime_low"),   f"{cur}{min(alle_verlauf):.2f}", AKZENT)
+            stat_row(T("alltime_high"),  f"{cur}{max(alle_verlauf):.2f}", "#f87171")
+            stat_row(T("alltime_avg"),  f"{cur}{sum(alle_verlauf)/len(alle_verlauf):.2f}", "#60a5fa")
+            stat_row(T("total_points"), str(len(alle_verlauf)))
         tk.Frame(dlg, bg=BORDER, height=1).pack(fill="x", padx=20, pady=6)
         sn = guenstigster_shop.get("shop_name") or guenstigster_shop["shop"]
-        stat_row("Cheapest shop",        f"{sn}  ({cur}{guenstigster_shop.get('preis',0):.2f})", AKZENT)
+        stat_row(T("cheapest_shop"),        f"{sn}  ({cur}{guenstigster_shop.get('preis',0):.2f})", AKZENT)
         sn2 = teuerster_shop.get("shop_name") or teuerster_shop["shop"]
-        stat_row("Most expensive shop",  f"{sn2}  ({cur}{teuerster_shop.get('preis',0):.2f})", "#f87171")
+        stat_row(T("expensive_shop"),  f"{sn2}  ({cur}{teuerster_shop.get('preis',0):.2f})", "#f87171")
         savings = max(preise) - min(preise)
-        stat_row("Max savings possible", f"{cur}{savings:.2f}", AKZENT)
-        self._btn(dlg, "Close", dlg.destroy, BG3, TEXT).pack(pady=16, ipadx=20)
+        stat_row(T("max_savings"), f"{cur}{savings:.2f}", AKZENT)
+        self._btn(dlg, T("close"), dlg.destroy, BG3, TEXT).pack(pady=16, ipadx=20)
         dlg.lift()
         dlg.focus_force()
 
@@ -2648,17 +3494,17 @@ class PreisAlarmApp(tk.Tk):
         # Zeitraum-Buttons
         zeitraum_bar = tk.Frame(dlg, bg=BG)
         zeitraum_bar.pack(fill="x", padx=16, pady=(12,0))
-        zeitraum_var = tk.StringVar(value="All")
+        zeitraum_var = tk.StringVar(value=T("all_btn"))
 
         def zeitraum_filtern():
             from datetime import datetime as _dt, timedelta
             zr = zeitraum_var.get()
             jetzt = _dt.now()
-            if zr == "Day":
+            if zr == T("day"):
                 grenze = (jetzt - timedelta(days=1)).strftime("%Y-%m-%d %H:%M")
-            elif zr == "Week":
+            elif zr == T("week"):
                 grenze = (jetzt - timedelta(weeks=1)).strftime("%Y-%m-%d %H:%M")
-            elif zr == "Month":
+            elif zr == T("month"):
                 grenze = (jetzt - timedelta(days=30)).strftime("%Y-%m-%d %H:%M")
             else:
                 grenze = ""
@@ -2673,9 +3519,9 @@ class PreisAlarmApp(tk.Tk):
             pkt = sorted(gefiltert.items())
             return pkt, gefiltert_avg
 
-        tk.Label(zeitraum_bar, text="Period:", bg=BG, fg=TEXT2,
+        tk.Label(zeitraum_bar, text=T("period"), bg=BG, fg=TEXT2,
                  font=("Segoe UI", 9)).pack(side="left", padx=(0,8))
-        for zr in ["Day", "Week", "Month", "All"]:
+        for zr in [T("day"), T("week"), T("month"), T("all_btn")]:
             tk.Radiobutton(zeitraum_bar, text=zr, variable=zeitraum_var, value=zr,
                            bg=BG, fg=TEXT, activebackground=BG, selectcolor=BG3,
                            font=("Segoe UI", 9),
@@ -2697,11 +3543,11 @@ class PreisAlarmApp(tk.Tk):
             from datetime import datetime as _dt, timedelta
             zr = zeitraum_var.get()
             jetzt = _dt.now()
-            if zr == "Day":
+            if zr == T("day"):
                 grenze = (jetzt - timedelta(days=1)).strftime("%Y-%m-%d %H:%M")
-            elif zr == "Week":
+            elif zr == T("week"):
                 grenze = (jetzt - timedelta(weeks=1)).strftime("%Y-%m-%d %H:%M")
-            elif zr == "Month":
+            elif zr == T("month"):
                 grenze = (jetzt - timedelta(days=30)).strftime("%Y-%m-%d %H:%M")
             else:
                 grenze = ""
@@ -2734,9 +3580,9 @@ class PreisAlarmApp(tk.Tk):
 
             # Farblegende oben links
             legende = [
-                ("Best Price", TEXT2,    False),
-                ("Ø Average",    "#60a5fa", True),
-                ("Target",         AKZENT,    True),
+                (T("cur_best"), TEXT2, False),
+                (T("avg_legend"),    "#60a5fa", True),
+                (T("target_price_lbl"), AKZENT, True),
             ]
             lx = pad_l
             for i, (ltext, lfarbe, gestrichelt) in enumerate(legende):
