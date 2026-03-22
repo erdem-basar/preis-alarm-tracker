@@ -889,6 +889,8 @@ def check_for_update():
     try:
         r = requests.get(GITHUB_API, timeout=8,
                          headers={"Accept": "application/vnd.github+json"})
+        if r.status_code == 404:
+            return None, None, None  # No releases yet
         if r.status_code == 200:
             data = r.json()
             latest   = data.get("tag_name","").lstrip("v")
@@ -900,7 +902,15 @@ def check_for_update():
                     zip_url = asset["browser_download_url"]
                     break
             if latest and latest != APP_VERSION:
-                return latest, html_url, zip_url
+                # Only update if remote version is actually newer
+                try:
+                    def ver_tuple(v):
+                        return tuple(int(x) for x in v.strip().split("."))
+                    if ver_tuple(latest) > ver_tuple(APP_VERSION):
+                        return latest, html_url, zip_url
+                except:
+                    if latest != APP_VERSION:
+                        return latest, html_url, zip_url
     except:
         pass
     return None, None, None
@@ -1200,13 +1210,16 @@ class PreisAlarmApp(tk.Tk):
         self._build_ui()
         self.protocol("WM_DELETE_WINDOW", self._fenster_schliessen)
         # Set window icon
-        if TRAY_OK:
-            try:
+        try:
+            icon_path = Path(__file__).parent / "icon.ico"
+            if icon_path.exists():
+                self.iconbitmap(str(icon_path))
+            elif TRAY_OK:
                 icon_img = app_icon_erstellen()
                 from PIL import ImageTk
                 self._tk_icon = ImageTk.PhotoImage(icon_img)
                 self.iconphoto(True, self._tk_icon)
-            except: pass
+        except: pass
         self._tray_icon = None
         self._tray_thread = None
         # Automatische Preisprüfung starten
@@ -2205,7 +2218,13 @@ class PreisAlarmApp(tk.Tk):
             pystray.Menu.SEPARATOR,
             TrayItem("❌ Quit",               beenden),
         )
-        img = tray_icon_erstellen()
+        # Use icon.ico for tray if available
+        icon_path = Path(__file__).parent / "icon.ico"
+        if icon_path.exists():
+            from PIL import Image as _PilImg
+            img = _PilImg.open(str(icon_path))
+        else:
+            img = tray_icon_erstellen()
         self._tray_icon = pystray.Icon("PreisAlarm", img, "Price Alert Tracker", menu)
         self._tray_thread = threading.Thread(target=self._tray_icon.run, daemon=True)
         self._tray_thread.start()
