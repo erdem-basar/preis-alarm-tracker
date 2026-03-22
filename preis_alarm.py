@@ -127,7 +127,13 @@ TRANSLATIONS = {
         "price_rising_grund": "Price is rising — buy before it gets more expensive",
         "at_target": "Price is at or below your target",
         "almost_grund": "Only {pct}% above your target — consider buying now",
-        "avg_legend": "Ø Average"},
+        "avg_legend": "Ø Average",
+        "search_btn": "🔍  Search",
+        "alert_hint": "← Alert when a shop is ≤ this price",
+        "loading_url": "🔍  Loading shops from URL...",
+        "searching": "🔍  Searching on Geizhals...",
+        "prices_checked": "{n} prices checked — {ts}",
+        "target_lbl": "Target Price (€)"},
     "de": {
         "app_title": "Preis-Alarm Tracker", "tab_compare": "  ⚖ Preisvergleich  ",
         "tab_settings": "  ⚙ Einstellungen  ", "tab_log": "  📄 Log  ",
@@ -193,7 +199,13 @@ TRANSLATIONS = {
         "price_rising_grund": "Preis steigt — jetzt kaufen bevor er teurer wird",
         "at_target": "Preis liegt am oder unter deinem Zielpreis",
         "almost_grund": "Nur noch {pct}% über deinem Ziel — jetzt kaufen erwägen",
-        "avg_legend": "Ø Durchschnitt"},
+        "avg_legend": "Ø Durchschnitt",
+        "search_btn": "🔍  Suchen",
+        "alert_hint": "← Alarm wenn ein Shop ≤ diesem Preis",
+        "loading_url": "🔍  Lade Shops von URL...",
+        "searching": "🔍  Suche auf Geizhals...",
+        "prices_checked": "{n} Preise geprüft — {ts}",
+        "target_lbl": "Zielpreis (€)"},
     "fr": {
         "app_title": "Suivi des Prix", "tab_compare": "  ⚖ Comparaison  ",
         "tab_settings": "  ⚙ Paramètres  ", "tab_log": "  📄 Journal  ",
@@ -259,7 +271,13 @@ TRANSLATIONS = {
         "price_rising_grund": "Prix en hausse — achetez maintenant",
         "at_target": "Prix atteint l'objectif",
         "almost_grund": "Seulement {pct}% au-dessus",
-        "avg_legend": "Ø Moyenne"},
+        "avg_legend": "Ø Moyenne",
+        "search_btn": "🔍  Rechercher",
+        "alert_hint": "← Alerte si boutique ≤ ce prix",
+        "loading_url": "🔍  Chargement...",
+        "searching": "🔍  Recherche...",
+        "prices_checked": "{n} prix vérifiés — {ts}",
+        "target_lbl": "Prix cible (€)"},
     "es": {
         "app_title": "Rastreador de Precios", "tab_compare": "  ⚖ Comparación  ",
         "tab_settings": "  ⚙ Ajustes  ", "tab_log": "  📄 Registro  ",
@@ -325,7 +343,13 @@ TRANSLATIONS = {
         "price_rising_grund": "Precio subiendo — compra ahora",
         "at_target": "Precio en el objetivo",
         "almost_grund": "Solo {pct}% sobre objetivo",
-        "avg_legend": "Ø Promedio"},
+        "avg_legend": "Ø Promedio",
+        "search_btn": "🔍  Buscar",
+        "alert_hint": "← Alerta si tienda ≤ este precio",
+        "loading_url": "🔍  Cargando...",
+        "searching": "🔍  Buscando...",
+        "prices_checked": "{n} precios verificados — {ts}",
+        "target_lbl": "Precio objetivo (€)"},
     "it": {
         "app_title": "Monitoraggio Prezzi", "tab_compare": "  ⚖ Confronto  ",
         "tab_settings": "  ⚙ Impostazioni  ", "tab_log": "  📄 Registro  ",
@@ -391,7 +415,13 @@ TRANSLATIONS = {
         "price_rising_grund": "Prezzo in aumento — compra ora",
         "at_target": "Prezzo all'obiettivo",
         "almost_grund": "Solo {pct}% sopra obiettivo",
-        "avg_legend": "Ø Media"},
+        "avg_legend": "Ø Media",
+        "search_btn": "🔍  Cerca",
+        "alert_hint": "← Avviso se negozio ≤ questo prezzo",
+        "loading_url": "🔍  Caricamento...",
+        "searching": "🔍  Ricerca...",
+        "prices_checked": "{n} prezzi verificati — {ts}",
+        "target_lbl": "Prezzo target (€)"},
     "nl": {
         "app_title": "Prijsalarm Tracker", "tab_compare": "  ⚖ Vergelijking  ",
         "tab_settings": "  ⚙ Instellingen  ", "tab_log": "  📄 Log  ",
@@ -457,7 +487,13 @@ TRANSLATIONS = {
         "price_rising_grund": "Prijs stijgt — nu kopen",
         "at_target": "Prijs op doel",
         "almost_grund": "Nog maar {pct}% boven doel",
-        "avg_legend": "Ø Gemiddelde"},
+        "avg_legend": "Ø Gemiddelde",
+        "search_btn": "🔍  Zoeken",
+        "alert_hint": "← Melding als winkel ≤ deze prijs",
+        "loading_url": "🔍  Laden...",
+        "searching": "🔍  Zoeken...",
+        "prices_checked": "{n} prijzen gecontroleerd — {ts}",
+        "target_lbl": "Doelprijs (€)"},
     "pl": {
         "app_title": "Śledzenie Cen", "tab_compare": "  ⚖ Porównanie  ",
         "tab_settings": "  ⚙ Ustawienia  ", "tab_log": "  📄 Dziennik  ",
@@ -523,7 +559,13 @@ TRANSLATIONS = {
         "price_rising_grund": "Cena rośnie — kup teraz",
         "at_target": "Cena osiągnęła cel",
         "almost_grund": "Tylko {pct}% powyżej celu",
-        "avg_legend": "Ø Średnia"},
+        "avg_legend": "Ø Średnia",
+        "search_btn": "🔍  Szukaj",
+        "alert_hint": "← Alert gdy sklep ≤ tej ceny",
+        "loading_url": "🔍  Ładowanie...",
+        "searching": "🔍  Szukanie...",
+        "prices_checked": "{n} cen sprawdzonych — {ts}",
+        "target_lbl": "Cena docelowa (€)"},
     "pt": {
         "app_title": "Rastreador de Preços", "tab_compare": "  ⚖ Comparação  ",
         "tab_settings": "  ⚙ Definições  ", "tab_log": "  📄 Registo  ",
@@ -589,7 +631,13 @@ TRANSLATIONS = {
         "price_rising_grund": "Preço subindo — compre agora",
         "at_target": "Preço no objetivo",
         "almost_grund": "Só {pct}% acima do objetivo",
-        "avg_legend": "Ø Média"},
+        "avg_legend": "Ø Média",
+        "search_btn": "🔍  Pesquisar",
+        "alert_hint": "← Alerta se loja ≤ este preço",
+        "loading_url": "🔍  Carregando...",
+        "searching": "🔍  Pesquisando...",
+        "prices_checked": "{n} preços verificados — {ts}",
+        "target_lbl": "Preço alvo (€)"},
     "tr": {
         "app_title": "Fiyat Takip Aracı", "tab_compare": "  ⚖ Karşılaştırma  ",
         "tab_settings": "  ⚙ Ayarlar  ", "tab_log": "  📄 Günlük  ",
@@ -655,7 +703,13 @@ TRANSLATIONS = {
         "price_rising_grund": "Fiyat artıyor — şimdi al",
         "at_target": "Fiyat hedefe ulaştı",
         "almost_grund": "Sadece {pct}% üzerinde",
-        "avg_legend": "Ø Ortalama"},
+        "avg_legend": "Ø Ortalama",
+        "search_btn": "🔍  Ara",
+        "alert_hint": "← Mağaza ≤ bu fiyata alarmı",
+        "loading_url": "🔍  Yükleniyor...",
+        "searching": "🔍  Aranıyor...",
+        "prices_checked": "{n} fiyat kontrol edildi — {ts}",
+        "target_lbl": "Hedef fiyat (€)"},
     "ru": {
         "app_title": "Отслеживание цен", "tab_compare": "  ⚖ Сравнение  ",
         "tab_settings": "  ⚙ Настройки  ", "tab_log": "  📄 Журнал  ",
@@ -721,7 +775,13 @@ TRANSLATIONS = {
         "price_rising_grund": "Цена растёт — покупайте сейчас",
         "at_target": "Цена достигла цели",
         "almost_grund": "Только {pct}% выше цели",
-        "avg_legend": "Ø Среднее"},
+        "avg_legend": "Ø Среднее",
+        "search_btn": "🔍  Найти",
+        "alert_hint": "← Оповещение если магазин ≤ этой цены",
+        "loading_url": "🔍  Загрузка...",
+        "searching": "🔍  Поиск...",
+        "prices_checked": "{n} цен проверено — {ts}",
+        "target_lbl": "Целевая цена (€)"},
     "zh": {
         "app_title": "价格追踪器", "tab_compare": "  ⚖ 价格比较  ",
         "tab_settings": "  ⚙ 设置  ", "tab_log": "  📄 日志  ",
@@ -787,7 +847,13 @@ TRANSLATIONS = {
         "price_rising_grund": "价格上涨 — 现在购买",
         "at_target": "价格已达目标",
         "almost_grund": "仅高出{pct}%",
-        "avg_legend": "Ø 平均"},
+        "avg_legend": "Ø 平均",
+        "search_btn": "🔍  搜索",
+        "alert_hint": "← 当店铺 ≤ 此价格时提醒",
+        "loading_url": "🔍  加载中...",
+        "searching": "🔍  搜索中...",
+        "prices_checked": "{n} 个价格已检查 — {ts}",
+        "target_lbl": "目标价格 (€)"},
     "ja": {
         "app_title": "価格追跡ツール", "tab_compare": "  ⚖ 価格比較  ",
         "tab_settings": "  ⚙ 設定  ", "tab_log": "  📄 ログ  ",
@@ -853,7 +919,13 @@ TRANSLATIONS = {
         "price_rising_grund": "価格上昇中 — 今すぐ購入",
         "at_target": "目標価格に到達",
         "almost_grund": "目標より{pct}%のみ高い",
-        "avg_legend": "Ø 平均"},
+        "avg_legend": "Ø 平均",
+        "search_btn": "🔍  検索",
+        "alert_hint": "← 店舗が≤この価格でアラート",
+        "loading_url": "🔍  読み込み中...",
+        "searching": "🔍  検索中...",
+        "prices_checked": "{n} 件の価格を確認 — {ts}",
+        "target_lbl": "目標価格 (€)"},
     "ar": {
         "app_title": "متتبع الأسعار", "tab_compare": "  ⚖ مقارنة الأسعار  ",
         "tab_settings": "  ⚙ الإعدادات  ", "tab_log": "  📄 السجل  ",
@@ -919,7 +991,13 @@ TRANSLATIONS = {
         "price_rising_grund": "السعر يرتفع — اشتر الآن",
         "at_target": "السعر وصل للهدف",
         "almost_grund": "أعلى بـ{pct}% فقط",
-        "avg_legend": "Ø متوسط"},
+        "avg_legend": "Ø متوسط",
+        "search_btn": "🔍  بحث",
+        "alert_hint": "← تنبيه إذا كان المتجر ≤ هذا السعر",
+        "loading_url": "🔍  جارٍ التحميل...",
+        "searching": "🔍  جارٍ البحث...",
+        "prices_checked": "تم فحص {n} سعر — {ts}",
+        "target_lbl": "السعر المستهدف (€)"},
 }
 def T(key):
     """Get translation for current language."""
@@ -1681,7 +1759,7 @@ def alle_quellen_suchen(suchbegriff, max_shops=999):
     return geizhals_suchen(suchbegriff, max_shops)
 
 
-APP_VERSION = "1.4.1"
+APP_VERSION = "1.5.0"
 GITHUB_API  = "https://api.github.com/repos/erdem-basar/preis-alarm-tracker/releases/latest"
 
 def check_for_update():
@@ -2553,7 +2631,7 @@ class PreisAlarmApp(tk.Tk):
                  anchor="w", font=("Segoe UI", 10)).pack(side="left")
         e_ziel = ttk.Entry(ziel_row)
         e_ziel.pack(side="left", fill="x", expand=True, ipady=5)
-        tk.Label(ziel_row, text="  ← Alert when a shop is ≤ this price",
+        tk.Label(ziel_row, text=T("alert_hint"),
                  bg=BG, fg=GRAU, font=("Segoe UI", 9)).pack(side="left")
 
         gefunden = []
@@ -2573,7 +2651,7 @@ class PreisAlarmApp(tk.Tk):
                     "amazon.de", "amazon.co.uk", "amazon.com",
                 ])
             status_lbl.config(
-                text="🔍  Loading shops from URL..." if ist_url else "🔍  Searching on Geizhals...",
+                text=T("loading_url") if ist_url else T("searching"),
                 fg=TEXT2)
 
             def _thread():
@@ -2604,7 +2682,7 @@ class PreisAlarmApp(tk.Tk):
             threading.Thread(target=_thread, daemon=True).start()
 
         def _fertig(shops, name):
-            btn_such.config(state="normal", text="  🔍 Search  ")
+            btn_such.config(state="normal", text=T("search_btn"))
             if not shops:
                 status_lbl.config(
                     text="⚠  No shops found. Tip: Paste a shop URL directly or use '+ Add URL'.",
@@ -2737,7 +2815,7 @@ class PreisAlarmApp(tk.Tk):
 
             threading.Thread(target=_urls_aufloesen, daemon=True).start()
 
-        btn_such = self._btn(such_row, "  🔍 Search  ", suchen, BG3, AKZENT)
+        btn_such = self._btn(such_row, T("search_btn"), suchen, BG3, AKZENT)
         btn_such.pack(side="left", padx=(8,0), ipady=5)
         e_such.bind("<Return>", suchen)
         e_ziel.bind("<Return>", speichern)
@@ -3052,7 +3130,7 @@ class PreisAlarmApp(tk.Tk):
                     text=f"🔔 Alert! {alarme[0]['name']}: {alarme[0].get('currency','€')}{alarme[0]['bester']:.2f}", fg=AKZENT)
             else:
                 self.status_check_lbl.config(
-                    text=f"✅ {geprueft} prices checked — {ts}", fg=AKZENT)
+                    text=T("prices_checked").replace("{n}", str(geprueft)).replace("{ts}", ts), fg=AKZENT)
             self._vg_listbox_laden()
             ag = self._aktuelle_vg()
             if ag:
