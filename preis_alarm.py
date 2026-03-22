@@ -890,27 +890,30 @@ def check_for_update():
         r = requests.get(GITHUB_API, timeout=8,
                          headers={"Accept": "application/vnd.github+json"})
         if r.status_code == 404:
-            return None, None, None  # No releases yet
+            return None, None, None, None  # No releases yet
         if r.status_code == 200:
             data = r.json()
-            latest   = data.get("tag_name","").lstrip("v")
+            latest   = data.get("tag_name","").lstrip("v").lstrip(".").strip()
             html_url = data.get("html_url","")
             zip_url  = data.get("zipball_url","")
+            log(f"Update check: GitHub={latest} Local={APP_VERSION}")
             # Also check assets for a preis_alarm_tracker.zip
             for asset in data.get("assets", []):
                 if asset["name"].endswith(".zip"):
                     zip_url = asset["browser_download_url"]
                     break
+            notes = data.get("body", "No release notes available.")
             if latest and latest != APP_VERSION:
                 # Only update if remote version is actually newer
                 try:
                     def ver_tuple(v):
                         return tuple(int(x) for x in v.strip().split("."))
                     if ver_tuple(latest) > ver_tuple(APP_VERSION):
-                        return latest, html_url, zip_url
+                        return latest, html_url, zip_url, notes
                 except:
                     if latest != APP_VERSION:
-                        return latest, html_url, zip_url
+                        return latest, html_url, zip_url, notes
+            log(f"Update check: no update needed ({latest} <= {APP_VERSION})")
     except:
         pass
     return None, None, None
@@ -1320,6 +1323,7 @@ class PreisAlarmApp(tk.Tk):
         self.vg_titel_lbl.pack(side="left")
         self.vg_ziel_lbl = tk.Label(hdr2, text="", bg=BG, fg=GRAU, font=("Segoe UI", 10))
         self.vg_ziel_lbl.pack(side="left", padx=12)
+        self._btn(hdr2, "🤖 AI Analysis",  self._vg_ai_analyse,  BG3, "#a78bfa").pack(side="right", padx=(0,6))
         self._btn(hdr2, "📊 Statistics",   self._vg_statistiken, BG3, TEXT2).pack(side="right", padx=(0,6))
         self._btn(hdr2, "📈 Price History", self._vg_chart_zeigen, BG3, TEXT2).pack(side="right", padx=(0,6))
         self._btn(hdr2, "+ Add URL",  self._vg_shop_manuell, BG3, GRAU).pack(side="right")
@@ -2250,6 +2254,208 @@ class PreisAlarmApp(tk.Tk):
         intervall = self.config_data.get("intervall", 6) * 3600 * 1000
         self.after(intervall, check_und_planen)
 
+    # ── AI Analysis ───────────────────────────────────────────────────────────
+    def _vg_ai_analyse(self):
+        g = self._aktuelle_vg()
+        if not g:
+            messagebox.showinfo("Info", "Please select a group first.")
+            return
+        shops  = g.get("shops", [])
+        cur    = g.get("currency", "€")
+        ziel   = g["zielpreis"]
+
+        # Collect price history
+        alle_punkte = []
+        for s in shops:
+            for e in s.get("verlauf", []):
+                try:
+                    from datetime import datetime as _dt
+                    ts = _dt.strptime(e["datum"][:16], "%Y-%m-%d %H:%M").timestamp()
+                    alle_punkte.append((ts, e["preis"]))
+                except: pass
+        alle_punkte.sort()
+
+        preise_aktuell = [s["preis"] for s in shops if s.get("preis")]
+        if not preise_aktuell:
+            messagebox.showinfo("Info", "No prices available yet. Run a check first.")
+            return
+
+        preis_jetzt = min(preise_aktuell)
+        preis_avg   = sum(preise_aktuell) / len(preise_aktuell)
+
+        # ── Analyse-Algorithmen ────────────────────────────────────────────────
+        import statistics as _stats
+
+        # 1. Trendanalyse (lineare Regression)
+        trend_text = "Not enough data"
+        trend_pct  = 0
+        if len(alle_punkte) >= 3:
+            xs = [p[0] for p in alle_punkte]
+            ys = [p[1] for p in alle_punkte]
+            n  = len(xs)
+            x_mean = sum(xs) / n
+            y_mean = sum(ys) / n
+            num   = sum((xs[i]-x_mean)*(ys[i]-y_mean) for i in range(n))
+            denom = sum((xs[i]-x_mean)**2 for i in range(n))
+            slope = num/denom if denom != 0 else 0
+            # Slope per day
+            slope_per_day = slope * 86400
+            trend_pct = (slope_per_day / y_mean) * 100 if y_mean else 0
+            if trend_pct < -0.5:
+                trend_text = f"📉 Falling  ({trend_pct:.1f}%/day)"
+            elif trend_pct > 0.5:
+                trend_text = f"📈 Rising  (+{trend_pct:.1f}%/day)"
+            else:
+                trend_text = f"➡ Stable  ({trend_pct:+.1f}%/day)"
+
+        # 2. Volatilität
+        volatil_text = "Not enough data"
+        if len(alle_punkte) >= 4:
+            vals = [p[1] for p in alle_punkte]
+            try:
+                std = _stats.stdev(vals)
+                cv  = (std / _stats.mean(vals)) * 100
+                if cv < 2:
+                    volatil_text = f"🟢 Very stable  (±{cv:.1f}%)"
+                elif cv < 5:
+                    volatil_text = f"🟡 Moderate  (±{cv:.1f}%)"
+                else:
+                    volatil_text = f"🔴 Volatile  (±{cv:.1f}%)"
+            except: pass
+
+        # 3. Saisonale Muster
+        saison_text = ""
+        if len(alle_punkte) >= 10:
+            from datetime import datetime as _dt
+            monat_preise = {}
+            for ts, pr in alle_punkte:
+                m = _dt.fromtimestamp(ts).month
+                monat_preise.setdefault(m, []).append(pr)
+            if monat_preise:
+                guenstigster_monat = min(monat_preise, key=lambda m: sum(monat_preise[m])/len(monat_preise[m]))
+                monate = ["Jan","Feb","Mar","Apr","May","Jun",
+                          "Jul","Aug","Sep","Oct","Nov","Dec"]
+                saison_text = f"Historically cheapest in {monate[guenstigster_monat-1]}"
+
+        # 4. Kaufempfehlung
+        abstand_zum_ziel = ((preis_jetzt - ziel) / ziel) * 100 if ziel else 0
+
+        if preis_jetzt <= ziel:
+            empfehlung = "🟢 BUY NOW"
+            empf_grund = f"Price is at or below your target ({cur}{ziel:.2f})"
+            empf_farbe = "#22c55e"
+        elif len(alle_punkte) >= 3 and trend_pct < -0.3 and abstand_zum_ziel < 15:
+            empfehlung = "🟡 WAIT — Price falling"
+            empf_grund = f"Price is falling and {abstand_zum_ziel:.1f}% above target — likely to reach it soon"
+            empf_farbe = "#f59e0b"
+        elif len(alle_punkte) >= 3 and trend_pct > 0.5:
+            empfehlung = "🔴 BUY SOON — Price rising"
+            empf_grund = "Price is rising — buy before it gets more expensive"
+            empf_farbe = "#ef4444"
+        elif abstand_zum_ziel < 5:
+            empfehlung = "🟡 ALMOST THERE"
+            empf_grund = f"Only {abstand_zum_ziel:.1f}% above your target — consider buying now"
+            empf_farbe = "#f59e0b"
+        elif abstand_zum_ziel > 30:
+            empfehlung = "⏳ WAIT"
+            empf_grund = f"Price is {abstand_zum_ziel:.1f}% above target — set an alert and be patient"
+            empf_farbe = "#60a5fa"
+        else:
+            empfehlung = "⏳ MONITOR"
+            empf_grund = f"Price is {abstand_zum_ziel:.1f}% above target — keep tracking"
+            empf_farbe = "#94a3b8"
+
+        # 5. Allzeit-Tief vs. jetzt
+        allzeit_text = ""
+        if alle_punkte:
+            allzeit_tief = min(p[1] for p in alle_punkte)
+            diff_vom_tief = ((preis_jetzt - allzeit_tief) / allzeit_tief) * 100
+            if diff_vom_tief < 2:
+                allzeit_text = f"🏆 Near all-time low! (+{diff_vom_tief:.1f}% from lowest ever)"
+            elif diff_vom_tief < 10:
+                allzeit_text = f"✅ Close to all-time low (+{diff_vom_tief:.1f}%)"
+            else:
+                allzeit_text = f"📊 {diff_vom_tief:.1f}% above all-time low ({cur}{allzeit_tief:.2f})"
+
+        # ── UI ─────────────────────────────────────────────────────────────────
+        dlg = tk.Toplevel(self)
+        dlg.title(f"🤖 AI Analysis — {g['name']}")
+        dlg.geometry("520x560")
+        dlg.configure(bg=BG)
+        dlg.resizable(False, False)
+
+        # Header
+        hdr_f = tk.Frame(dlg, bg="#1e1b4b")
+        hdr_f.pack(fill="x")
+        tk.Label(hdr_f, text="🤖  Smart Price Analysis", bg="#1e1b4b", fg="#a78bfa",
+                 font=("Segoe UI", 13, "bold")).pack(anchor="w", padx=20, pady=(14,2))
+        tk.Label(hdr_f, text=g["name"], bg="#1e1b4b", fg=TEXT2,
+                 font=("Segoe UI", 10)).pack(anchor="w", padx=20, pady=(0,12))
+
+        # Recommendation box
+        rec_f = tk.Frame(dlg, bg=BG2)
+        rec_f.pack(fill="x", padx=16, pady=(12,4))
+        tk.Label(rec_f, text="RECOMMENDATION", bg=BG2, fg=TEXT2,
+                 font=("Segoe UI", 8, "bold")).pack(anchor="w", padx=14, pady=(10,4))
+        tk.Label(rec_f, text=empfehlung, bg=BG2, fg=empf_farbe,
+                 font=("Segoe UI", 16, "bold")).pack(anchor="w", padx=14, pady=(0,4))
+        tk.Label(rec_f, text=empf_grund, bg=BG2, fg=TEXT2,
+                 font=("Segoe UI", 9), wraplength=460, justify="left").pack(
+                 anchor="w", padx=14, pady=(0,12))
+
+        def section(text):
+            tk.Label(dlg, text=text, bg=BG, fg="#a78bfa",
+                     font=("Segoe UI", 9, "bold")).pack(anchor="w", padx=16, pady=(10,2))
+            tk.Frame(dlg, bg="#2d2060", height=1).pack(fill="x", padx=16)
+
+        def row(label, value, color=TEXT2):
+            r = tk.Frame(dlg, bg=BG2)
+            r.pack(fill="x", padx=16, pady=1)
+            tk.Label(r, text=label, bg=BG2, fg=GRAU,
+                     font=("Segoe UI", 9), width=22, anchor="w").pack(side="left", padx=10, pady=6)
+            tk.Label(r, text=value, bg=BG2, fg=color,
+                     font=("Segoe UI", 9, "bold"), anchor="e").pack(side="right", padx=10)
+
+        section("📊  Price Analysis")
+        row("Current best price",   f"{cur}{preis_jetzt:.2f}", AKZENT)
+        row("Your target",          f"{cur}{ziel:.2f}", "#a78bfa")
+        row("Distance to target",   f"{abstand_zum_ziel:+.1f}%",
+            AKZENT if abstand_zum_ziel <= 0 else ("#f59e0b" if abstand_zum_ziel < 10 else TEXT2))
+        if allzeit_text:
+            row("vs. all-time low", allzeit_text, AKZENT if "all-time low" in allzeit_text else TEXT2)
+
+        section("📈  Trend & Volatility")
+        row("Price trend",      trend_text)
+        row("Price stability",  volatil_text)
+        row("Data points",      str(len(alle_punkte)))
+        if saison_text:
+            row("Seasonal pattern", saison_text, "#60a5fa")
+
+        section("💡  Insight")
+        # Extra insight
+        if len(preise_aktuell) > 1:
+            spread = max(preise_aktuell) - min(preise_aktuell)
+            row("Price spread (shops)", f"{cur}{spread:.2f}",
+                AKZENT if spread > 20 else TEXT2)
+            if spread > 20:
+                insight = f"Big difference between shops! Cheapest saves you {cur}{spread:.2f} vs most expensive."
+            else:
+                insight = "Shops are closely priced — not much to gain from switching shops."
+            r2 = tk.Frame(dlg, bg=BG2)
+            r2.pack(fill="x", padx=16, pady=1)
+            tk.Label(r2, text=insight, bg=BG2, fg=TEXT2,
+                     font=("Segoe UI", 9), wraplength=460, justify="left").pack(
+                     anchor="w", padx=10, pady=8)
+
+        note = tk.Label(dlg,
+            text="ℹ  Analysis based on collected price data. More data = better accuracy.",
+            bg=BG, fg=GRAU, font=("Segoe UI", 8), wraplength=460)
+        note.pack(anchor="w", padx=16, pady=(8,4))
+
+        self._btn(dlg, "Close", dlg.destroy, BG3, TEXT).pack(pady=10, ipadx=20)
+        dlg.lift()
+        dlg.focus_force()
+
     # ── Statistics ────────────────────────────────────────────────────────────
     def _vg_statistiken(self):
         g = self._aktuelle_vg()
@@ -2524,37 +2730,81 @@ class PreisAlarmApp(tk.Tk):
 
     # ── Update ────────────────────────────────────────────────────────────────
     def _update_check_bg(self):
-        new_ver, url, zip_url = check_for_update()
+        new_ver, url, zip_url, notes = check_for_update()
         if new_ver:
-            self.after(0, lambda: self._update_verfuegbar(new_ver, url, zip_url))
+            self.after(0, lambda: self._update_verfuegbar(new_ver, url, zip_url, notes))
 
-    def _update_verfuegbar(self, new_ver, url, zip_url=""):
+    def _update_verfuegbar(self, new_ver, url, zip_url="", notes=""):
         self.update_lbl.config(
             text=f"🆕 Update available — v{new_ver}  (click to install)",
             fg=AKZENT)
         self._update_url     = url
         self._update_zip_url = zip_url
         self._update_version = new_ver
+        self._update_notes   = notes
 
     def _update_pruefen(self):
         # If update already detected, use stored info
         new_ver  = getattr(self, "_update_version", None)
         zip_url  = getattr(self, "_update_zip_url", "")
         html_url = getattr(self, "_update_url", "")
+        notes    = getattr(self, "_update_notes", "")
 
         if not new_ver:
-            new_ver, html_url, zip_url = check_for_update()
+            new_ver, html_url, zip_url, notes = check_for_update()
 
         if not new_ver:
             messagebox.showinfo("Up to date",
                 f"You are running the latest version (v{APP_VERSION}).")
             return
 
-        antwort = messagebox.askyesno("Update Available",
-            f"Version {new_ver} is available!\n\n"
-            f"Install automatically now?\n"
-            f"(The app will restart after the update)")
-        if not antwort:
+        # Show release notes dialog
+        dlg = tk.Toplevel(self)
+        dlg.title(f"Update Available — v{new_ver}")
+        dlg.geometry("520x440")
+        dlg.configure(bg=BG)
+        dlg.resizable(False, False)
+        dlg.grab_set()
+
+        # Header
+        hdr_f = tk.Frame(dlg, bg="#14532d")
+        hdr_f.pack(fill="x")
+        tk.Label(hdr_f, text=f"🆕  Version {new_ver} available!",
+                 bg="#14532d", fg="#4ade80",
+                 font=("Segoe UI", 13, "bold")).pack(anchor="w", padx=20, pady=(14,2))
+        tk.Label(hdr_f, text=f"You are on v{APP_VERSION}",
+                 bg="#14532d", fg="#86efac",
+                 font=("Segoe UI", 9)).pack(anchor="w", padx=20, pady=(0,12))
+
+        # Release notes
+        tk.Label(dlg, text="What's new:", bg=BG, fg=TEXT2,
+                 font=("Segoe UI", 10, "bold")).pack(anchor="w", padx=16, pady=(12,4))
+
+        from tkinter import scrolledtext as _st
+        notes_box = _st.ScrolledText(dlg, bg=BG2, fg=TEXT, font=("Segoe UI", 9),
+                                      height=12, borderwidth=0, relief="flat",
+                                      wrap="word", state="normal")
+        notes_box.pack(fill="both", expand=True, padx=16, pady=(0,8))
+        notes_box.insert("1.0", notes or "No release notes provided.")
+        notes_box.config(state="disabled")
+
+        # Buttons
+        btn_f = tk.Frame(dlg, bg=BG)
+        btn_f.pack(fill="x", padx=16, pady=(0,16))
+
+        antwort = [False]
+
+        def do_install():
+            antwort[0] = True
+            dlg.destroy()
+
+        self._btn(btn_f, "✅  Install Update", do_install, AKZENT, "#000").pack(
+            side="left", ipady=6, padx=(0,8))
+        self._btn(btn_f, "Later", dlg.destroy, BG3, TEXT2).pack(
+            side="left", ipady=6)
+
+        dlg.wait_window()
+        if not antwort[0]:
             return
 
         # Download and install in background
