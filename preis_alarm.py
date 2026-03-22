@@ -44,6 +44,103 @@ try:
 except ImportError:
     pass
 
+# ── Translations ─────────────────────────────────────────────────────────────
+TRANSLATIONS = {
+    "en": {
+        "app_title":        "Price Alert Tracker",
+        "tab_compare":      "  ⚖ Price Comparison  ",
+        "tab_settings":     "  ⚙ Settings  ",
+        "tab_log":          "  📄 Log  ",
+        "new_group":        "➕  New Group",
+        "check_all":        "🔄  Check All",
+        "checking":         "⏳  Checking...",
+        "delete":           "🗑  Delete (DEL)",
+        "price_history":    "📈 Price History",
+        "add_url":          "+ Add URL",
+        "product_groups":   "PRODUCT GROUPS",
+        "select_group":     "← Select a group or create new",
+        "best_price":       "🏆 Best Price",
+        "target_reached":   "🔔 Target reached!",
+        "no_price":         "⚠ No Price",
+        "still_too_much":   "still {diff} too much",
+        "save":             "💾  Save",
+        "test_email":       "✉  Test Email",
+        "settings_saved":   "Settings saved successfully.",
+        "email_sent":       "Test email sent successfully!",
+        "autostart_on":     "Autostart enabled.",
+        "autostart_off":    "Autostart disabled.",
+        "start_windows":    "Start with Windows (Autostart)",
+        "minimize_tray":    "Minimize to system tray on close",
+        "smtp_presets":     "ℹ  SMTP Presets  —  click to apply",
+        "interval_label":   "Every X Hours",
+        "interval_hint":    " hours (1–24)",
+        "sender_email":     "Sender Email",
+        "password":         "Password",
+        "recipient_email":  "Recipient Email",
+        "clear_log":        "🗑  Clear Log",
+        "search_hint":      "Product name, search term or Geizhals/PriceSpy URL",
+        "url_tip":          "Tip: Paste a Geizhals URL (.de/.eu) or PriceSpy URL → all shops detected automatically",
+        "target_price":     "Target Price",
+        "create_group":     "✅  Create group & track",
+        "all_btn":          "All",
+        "none_btn":         "None",
+        "language":         "Language",
+    },
+    "de": {
+        "app_title":        "Preis-Alarm Tracker",
+        "tab_compare":      "  ⚖ Preisvergleich  ",
+        "tab_settings":     "  ⚙ Einstellungen  ",
+        "tab_log":          "  📄 Log  ",
+        "new_group":        "➕  Neue Gruppe",
+        "check_all":        "🔄  Alle prüfen",
+        "checking":         "⏳  Prüfe...",
+        "delete":           "🗑  Löschen (ENTF)",
+        "price_history":    "📈 Preisverlauf",
+        "add_url":          "+ URL hinzufügen",
+        "product_groups":   "PRODUKTGRUPPEN",
+        "select_group":     "← Gruppe auswählen oder neu erstellen",
+        "best_price":       "🏆 Günstigster Preis",
+        "target_reached":   "🔔 Zielpreis erreicht!",
+        "no_price":         "⚠ Kein Preis",
+        "still_too_much":   "noch {diff} zu viel",
+        "save":             "💾  Speichern",
+        "test_email":       "✉  Test-E-Mail",
+        "settings_saved":   "Einstellungen wurden gespeichert.",
+        "email_sent":       "Test-E-Mail wurde gesendet!",
+        "autostart_on":     "Autostart aktiviert.",
+        "autostart_off":    "Autostart deaktiviert.",
+        "start_windows":    "Mit Windows starten (Autostart)",
+        "minimize_tray":    "Beim Schließen in System-Tray minimieren",
+        "smtp_presets":     "ℹ  SMTP Voreinstellungen  —  klicken zum Übernehmen",
+        "interval_label":   "Alle X Stunden",
+        "interval_hint":    " Stunden (1–24)",
+        "sender_email":     "Absender E-Mail",
+        "password":         "Passwort",
+        "recipient_email":  "Empfänger E-Mail",
+        "clear_log":        "🗑  Log leeren",
+        "search_hint":      "Produktname, Suchbegriff oder Geizhals-/PriceSpy-URL",
+        "url_tip":          "Tipp: Geizhals URL (.de/.eu) oder PriceSpy URL einfügen → Shops werden automatisch erkannt",
+        "target_price":     "Zielpreis",
+        "create_group":     "✅  Gruppe erstellen & tracken",
+        "all_btn":          "Alle",
+        "none_btn":         "Keine",
+        "language":         "Sprache",
+    }
+}
+
+def T(key):
+    """Get translation for current language."""
+    lang = _current_lang()
+    return TRANSLATIONS.get(lang, TRANSLATIONS["en"]).get(key, key)
+
+def _current_lang():
+    try:
+        cfg = lade_config()
+        return cfg.get("language", "en")
+    except:
+        return "en"
+
+
 def toast(titel, text):
     try:
         from win10toast import ToastNotifier
@@ -118,7 +215,7 @@ def speichere_vergleiche(liste):
 
 def lade_config():
     defaults = {"email_absender": "", "email_passwort": "", "email_empfaenger": "",
-                "smtp_server": "mail.gmx.net", "smtp_port": 587, "intervall": 6}
+                "smtp_server": "mail.gmx.net", "smtp_port": 587, "intervall": 6, "language": "en"}
     if CONFIG_DATEI.exists():
         with open(CONFIG_DATEI, "r", encoding="utf-8") as f:
             return {**defaults, **json.load(f)}
@@ -581,7 +678,8 @@ def geizhals_suchen(suchbegriff, max_shops=999):
             ("https://geizhals.de", "de,at,ch,eu,uk"),
             ("https://geizhals.eu", "de,at,ch,eu,uk,pl"),
         ]:
-            such_url = "{}/?fs={}&bl=&hloc={}&in=&v=e&sort=p".format(
+            # Suche nach Relevanz (kein sort=p damit nicht Zubehör zuerst kommt)
+            such_url = "{}/?fs={}&bl=&hloc={}&in=&v=e&sort=n".format(
                 base, requests.utils.quote(suchbegriff), hloc)
             log(f"Geizhals search ({hloc}): {such_url[:80]}")
             html = _selenium_get(such_url, wait=4)
@@ -590,17 +688,46 @@ def geizhals_suchen(suchbegriff, max_shops=999):
                 html = r.text
             soup = BeautifulSoup(html, "html.parser")
 
-            # Produktlink finden
+            # Produktlink finden — URL-Slug basiertes Scoring
             produkt_link = None
+            suchwoerter = suchbegriff.lower().split()
+
+            gesehen = set()
+            kandidaten = []
             for a in soup.find_all("a", href=True):
                 href = a["href"]
-                if re.search(r"-a\d{4,}\.htm", href):
-                    produkt_link = href
-                    break
-            if not produkt_link:
-                # Fallback: beliebiger Produktlink
-                m = re.search(r'href="(/[^"]*-a\d{4,}\.htm[^"]*)"', html)
-                if m: produkt_link = m.group(1)
+                if not re.search(r"-a\d{4,}\.htm", href): continue
+                basis = re.sub(r"[#?].*", "", href)
+                if basis in gesehen: continue
+                gesehen.add(basis)
+
+                # URL-Slug als Produktname (Geizhals rendert Namen per JS)
+                slug = basis.split("/")[-1].lower()
+                slug_clean = re.sub(r"-a\d+.*", "", slug).replace("-", " ")
+
+                # Relevanz: Suchwörter im URL-Slug
+                wort_treffer = sum(1 for w in suchwoerter if w in slug_clean)
+                # Bonus: alle Wörter vorhanden
+                alle_bonus = 3 if wort_treffer == len(suchwoerter) else 0
+                # Malus: Zubehör-Keywords in URL
+                zubehoer = ["screen-protector","schutzglas","huelle","case","cover",
+                            "kameraschutz","lens","wallet","folie","panzerglass",
+                            "protector","displayschutz","hard-case","tpu","glass",
+                            "schutzfolie","hulle","bumper","strap"]
+                malus = sum(3 for z in zubehoer if z in slug)
+
+                score = wort_treffer + alle_bonus - malus
+                kandidaten.append((score, basis, slug_clean[:60]))
+
+            if kandidaten:
+                kandidaten.sort(key=lambda x: x[0], reverse=True)
+                bester_score, produkt_link, slug_text = kandidaten[0]
+                log(f"Best match (score {bester_score}): '{slug_text}'")
+                for s, h, t in kandidaten[:3]:
+                    log(f"  [{s:+d}] {t[:55]}")
+
+            if not produkt_link and kandidaten:
+                produkt_link = kandidaten[0][1]
 
             if produkt_link:
                 if not produkt_link.startswith("http"):
@@ -725,9 +852,52 @@ def pricespy_suchen(suchbegriff, max_shops=999):
         return [], suchbegriff
 
 
+def amazon_suchen(suchbegriff):
+    """Searches Amazon.de for a product and returns its direct URL."""
+    try:
+        url = "https://www.amazon.de/s?k={}".format(requests.utils.quote(suchbegriff))
+        r = requests.get(url, headers=HEADERS, timeout=15)
+        soup = BeautifulSoup(r.text, "html.parser")
+        for el in soup.select("[data-asin]:not([data-asin=''])"):
+            asin = el.get("data-asin","").strip()
+            if not asin or len(asin) < 5: continue
+            preis_el = el.select_one(".a-price .a-offscreen, .a-price-whole")
+            preis = _parse(preis_el.get_text()) if preis_el else None
+            titel_el = el.select_one("h2 span, .a-text-normal")
+            titel = titel_el.get_text(strip=True)[:60] if titel_el else suchbegriff
+            if asin and preis:
+                produkt_url = f"https://www.amazon.de/dp/{asin}"
+                return [{"name": "Amazon.de", "url": produkt_url,
+                         "preis": preis, "shop_key": "amazon",
+                         "shop_name": "Amazon.de"}], titel
+        return [], suchbegriff
+    except Exception as e:
+        log(f"Amazon search error: {e}")
+        return [], suchbegriff
+
+
 def alle_quellen_suchen(suchbegriff, max_shops=999):
     """Main entry: searches on all sources."""
     return geizhals_suchen(suchbegriff, max_shops)
+
+
+APP_VERSION = "1.2.0"
+GITHUB_API  = "https://api.github.com/repos/erdem-basar/preis-alarm-tracker/releases/latest"
+
+def check_for_update():
+    """Checks GitHub for a newer version. Returns (new_version, url) or (None, None)."""
+    try:
+        r = requests.get(GITHUB_API, timeout=8,
+                         headers={"Accept": "application/vnd.github+json"})
+        if r.status_code == 200:
+            data = r.json()
+            latest = data.get("tag_name","").lstrip("v")
+            url    = data.get("html_url","")
+            if latest and latest != APP_VERSION:
+                return latest, url
+    except:
+        pass
+    return None, None
 
 
 def email_preisaenderung(cfg, gruppe, geaenderte_shops):
@@ -974,14 +1144,37 @@ def autostart_setzen(aktiv):
         return False
 
 def tray_icon_erstellen():
-    """Creates a simple green bell icon for the tray."""
-    img = Image.new("RGBA", (64, 64), (0,0,0,0))
+    """Creates a proper bell icon for the tray."""
+    size = 64
+    img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     d   = ImageDraw.Draw(img)
-    # Glocke zeichnen
-    d.ellipse([8, 8, 56, 52], fill="#22c55e")
-    d.rectangle([20, 50, 44, 58], fill="#22c55e")
-    d.ellipse([24, 54, 40, 64], fill="#22c55e")
-    d.rectangle([28, 2, 36, 14], fill="#22c55e")
+    # Dark background circle
+    d.ellipse([0, 0, size-1, size-1], fill="#1a1a1a")
+    # Bell body
+    d.ellipse([10, 12, 54, 46], fill="#22c55e")
+    # Bell bottom flat
+    d.rectangle([10, 28, 54, 46], fill="#22c55e")
+    # Bell clapper
+    d.ellipse([24, 44, 40, 56], fill="#22c55e")
+    # Bell top stem
+    d.rectangle([28, 4, 36, 14], fill="#22c55e")
+    d.ellipse([24, 2, 40, 16], fill="#22c55e")
+    # Shine effect
+    d.ellipse([14, 14, 28, 26], fill="#4ade80")
+    return img
+
+
+def app_icon_erstellen():
+    """Creates the window icon (32x32)."""
+    size = 32
+    img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    d   = ImageDraw.Draw(img)
+    d.ellipse([0, 0, size-1, size-1], fill="#1a1a1a")
+    d.ellipse([5, 6, 27, 23], fill="#22c55e")
+    d.rectangle([5, 14, 27, 23], fill="#22c55e")
+    d.ellipse([12, 22, 20, 28], fill="#22c55e")
+    d.rectangle([14, 2, 18, 8], fill="#22c55e")
+    d.ellipse([12, 1, 20, 9], fill="#22c55e")
     return img
 
 
@@ -1000,6 +1193,14 @@ class PreisAlarmApp(tk.Tk):
         self._setup_style()
         self._build_ui()
         self.protocol("WM_DELETE_WINDOW", self._fenster_schliessen)
+        # Set window icon
+        if TRAY_OK:
+            try:
+                icon_img = app_icon_erstellen()
+                from PIL import ImageTk
+                self._tk_icon = ImageTk.PhotoImage(icon_img)
+                self.iconphoto(True, self._tk_icon)
+            except: pass
         self._tray_icon = None
         self._tray_thread = None
         # Automatische Preisprüfung starten
@@ -1042,6 +1243,12 @@ class PreisAlarmApp(tk.Tk):
         hdr.pack(fill="x", padx=20, pady=(16, 0))
         tk.Label(hdr, text="🔔 Price Alert Tracker", bg=BG, fg=TEXT,
                  font=("Segoe UI", 18, "bold")).pack(side="left")
+        self.update_lbl = tk.Label(hdr, text=f"v{APP_VERSION}", bg=BG, fg=GRAU,
+                                   font=("Segoe UI", 9), cursor="hand2")
+        self.update_lbl.pack(side="left", padx=12)
+        self.update_lbl.bind("<Button-1>", lambda e: self._update_pruefen())
+        # Check for update in background after 3s
+        self.after(3000, lambda: threading.Thread(target=self._update_check_bg, daemon=True).start())
 
         nb = ttk.Notebook(self)
         nb.pack(fill="both", expand=True, padx=16, pady=12)
@@ -1094,6 +1301,7 @@ class PreisAlarmApp(tk.Tk):
         self.vg_titel_lbl.pack(side="left")
         self.vg_ziel_lbl = tk.Label(hdr2, text="", bg=BG, fg=GRAU, font=("Segoe UI", 10))
         self.vg_ziel_lbl.pack(side="left", padx=12)
+        self._btn(hdr2, "📊 Statistics",   self._vg_statistiken, BG3, TEXT2).pack(side="right", padx=(0,6))
         self._btn(hdr2, "📈 Price History", self._vg_chart_zeigen, BG3, TEXT2).pack(side="right", padx=(0,6))
         self._btn(hdr2, "+ Add URL",  self._vg_shop_manuell, BG3, GRAU).pack(side="right")
 
@@ -1176,6 +1384,18 @@ class PreisAlarmApp(tk.Tk):
         self._btn(btn_row, "✉  Test Email", self._test_email,    BG3, TEXT).pack(side="left", ipady=4)
 
         section("🖥  System")
+        # Language
+        lang_row = tk.Frame(wrap, bg=BG)
+        lang_row.pack(fill="x", pady=5)
+        tk.Label(lang_row, text="Language / Sprache", bg=BG, fg=TEXT2,
+                 width=18, anchor="w", font=("Segoe UI", 10)).pack(side="left")
+        self.v_lang = tk.StringVar(value=self.config_data.get("language","en"))
+        for code, label in [("en","🇬🇧 English"), ("de","🇩🇪 Deutsch")]:
+            tk.Radiobutton(lang_row, text=label, variable=self.v_lang, value=code,
+                           bg=BG, fg=TEXT, activebackground=BG, selectcolor=BG3,
+                           font=("Segoe UI", 10),
+                           command=self._lang_aendern).pack(side="left", padx=(0,16))
+
         sys_row = tk.Frame(wrap, bg=BG)
         sys_row.pack(fill="x", pady=5)
         self.v_autostart = tk.BooleanVar(value=autostart_aktiv())
@@ -1406,16 +1626,25 @@ class PreisAlarmApp(tk.Tk):
             ist_url = eingabe.startswith("http") and any(
                 d in eingabe for d in [
                     "geizhals.de", "geizhals.eu", "geizhals.at",
-                    "pricespy.co.uk", "pricespy.com"
+                    "pricespy.co.uk", "pricespy.com",
+                    "amazon.de", "amazon.co.uk", "amazon.com",
                 ])
             status_lbl.config(
-                text="🔍  Loading shops from URL..." if ist_url else "🔍  Searching on Geizhals/Idealo...",
+                text="🔍  Loading shops from URL..." if ist_url else "🔍  Searching on Geizhals...",
                 fg=TEXT2)
 
             def _thread():
                 if ist_url:
                     if any(d in eingabe for d in ["pricespy.co.uk","pricespy.com"]):
                         shops, name = pricespy_laden(eingabe)
+                    elif any(d in eingabe for d in ["amazon.de","amazon.co.uk","amazon.com"]):
+                        # Single Amazon product URL — fetch price directly
+                        shop = _shop_aus_url(eingabe)
+                        p = preis_holen(eingabe, shop)
+                        shops = [{"name": "Amazon.de", "url": eingabe,
+                                  "preis": p, "shop_key": "amazon",
+                                  "shop_name": "Amazon.de"}] if p else []
+                        name = eingabe
                     else:
                         shops, name = shops_aus_url_laden(eingabe)
                     gefundene_source_url[0] = eingabe
@@ -1424,6 +1653,9 @@ class PreisAlarmApp(tk.Tk):
                     shops, name = result[0], result[1]
                     if len(result) > 2:
                         gefundene_source_url[0] = result[2]
+                    # If no results on Geizhals, try Amazon
+                    if not shops:
+                        shops, name = amazon_suchen(eingabe)
                 self.after(0, lambda: _fertig(shops, name))
 
             threading.Thread(target=_thread, daemon=True).start()
@@ -1492,9 +1724,12 @@ class PreisAlarmApp(tk.Tk):
             if eingabe_url.startswith("http") and any(
                     d in eingabe_url for d in [
                         "geizhals.de", "geizhals.eu", "geizhals.at",
-                        "pricespy.co.uk", "pricespy.com"
+                        "pricespy.co.uk", "pricespy.com",
                     ]):
                 source_url = eingabe_url
+            elif eingabe_url.startswith("http") and any(
+                    d in eingabe_url for d in ["amazon.de","amazon.co.uk","amazon.com"]):
+                source_url = eingabe_url  # Direct Amazon URL
             elif gefundene_source_url[0]:
                 source_url = gefundene_source_url[0]
             else:
@@ -1911,6 +2146,12 @@ class PreisAlarmApp(tk.Tk):
             messagebox.showerror("Error", "Email could not be sent.")
 
     # ── Autostart & Tray ─────────────────────────────────────────────────────
+    def _lang_aendern(self):
+        """Switch language and restart UI."""
+        self.config_data["language"] = self.v_lang.get()
+        speichere_config(self.config_data)
+        messagebox.showinfo("Language / Sprache", "Please restart the app to apply the language change.\nBitte die App neu starten um die Sprache zu übernehmen.")
+
     def _autostart_toggle(self):
         aktiv = self.v_autostart.get()
         if autostart_setzen(aktiv):
@@ -1983,6 +2224,64 @@ class PreisAlarmApp(tk.Tk):
         # Ersten Intervall starten
         intervall = self.config_data.get("intervall", 6) * 3600 * 1000
         self.after(intervall, check_und_planen)
+
+    # ── Statistics ────────────────────────────────────────────────────────────
+    def _vg_statistiken(self):
+        g = self._aktuelle_vg()
+        if not g:
+            messagebox.showinfo("Info", "Please select a group first.")
+            return
+        shops = g.get("shops", [])
+        if not shops:
+            messagebox.showinfo("Info", "No shops in this group yet.")
+            return
+        cur = g.get("currency", "€")
+        preise = [s["preis"] for s in shops if s.get("preis")]
+        if not preise:
+            messagebox.showinfo("Info", "No prices available yet. Run a check first.")
+            return
+        alle_verlauf = []
+        for s in shops:
+            for e in s.get("verlauf", []):
+                alle_verlauf.append(e["preis"])
+        guenstigster_shop = min(shops, key=lambda s: s.get("preis") or 99999)
+        teuerster_shop    = max(shops, key=lambda s: s.get("preis") or 0)
+        dlg = tk.Toplevel(self)
+        dlg.title(f"Statistics — {g['name']}")
+        dlg.geometry("480x420")
+        dlg.configure(bg=BG)
+        dlg.resizable(False, False)
+        tk.Label(dlg, text=f"📊  {g['name']}", bg=BG, fg=TEXT,
+                 font=("Segoe UI", 13, "bold")).pack(anchor="w", padx=20, pady=(16,12))
+        def stat_row(label, value, color=TEXT):
+            r = tk.Frame(dlg, bg=BG2)
+            r.pack(fill="x", padx=20, pady=2)
+            tk.Label(r, text=label, bg=BG2, fg=TEXT2,
+                     font=("Segoe UI", 10), width=24, anchor="w").pack(side="left", padx=12, pady=8)
+            tk.Label(r, text=value, bg=BG2, fg=color,
+                     font=("Segoe UI", 10, "bold"), anchor="e").pack(side="right", padx=12)
+        stat_row("Shops tracked",        str(len(shops)))
+        stat_row("Target price",         f"{cur}{g['zielpreis']:.2f}")
+        tk.Frame(dlg, bg=BORDER, height=1).pack(fill="x", padx=20, pady=6)
+        stat_row("Current best price",   f"{cur}{min(preise):.2f}", AKZENT)
+        stat_row("Current avg price",    f"{cur}{sum(preise)/len(preise):.2f}", "#60a5fa")
+        stat_row("Current worst price",  f"{cur}{max(preise):.2f}", "#f87171")
+        tk.Frame(dlg, bg=BORDER, height=1).pack(fill="x", padx=20, pady=6)
+        if alle_verlauf:
+            stat_row("All-time lowest",   f"{cur}{min(alle_verlauf):.2f}", AKZENT)
+            stat_row("All-time highest",  f"{cur}{max(alle_verlauf):.2f}", "#f87171")
+            stat_row("All-time average",  f"{cur}{sum(alle_verlauf)/len(alle_verlauf):.2f}", "#60a5fa")
+            stat_row("Total data points", str(len(alle_verlauf)))
+        tk.Frame(dlg, bg=BORDER, height=1).pack(fill="x", padx=20, pady=6)
+        sn = guenstigster_shop.get("shop_name") or guenstigster_shop["shop"]
+        stat_row("Cheapest shop",        f"{sn}  ({cur}{guenstigster_shop.get('preis',0):.2f})", AKZENT)
+        sn2 = teuerster_shop.get("shop_name") or teuerster_shop["shop"]
+        stat_row("Most expensive shop",  f"{sn2}  ({cur}{teuerster_shop.get('preis',0):.2f})", "#f87171")
+        savings = max(preise) - min(preise)
+        stat_row("Max savings possible", f"{cur}{savings:.2f}", AKZENT)
+        self._btn(dlg, "Close", dlg.destroy, BG3, TEXT).pack(pady=16, ipadx=20)
+        dlg.lift()
+        dlg.focus_force()
 
     # ── Preisverlauf Chart ───────────────────────────────────────────────────
     def _vg_chart_zeigen(self):
@@ -2197,6 +2496,28 @@ class PreisAlarmApp(tk.Tk):
 
         canvas.bind("<Configure>", zeichnen)
         dlg.after(100, zeichnen)
+
+    # ── Update ────────────────────────────────────────────────────────────────
+    def _update_check_bg(self):
+        new_ver, url = check_for_update()
+        if new_ver:
+            self.after(0, lambda: self._update_verfuegbar(new_ver, url))
+
+    def _update_verfuegbar(self, new_ver, url):
+        self.update_lbl.config(
+            text=f"🆕 v{new_ver} available!",
+            fg=AKZENT)
+        self._update_url = url
+
+    def _update_pruefen(self):
+        new_ver, url = check_for_update()
+        if new_ver:
+            if messagebox.askyesno("Update Available",
+                    f"Version {new_ver} is available!\nOpen GitHub to download?"):
+                import webbrowser
+                webbrowser.open(url or "https://github.com/erdem-basar/preis-alarm-tracker/releases")
+        else:
+            messagebox.showinfo("Up to date", f"You are running the latest version (v{APP_VERSION}).")
 
     # ── Log ───────────────────────────────────────────────────────────────────
     def _log_refresh(self):
