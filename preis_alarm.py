@@ -881,7 +881,7 @@ def alle_quellen_suchen(suchbegriff, max_shops=999):
     return geizhals_suchen(suchbegriff, max_shops)
 
 
-APP_VERSION = "1.3.0"
+APP_VERSION = "1.4.0"
 GITHUB_API  = "https://api.github.com/repos/erdem-basar/preis-alarm-tracker/releases/latest"
 
 def check_for_update():
@@ -2851,7 +2851,15 @@ class PreisAlarmApp(tk.Tk):
                         break
 
             tmp.unlink(missing_ok=True)
-            log(f"Update to v{new_ver} installed successfully")
+
+            # Verify the update was applied correctly
+            try:
+                new_content = open(script_path, "r", encoding="utf-8").read()
+                if f'APP_VERSION = "{new_ver}"' in new_content:
+                    log(f"Update to v{new_ver} verified and installed successfully")
+                else:
+                    log(f"Warning: file replaced but version string not found — check asset")
+            except: pass
 
             # Restart app
             self.after(0, lambda: self._update_neustart(new_ver))
@@ -2872,10 +2880,17 @@ class PreisAlarmApp(tk.Tk):
         messagebox.showinfo("Update Installed",
             f"Version {new_ver} installed successfully!\n"
             f"The app will now restart.")
-        # Restart
         import subprocess
-        subprocess.Popen([sys.executable, str(Path(__file__).resolve())])
-        self.destroy()
+        script = str(Path(__file__).resolve())
+        # Use pythonw.exe if available (no CMD window)
+        exe = sys.executable
+        pythonw = exe.replace("python.exe", "pythonw.exe")
+        if Path(pythonw).exists():
+            exe = pythonw
+        # Start new process then close this one
+        subprocess.Popen([exe, script],
+                         creationflags=getattr(subprocess, "DETACHED_PROCESS", 0))
+        self.after(500, self.destroy)
 
     # ── Log ───────────────────────────────────────────────────────────────────
     def _log_refresh(self):

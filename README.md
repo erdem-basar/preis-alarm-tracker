@@ -1,16 +1,23 @@
 # 🔔 Price Alert Tracker
 
-Automatic price comparison for Windows — monitors shops via Geizhals and PriceSpy, and sends email notifications when your target price is reached.
+Automatic price comparison for Windows — monitors shops via Geizhals, PriceSpy and Amazon, and sends email notifications when your target price is reached.
+
+![Version](https://img.shields.io/badge/version-1.2.0-green)
+![Platform](https://img.shields.io/badge/platform-Windows-blue)
+![Python](https://img.shields.io/badge/python-3.9%2B-yellow)
 
 ## Features
 
-- 🔍 Automatic shop search via Geizhals and PriceSpy (search term or direct URL)
+- 🔍 Automatic shop search via Geizhals, PriceSpy and Amazon (search term or direct URL)
 - 📊 Price comparison across all available shops
 - 🔔 Email notification for price changes and target price alerts
 - 📈 Price history chart (Day / Week / Month / All)
+- 📊 Price statistics — all-time low/high, averages, best shop
+- 🌍 Multilingual — English & Deutsch
 - 🖥 System tray — runs silently in the background
 - ⚡ Start with Windows (autostart)
 - 🔄 Automatic price check every X hours
+- 🆕 Auto-update notifications from GitHub
 
 ## Requirements
 
@@ -35,6 +42,7 @@ On first launch, go to the **⚙ Settings** tab:
 - Email (sender, password, recipient)
 - Select your email provider from the **SMTP presets** — click to apply automatically
 - Check interval (default: 6 hours)
+- Language: English or Deutsch
 - Enable autostart
 
 ## Supported Email Providers
@@ -72,8 +80,9 @@ win10toast
 1. **New Group** — enter a product name or paste a URL → shops are loaded automatically
 2. **Set Target Price** → app notifies you when a shop drops below this price
 3. **Check All** — manually update all prices
-4. View price history via the **📈 Price History** button
-5. Double-click a shop row to open it in your browser
+4. **📊 Statistics** — view all-time lows, averages and best shops per group
+5. **📈 Price History** — view price chart over time (Day / Week / Month / All)
+6. Double-click a shop row to open it in your browser
 
 ## Supported Price Sources
 
@@ -83,12 +92,17 @@ win10toast
 | **Geizhals.eu** | Europe (DE/AT/CH/EU/UK/PL) | `geizhals.eu/product-a123.html` |
 | **Geizhals.at** | Austria | `geizhals.at/product-a123.html` |
 | **PriceSpy UK** | United Kingdom | `pricespy.co.uk/product.php?p=123` |
+| **Amazon.de** | Germany | `amazon.de/dp/ASIN` or search term |
 
-Simply paste any supported URL or enter a search term — the app finds all available shops automatically.
+Simply paste any supported URL or enter a search term — the app finds all available shops automatically. If Geizhals finds no results, Amazon.de is used as fallback.
 
 ## How It Works
 
-The app uses Selenium (Chrome) to load product pages and extract all shop offers including prices. Price checks run automatically in the background at your configured interval. When prices change, a summary email is sent listing all changes with old price, new price, and a direct link to the shop.
+The app uses Selenium (Chrome) to load product pages and extract all shop offers including prices. Price checks run automatically in the background at your configured interval. When prices change, a single summary email is sent listing all changes with old price, new price, and a direct link to the shop.
+
+## Updates
+
+The app checks GitHub for new releases on startup. When an update is available, a notification appears in the title bar — click it to open the releases page.
 
 ## Notes
 
