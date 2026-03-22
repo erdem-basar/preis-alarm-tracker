@@ -885,19 +885,25 @@ APP_VERSION = "1.2.0"
 GITHUB_API  = "https://api.github.com/repos/erdem-basar/preis-alarm-tracker/releases/latest"
 
 def check_for_update():
-    """Checks GitHub for a newer version. Returns (new_version, url) or (None, None)."""
+    """Checks GitHub for a newer version. Returns (new_version, release_url, zip_url) or (None, None, None)."""
     try:
         r = requests.get(GITHUB_API, timeout=8,
                          headers={"Accept": "application/vnd.github+json"})
         if r.status_code == 200:
             data = r.json()
-            latest = data.get("tag_name","").lstrip("v")
-            url    = data.get("html_url","")
+            latest   = data.get("tag_name","").lstrip("v")
+            html_url = data.get("html_url","")
+            zip_url  = data.get("zipball_url","")
+            # Also check assets for a preis_alarm_tracker.zip
+            for asset in data.get("assets", []):
+                if asset["name"].endswith(".zip"):
+                    zip_url = asset["browser_download_url"]
+                    break
             if latest and latest != APP_VERSION:
-                return latest, url
+                return latest, html_url, zip_url
     except:
         pass
-    return None, None
+    return None, None, None
 
 
 def email_preisaenderung(cfg, gruppe, geaenderte_shops):
@@ -2499,25 +2505,108 @@ class PreisAlarmApp(tk.Tk):
 
     # ── Update ────────────────────────────────────────────────────────────────
     def _update_check_bg(self):
-        new_ver, url = check_for_update()
+        new_ver, url, zip_url = check_for_update()
         if new_ver:
-            self.after(0, lambda: self._update_verfuegbar(new_ver, url))
+            self.after(0, lambda: self._update_verfuegbar(new_ver, url, zip_url))
 
-    def _update_verfuegbar(self, new_ver, url):
+    def _update_verfuegbar(self, new_ver, url, zip_url=""):
         self.update_lbl.config(
-            text=f"🆕 v{new_ver} available!",
+            text=f"🆕 Update available — v{new_ver}  (click to install)",
             fg=AKZENT)
-        self._update_url = url
+        self._update_url     = url
+        self._update_zip_url = zip_url
+        self._update_version = new_ver
 
     def _update_pruefen(self):
-        new_ver, url = check_for_update()
-        if new_ver:
-            if messagebox.askyesno("Update Available",
-                    f"Version {new_ver} is available!\nOpen GitHub to download?"):
-                import webbrowser
-                webbrowser.open(url or "https://github.com/erdem-basar/preis-alarm-tracker/releases")
-        else:
-            messagebox.showinfo("Up to date", f"You are running the latest version (v{APP_VERSION}).")
+        # If update already detected, use stored info
+        new_ver  = getattr(self, "_update_version", None)
+        zip_url  = getattr(self, "_update_zip_url", "")
+        html_url = getattr(self, "_update_url", "")
+
+        if not new_ver:
+            new_ver, html_url, zip_url = check_for_update()
+
+        if not new_ver:
+            messagebox.showinfo("Up to date",
+                f"You are running the latest version (v{APP_VERSION}).")
+            return
+
+        antwort = messagebox.askyesno("Update Available",
+            f"Version {new_ver} is available!\n\n"
+            f"Install automatically now?\n"
+            f"(The app will restart after the update)")
+        if not antwort:
+            return
+
+        # Download and install in background
+        self.update_lbl.config(text="⬇ Downloading update...", fg=GELB)
+        threading.Thread(target=self._update_installieren,
+                         args=(new_ver, zip_url, html_url), daemon=True).start()
+
+    def _update_installieren(self, new_ver, zip_url, html_url):
+        """Downloads the update ZIP and replaces preis_alarm.py, then restarts."""
+        import zipfile, tempfile, shutil
+        try:
+            # Download ZIP
+            self.after(0, lambda: self.update_lbl.config(
+                text="⬇ Downloading...", fg=GELB))
+            log(f"Downloading update v{new_ver} from {zip_url[:60]}")
+
+            r = requests.get(zip_url, timeout=60, stream=True)
+            r.raise_for_status()
+
+            # Save to temp file
+            tmp = Path(tempfile.mktemp(suffix=".zip"))
+            with open(tmp, "wb") as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    f.write(chunk)
+
+            self.after(0, lambda: self.update_lbl.config(
+                text="📦 Installing...", fg=GELB))
+
+            # Extract and find preis_alarm.py
+            script_path = Path(__file__).resolve()
+            script_dir  = script_path.parent
+
+            with zipfile.ZipFile(tmp, "r") as z:
+                # Find preis_alarm.py in the ZIP
+                for name in z.namelist():
+                    if name.endswith("preis_alarm.py"):
+                        # Extract to temp location
+                        tmp_py = Path(tempfile.mktemp(suffix=".py"))
+                        with z.open(name) as src, open(tmp_py, "wb") as dst:
+                            shutil.copyfileobj(src, dst)
+                        # Replace current file
+                        shutil.move(str(tmp_py), str(script_path))
+                        log(f"Updated preis_alarm.py from {name}")
+                        break
+
+            tmp.unlink(missing_ok=True)
+            log(f"Update to v{new_ver} installed successfully")
+
+            # Restart app
+            self.after(0, lambda: self._update_neustart(new_ver))
+
+        except Exception as e:
+            log(f"Update failed: {e}")
+            self.after(0, lambda: (
+                self.update_lbl.config(
+                    text=f"❌ Update failed — click to retry", fg=ROT),
+                messagebox.showerror("Update Failed",
+                    f"Could not install update automatically.\n"
+                    f"Error: {e}\n\n"
+                    f"Please download manually from GitHub.")
+            ))
+
+    def _update_neustart(self, new_ver):
+        """Shows restart dialog and restarts the app."""
+        messagebox.showinfo("Update Installed",
+            f"Version {new_ver} installed successfully!\n"
+            f"The app will now restart.")
+        # Restart
+        import subprocess
+        subprocess.Popen([sys.executable, str(Path(__file__).resolve())])
+        self.destroy()
 
     # ── Log ───────────────────────────────────────────────────────────────────
     def _log_refresh(self):
