@@ -2,7 +2,7 @@
 
 Automatic price comparison for Windows — monitors shops via Geizhals, PriceSpy and Amazon, and sends email notifications when your target price is reached.
 
-![Version](https://img.shields.io/badge/version-1.4.1-green)
+![Version](https://img.shields.io/badge/version-1.5.0-green)
 ![Platform](https://img.shields.io/badge/platform-Windows-blue)
 ![Python](https://img.shields.io/badge/python-3.9%2B-yellow)
 
